@@ -1,0 +1,54 @@
+# CI 이름
+name: matchimban CI with Gradle
+
+# event trigger
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    #⭐ jdk 세팅
+    - uses: actions/checkout@v3 #checkout 액션 : 현재 Repository 코드를 checkout 하여 runner 환경에 가져온다.
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+
+    #⭐ gradle로 build하기 위한 실행권한 부여
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    #⭐ gradle caching : Cache workflow 실행 시간 개선 위해 dependencies와 build output을 캐싱
+    # https://www.daleseo.com/github-actions-cache/
+    - name: Gradle Caching
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+
+    #⭐ gradle build
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+      with:
+        arguments: build
+
+    - name: Docker build
+      run: |
+        docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }} # id와 패스워드를 이용한 로그인
+        docker build -t roovies/matchimban:${GITHUB_SHA::7} . 
+        docker push roovies/matchimban:${GITHUB_SHA::7}
