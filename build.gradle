@@ -11,6 +11,11 @@ java {
 	sourceCompatibility = '11'
 }
 
+// build.gradle
+jar {
+	enabled = false
+}
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
