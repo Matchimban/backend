@@ -50,5 +50,8 @@ jobs:
     - name: Docker build
       run: |
         docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }} # id와 패스워드를 이용한 로그인
-        docker build -t roovies/matchimban:${GITHUB_SHA::7} . 
+        docker build --build-arg MYSQL_ID="${{ secrets.MYSQL_ID }}" \
+        --build-arg MYSQL_PASSWORD="${{ secrets.MYSQL_PASSWORD }}" \
+        --build-arg RDS_URL="${{ secrets.RDS_URL }}" \
+        -t roovies/matchimban:${GITHUB_SHA::7} . 
         docker push roovies/matchimban:${GITHUB_SHA::7}
