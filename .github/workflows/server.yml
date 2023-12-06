@@ -52,3 +52,29 @@ jobs:
         docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }} # id와 패스워드를 이용한 로그인
         docker build -t roovies/matchimban:${GITHUB_SHA::7} . 
         docker push roovies/matchimban:${GITHUB_SHA::7}
+        
+    #⭐ AWS 인증 정보 구성
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1 # 해당 모듈은 aws 인증정보를 구성한다.
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }} # 액세스 키
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # 비밀 액세스 키
+        aws-region: ap-northeast-2
+        
+    #⭐ SSH 연결 및 서버 배포 (만약 세션 매니저를 사용하고 싶다면 이 부분의 설정을 세션 매니저로 변경)
+    - name: SSH Connection and Deploy to Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.AWS_SSH_HOST }}  # ⭐ 배포 서버에 대한 public ipv4 주소 또는 도메인네임
+        username: ${{ secrets.AWS_SSH_USERNAME }}
+        key: ${{ secrets.AWS_SSH_KEY }} # ⭐ SSH 키 (pem키 -----BEGIN~END~KEY--- 모두 포함)
+        script: |
+          sudo docker rm -f server
+          sudo docker pull roovies/matchimban:${GITHUB_SHA::7}
+          sudo docker tag roovies/matchimban:${GITHUB_SHA::7} matchimban
+          sudo docker run -d --name server \
+            -e TZ=Asia/Seoul \
+            -e RDS_URL=${{ RDS_URL }} \
+            -e MYSQL_ID=${{ MYSQL_ID }} \
+            -e MYSQL_PASSWORD=${{ MYSQL_PASSWORD }} \
+            -p 8080:8080 matchimban
