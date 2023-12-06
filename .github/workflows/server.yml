@@ -80,12 +80,7 @@ jobs:
           sudo docker rm -f server
           sudo docker pull roovies/matchimban:${GITHUB_SHA::7}
           sudo docker tag roovies/matchimban:${GITHUB_SHA::7} matchimban
-          sudo docker run -d --name server \
-            -e TZ=Asia/Seoul \
-            -e RDS_URL=${{ secrets.RDS_URL }} \
-            -e MYSQL_ID=${{ secrets.MYSQL_ID }} \
-            -e MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
-            -p 8080:8080 matchimban
+          sudo docker run -d --name server -e TZ=Asia/Seoul -e RDS_URL=${{ secrets.RDS_URL }} -e MYSQL_ID=${{ secrets.MYSQL_ID }} -e MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} -p 8080:8080 matchimban
             
     - name: Remove Github Actions IP From Security Group
       run: |
