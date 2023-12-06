@@ -1,5 +1,5 @@
-# CI 이름
-name: matchimban CI with Gradle
+# Workflow 이름
+name: matchimban CI/CD with Gradle
 
 # event trigger
 on:
@@ -47,12 +47,14 @@ jobs:
       with:
         arguments: build
 
+    #⭐ 빌드된 파일 Docker Image로 build 및 push
     - name: Docker build
       run: |
         docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }} # id와 패스워드를 이용한 로그인
         docker build -t roovies/matchimban:${GITHUB_SHA::7} . 
         docker push roovies/matchimban:${GITHUB_SHA::7}
 
+    #⭐ 해당 Workflow가 돌아가는 runner os의 ip 획득 (EC2 SSH 인바운드 규칙에 임시적으로 허용하기 위해)
     - name: Get Github Actions IP
       id: ip
       uses: haythem/public-ip@v1.2
@@ -65,11 +67,14 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # 비밀 액세스 키
         aws-region: ap-northeast-2
 
+    #⭐ EC2 인바운드 규칙에 Github Actions IP 보안그룹 추가
+    # AWS_SG_ID는 EC2 인스턴스의 보안그룹 고유ID
     - name: Add Github Actions IP to Security group
       run: |
         aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
         
     #⭐ SSH 연결 및 서버 배포 (만약 세션 매니저를 사용하고 싶다면 이 부분의 설정을 세션 매니저로 변경)
+    # 이미지 build 시 민감정보를 포함하는 게 아닌, 컨테이너화 할 때 런타임에 민감정보를 사용하여 유출 방지
     - name: SSH Connection and Deploy to Server
       uses: appleboy/ssh-action@master
       with:
@@ -86,7 +91,8 @@ jobs:
             -e MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
             -e RDS_URL=${{ secrets.RDS_URL }} \
             -p 8080:8080 matchimban
-            
+
+    #⭐ 배포가 끝나면 EC2 인바운드 규칙에서 Github Actions IP 삭제
     - name: Remove Github Actions IP From Security Group
       run: |
         aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
