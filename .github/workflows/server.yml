@@ -67,7 +67,7 @@ jobs:
       with:
         host: ${{ secrets.AWS_SSH_HOST }}  # ⭐ 배포 서버에 대한 public ipv4 주소 또는 도메인네임
         username: ${{ secrets.AWS_SSH_USERNAME }}
-        key: ${{ secrets.AWS_SSH_KEY }} # ⭐ SSH 키 (pem키 -----BEGIN~END~KEY--- 모두 포함)
+        key: ${{ secrets.AWS_SSH_KEY }} # ⭐ SSH 키 (pem키 ----BEGIN~END~KEY--- 모두 포함)
         script: |
           sudo docker rm -f server
           sudo docker pull roovies/matchimban:${GITHUB_SHA::7}
