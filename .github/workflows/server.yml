@@ -52,6 +52,10 @@ jobs:
         docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }} # id와 패스워드를 이용한 로그인
         docker build -t roovies/matchimban:${GITHUB_SHA::7} . 
         docker push roovies/matchimban:${GITHUB_SHA::7}
+
+    - name: Get Github Actions IP
+      id: ip
+      uses: haythem/public-ip@v1.2
         
     #⭐ AWS 인증 정보 구성
     - name: Configure AWS credentials
@@ -60,6 +64,10 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} # 액세스 키
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # 비밀 액세스 키
         aws-region: ap-northeast-2
+
+    - name: Add Github Actions IP to Security group
+      run: |
+        aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
         
     #⭐ SSH 연결 및 서버 배포 (만약 세션 매니저를 사용하고 싶다면 이 부분의 설정을 세션 매니저로 변경)
     - name: SSH Connection and Deploy to Server
@@ -78,3 +86,7 @@ jobs:
             -e MYSQL_ID=${{ secrets.MYSQL_ID }} \
             -e MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
             -p 8080:8080 matchimban
+            
+    - name: Remove Github Actions IP From Security Group
+      run: |
+        aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
