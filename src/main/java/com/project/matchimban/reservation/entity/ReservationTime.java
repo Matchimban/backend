@@ -1,4 +1,4 @@
-package com.project.matchimban.domain.reservation.entity;
+package com.project.matchimban.reservation.entity;
 
 import lombok.*;
 
