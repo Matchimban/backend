@@ -1,6 +1,5 @@
 package com.project.matchimban.wishlist.domain;
 
-import com.project.matchimban.User;
 import com.project.matchimban.global.TimeEntity;
 import com.project.matchimban.restaurant.domain.Restaurant;
 
@@ -23,7 +22,7 @@ public class Wishlist extends TimeEntity {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
 }

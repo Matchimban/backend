@@ -1,6 +1,5 @@
 package com.project.matchimban.restaurant.domain;
 
-import com.project.matchimban.User;
 import com.project.matchimban.global.Address;
 import com.project.matchimban.global.TimeEntity;
 import com.project.matchimban.review.domain.Review;
@@ -30,9 +29,9 @@ public class Restaurant extends TimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
 
     private RestaurantCategory category;
 

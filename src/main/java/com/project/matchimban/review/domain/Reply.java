@@ -1,6 +1,5 @@
 package com.project.matchimban.review.domain;
 
-import com.project.matchimban.User;
 import com.project.matchimban.global.TimeEntity;
 import lombok.Getter;
 
@@ -21,9 +20,9 @@ public class Reply extends TimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
 
     @OneToOne
     @JoinColumn(name = "review_id")
