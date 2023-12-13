@@ -1,6 +1,7 @@
 package com.project.matchimban.restaurant_application.domain;
 
 import com.project.matchimban.global.TimeEntity;
+import com.project.matchimban.user.domain.entity.User;
 import lombok.Getter;
 
 import javax.persistence.Entity;
@@ -21,9 +22,9 @@ public class RestaurantApplication extends TimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToOne
     @JoinColumn(name = "license_id")

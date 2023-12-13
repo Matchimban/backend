@@ -1,7 +1,9 @@
 package com.project.matchimban.review.domain;
 
 import com.project.matchimban.global.TimeEntity;
+import com.project.matchimban.reservation.entity.Reservation;
 import com.project.matchimban.restaurant.domain.Restaurant;
+import com.project.matchimban.user.domain.entity.User;
 import lombok.Getter;
 
 import javax.persistence.Entity;
@@ -24,17 +26,17 @@ public class Review extends TimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-//    @OneToOne
-//    @JoinColumn(name = "reservation_id")
-//    private Reservation reservation;
+    @OneToOne
+    @JoinColumn(name = "reservation_id")
+    private Reservation reservation;
 
     private String content;
 
