@@ -1,27 +1,26 @@
-package com.project.matchimban.coupon.reservation.entity;
+package com.project.matchimban.domain.reservation.entity;
 
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalTime;
 
 @Entity
 @Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class ReservationTime {
+public class ReservationTable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //매장예약 테이블 fk
+    //매장_예약 fk
+
 
     @Column(nullable = false)
-    private LocalTime startTime;
+    private Integer size;//테이블 크기
 
     @Column(nullable = false)
-    private LocalTime endTime;
-
+    private Integer cnt;//테이블 개수
 }

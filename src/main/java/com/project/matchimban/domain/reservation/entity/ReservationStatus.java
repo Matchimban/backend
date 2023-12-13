@@ -1,4 +1,4 @@
-package com.project.matchimban.coupon.reservation.entity;
+package com.project.matchimban.domain.reservation.entity;
 
 public enum ReservationStatus {
     SUCCESS, FAIL, CANCEL, ING

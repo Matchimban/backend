@@ -1,4 +1,4 @@
-package com.project.matchimban.coupon.reservation.entity;
+package com.project.matchimban.domain.reservation.entity;
 
 
 import lombok.*;

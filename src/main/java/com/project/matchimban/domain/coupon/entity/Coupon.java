@@ -1,4 +1,4 @@
-package com.project.matchimban.coupon.domain.entity;
+package com.project.matchimban.domain.coupon.entity;
 
 
 import com.project.matchimban.global.TimeEntity;
