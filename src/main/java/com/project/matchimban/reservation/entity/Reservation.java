@@ -1,6 +1,7 @@
 package com.project.matchimban.reservation.entity;
 
 import com.project.matchimban.global.TimeEntity;
+import com.project.matchimban.review.domain.Review;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -52,4 +53,7 @@ public class Reservation extends TimeEntity {
     @Column(nullable = false)
     private ReservationStatus status; //상태
     private String failReason; //실패이유
+
+    @OneToOne(mappedBy = "reservation")
+    private Review review;
 }
