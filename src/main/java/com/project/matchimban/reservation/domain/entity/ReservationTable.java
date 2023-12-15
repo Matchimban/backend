@@ -5,6 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "reservation_table")
 @Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -15,8 +16,9 @@ public class ReservationTable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //매장_예약 fk
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_reservation_id", nullable = false)
+    private RestaurantReservation restaurantReservation;
 
     @Column(nullable = false)
     private Integer size;//테이블 크기

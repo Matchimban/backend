@@ -1,14 +1,13 @@
 package com.project.matchimban.reservation.domain.entity;
 
 
+import com.project.matchimban.restaurant.domain.Restaurant;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "restaurant_reservation")
 @Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,6 +18,7 @@ public class RestaurantReservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    //메장 fk 설정
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    private Restaurant restaurant;
 }
