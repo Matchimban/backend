@@ -80,15 +80,15 @@ jobs:
         username: ${{ secrets.AWS_SSH_USERNAME }}
         key: ${{ secrets.AWS_SSH_KEY }} # ⭐ SSH 키 (pem키 ---BEGIN~END~KEY--- 모두 포함)
         script: |
-          sudo docker rm -f server
           sudo docker pull roovies/matchimban:${GITHUB_SHA::7}
-#          sudo docker tag roovies/matchimban:${GITHUB_SHA::7} matchimban
-#          sudo docker run -d --name server \
-#            -e TZ=Asia/Seoul \
-#            -e MYSQL_ID=${{ secrets.MYSQL_ID }} \
-#            -e MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
-#            -e RDS_URL=${{ secrets.RDS_URL }} \
-#            -p 8080:8080 matchimban
+          sudo docker tag roovies/matchimban:${GITHUB_SHA::7} matchimban
+          docker stop server
+          sudo docker run -d --rm --name server \
+            -e TZ=Asia/Seoul \
+            -e MYSQL_ID=${{ secrets.MYSQL_ID }} \
+            -e MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
+            -e RDS_URL=${{ secrets.RDS_URL }} \
+            -p 8080:8080 matchimban
 
     #⭐ 배포가 끝나면 EC2 인바운드 규칙에서 Github Actions IP 삭제
     - name: Remove Github Actions IP From Security Group
