@@ -1,4 +1,4 @@
-package com.project.matchimban.reservation.entity;
+package com.project.matchimban.reservation.domain.entity;
 
 import com.project.matchimban.global.TimeEntity;
 import com.project.matchimban.review.domain.Review;

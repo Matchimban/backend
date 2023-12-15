@@ -1,7 +1,7 @@
 package com.project.matchimban.review.domain;
 
 import com.project.matchimban.global.TimeEntity;
-import com.project.matchimban.reservation.entity.Reservation;
+import com.project.matchimban.reservation.domain.entity.Reservation;
 import com.project.matchimban.restaurant.domain.Restaurant;
 import com.project.matchimban.user.domain.entity.User;
 import lombok.Getter;
