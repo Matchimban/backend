@@ -39,6 +39,9 @@ dependencies {
 	// db
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
+	// swagger
+	implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 //	testImplementation 'org.springframework.security:spring-security-test'
 }

@@ -2,13 +2,17 @@ spring:
   profiles:
     active: server
 
-#spring:
-#  datasource:
-#    url: jdbc:mysql://localhost:3306/matchimban
-#    username: root
-#    password: 1234
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#  jpa:
-#    properties:
-#      hibernate:
-#        dialect: org.hibernate.dialect.MySQLDialect
+springdoc:
+  packages-to-scan: com.project.matchimban
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    path: matchimban.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /api-docs/json
+    groups:
+      enabled: true
+  cache:
+    disabled: true
