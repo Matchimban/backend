@@ -23,44 +23,44 @@ public class TestController {
         testRepository.save(test);
         return "completed";
     }
-
-    @GetMapping("/test/{name}")
-    @Operation(summary = "회원가입", description = "test 설명2")
-    public String test2() {
-        Test test = new Test();
-        testRepository.save(test);
-        return "completed";
-    }
-
-    @PostMapping("/restaurant/{name}")
-    @Operation(summary = "매장 가입", description = "test 설명3")
-    public String test3(@PathVariable String name) {
-        Test test = new Test();
-        test.setName(name);
-        testRepository.save(test);
-        return "completed";
-    }
-
-    @GetMapping("/restaurant/{name}")
-    @Operation(summary = "매장 조회", description = "test 설명4")
-    public String test4() {
-        Test test = new Test();
-        testRepository.save(test);
-        return "completed";
-    }
-
-    @PostMapping("/test3/{name}")
-    @Operation(summary = "매장 가입", description = "test 설명3")
-    public TestDTO test5(@PathVariable String name) {
-        TestDTO test = new TestDTO();
-        //test.setName(name);
-        return new TestDTO();
-    }
-
-    @GetMapping("/test3/{name}")
-    @Operation(summary = "매장 조회", description = "test 설명4")
-    public TestDTO test6() {
-        TestDTO test = new TestDTO();
-        return new TestDTO();
-    }
+//
+//    @GetMapping("/test/{name}")
+//    @Operation(summary = "회원가입", description = "test 설명2")
+//    public String test2() {
+//        Test test = new Test();
+//        testRepository.save(test);
+//        return "completed";
+//    }
+//
+//    @PostMapping("/restaurant/{name}")
+//    @Operation(summary = "매장 가입", description = "test 설명3")
+//    public String test3(@PathVariable String name) {
+//        Test test = new Test();
+//        test.setName(name);
+//        testRepository.save(test);
+//        return "completed";
+//    }
+//
+//    @GetMapping("/restaurant/{name}")
+//    @Operation(summary = "매장 조회", description = "test 설명4")
+//    public String test4() {
+//        Test test = new Test();
+//        testRepository.save(test);
+//        return "completed";
+//    }
+//
+//    @PostMapping("/test3/{name}")
+//    @Operation(summary = "매장 가입", description = "test 설명3")
+//    public TestDTO test5(@PathVariable String name) {
+//        TestDTO test = new TestDTO();
+//        //test.setName(name);
+//        return new TestDTO();
+//    }
+//
+//    @GetMapping("/test3/{name}")
+//    @Operation(summary = "매장 조회", description = "test 설명4")
+//    public TestDTO test6() {
+//        TestDTO test = new TestDTO();
+//        return new TestDTO();
+//    }
 }
