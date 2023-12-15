@@ -79,15 +79,17 @@ jobs:
         host: ${{ secrets.AWS_SSH_HOST }}  # ⭐ 배포 서버에 대한 public ipv4 주소 또는 도메인네임
         username: ${{ secrets.AWS_SSH_USERNAME }}
         key: ${{ secrets.AWS_SSH_KEY }} # ⭐ SSH 키 (pem키 ---BEGIN~END~KEY--- 모두 포함)
+        envs: GITHUB_SHA
         script: |
           sudo docker rm -f server
           sudo docker pull roovies/matchimban:${GITHUB_SHA::7}
+          sudo docker tag roovies/matchimban:${GITHUB_SHA::7} matchimban
           sudo docker run -d --name server \
             -e TZ=Asia/Seoul \
             -e MYSQL_ID=${{ secrets.MYSQL_ID }} \
             -e MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
             -e RDS_URL=${{ secrets.RDS_URL }} \
-            -p 8080:8080 roovies/matchimban:${GITHUB_SHA::7}
+            -p 8080:8080 matchimban
 
     #⭐ 배포가 끝나면 EC2 인바운드 규칙에서 Github Actions IP 삭제
     - name: Remove Github Actions IP From Security Group
