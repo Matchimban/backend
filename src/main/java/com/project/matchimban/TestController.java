@@ -28,7 +28,7 @@ public class TestController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = TestRes.class))),
             @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(schema = @Schema(implementation = Error.class)))
     })
-    @GetMapping("/api/test/{id}")
+    @GetMapping("/api/test2/{id}")
     public String findNameById(@PathVariable long id) {
         Optional<Test> test = testRepository.findById(id);
         return test.isPresent() ? test.get().getName() : "존재하지 않는 번호입니다.";
@@ -40,7 +40,7 @@ public class TestController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = TestRes.class))),
             @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(schema = @Schema(implementation = Error.class)))
     })
-    @PostMapping("/api/test/{name}")
+    @PostMapping("/api/test2/{name}")
     public String saveName(@PathVariable String name) {
         Test test = new Test();
         test.setName(name);
