@@ -1,7 +1,10 @@
-package com.project.matchimban.reservation.entity;
+package com.project.matchimban.reservation.domain.entity;
 
+import com.project.matchimban.coupon.domain.entity.UserCoupon;
 import com.project.matchimban.global.TimeEntity;
+import com.project.matchimban.reservation.domain.emums.ReservationStatus;
 import com.project.matchimban.review.domain.Review;
+import com.project.matchimban.user.domain.entity.User;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -12,6 +15,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
+@Table(name = "reservation")
 @DynamicInsert
 @DynamicUpdate
 @Builder
@@ -24,9 +28,17 @@ public class Reservation extends TimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //매장_예약 fk
-    //예악자 fk
-    //회원_쿠폰 fk
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_reservation_id", nullable = false)
+    private RestaurantReservation restaurantReservation;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_coupon_id")
+    private UserCoupon userCoupon;
 
     @Column(nullable = false)
     private Integer size;//선택테이블 크기

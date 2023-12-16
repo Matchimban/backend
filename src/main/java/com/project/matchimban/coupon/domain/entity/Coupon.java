@@ -1,13 +1,16 @@
-package com.project.matchimban.coupon.entity;
+package com.project.matchimban.coupon.domain.entity;
 
 
+import com.project.matchimban.coupon.domain.enums.CouponStatus;
 import com.project.matchimban.global.TimeEntity;
+import com.project.matchimban.user.domain.entity.User;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "coupon")
 @Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,7 +21,9 @@ public class Coupon extends TimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //생성자 fk
+    @ManyToOne
+    @JoinColumn(name = "created_by", nullable = false)
+    private User createdBy;
 
     @Column(nullable = false)
     private String name;

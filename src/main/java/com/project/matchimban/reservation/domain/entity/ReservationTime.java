@@ -1,4 +1,4 @@
-package com.project.matchimban.reservation.entity;
+package com.project.matchimban.reservation.domain.entity;
 
 import lombok.*;
 
@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.time.LocalTime;
 
 @Entity
+@Table(name = "reservation_time")
 @Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,7 +17,9 @@ public class ReservationTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //매장예약 테이블 fk
+    @ManyToOne
+    @JoinColumn(name = "restaurant_reservation_id", nullable = false)
+    private RestaurantReservation restaurantReservation;
 
     @Column(nullable = false)
     private LocalTime startTime;
