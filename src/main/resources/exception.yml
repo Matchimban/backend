@@ -1,0 +1,6 @@
+TEST_COUPON_ERROR_NONE_PK:
+  code: 30001
+  msg: "존재하지 않는 쿠폰입니다"
+TEST_ETC:
+  code: 30002
+  msg: "에러 메시지"

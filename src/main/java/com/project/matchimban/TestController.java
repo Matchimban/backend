@@ -1,5 +1,7 @@
 package com.project.matchimban;
 
+import com.project.matchimban.common.exception.ErrorConstant;
+import com.project.matchimban.common.exception.SVCException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,6 +23,7 @@ import java.util.Optional;
 public class TestController {
 
     private final TestRepository testRepository;
+    private final TestService testService;
 
     @Operation(summary = "(테스트)이름 조회", description = "id값을 통해 name을 조회합니다.")
     @Parameter(name = "id", description = "고유ID", example = "1")
@@ -46,5 +49,15 @@ public class TestController {
         test.setName(name);
         testRepository.save(test);
         return "회원 저장 완료";
+    }
+
+
+    @PostMapping("/api/test2/{etc}")
+    public String exceptionTest(@PathVariable String etc) {
+        if(etc.equals("first")) throw new SVCException(ErrorConstant.TEST_COUPON_ERROR_NONE_PK);
+        else if(etc.equals("second")) throw new SVCException(ErrorConstant.TEST_ETC);
+        else if(etc.equals("third")) throw new SVCException(".");
+        else if (etc.equals("trace")) testService.stackTraceTest();
+        return "정상 응답";
     }
 }
