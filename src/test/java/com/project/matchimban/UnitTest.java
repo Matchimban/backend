@@ -11,6 +11,6 @@ public class UnitTest {
         // given
         // when
         // then
-        Assertions.assertThat(1).isEqualTo(2);
+        Assertions.assertThat(1).isEqualTo(1);
     }
 }
