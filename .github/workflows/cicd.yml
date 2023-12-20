@@ -15,83 +15,86 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    #⭐ jdk 세팅
-    - uses: actions/checkout@v3 #checkout 액션 : 현재 Repository 코드를 checkout 하여 runner 환경에 가져온다.
-    - name: Set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
+      #⭐ checkout 액션 : 현재 Repository 코드를 checkout 하여 runner 환경에 가져온다.
+      - name: checkout
+        uses: actions/checkout@v3
 
-    #⭐ gradle로 build하기 위한 실행권한 부여
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+      #⭐ jdk 세팅
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
 
-    #⭐ gradle caching : Cache workflow 실행 시간 개선 위해 dependencies와 build output을 캐싱
-    # https://www.daleseo.com/github-actions-cache/
-    - name: Gradle Caching
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
+      #⭐ gradle로 build하기 위한 실행권한 부여
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
-    #⭐ gradle build
-    - name: Build with Gradle
-      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-      with:
-        arguments: build
+      #⭐ gradle caching : Cache workflow 실행 시간 개선 위해 dependencies와 build output을 캐싱
+      # https://www.daleseo.com/github-actions-cache/
+      - name: Gradle Caching
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
-    #⭐ 빌드된 파일 Docker Image로 build 및 push
-    - name: Docker build
-      run: |
-        docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }} # id와 패스워드를 이용한 로그인
-        docker build -t roovies/matchimban:${GITHUB_SHA::7} . 
-        docker push roovies/matchimban:${GITHUB_SHA::7}
+      #⭐ gradle build
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+        with:
+          arguments: build
 
-    #⭐ 해당 Workflow가 돌아가는 runner os의 ip 획득 (EC2 SSH 인바운드 규칙에 임시적으로 허용하기 위해)
-    - name: Get Github Actions IP
-      id: ip
-      uses: haythem/public-ip@v1.2
-        
-    #⭐ AWS 인증 정보 구성
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1 # 해당 모듈은 aws 인증정보를 구성한다.
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} # 액세스 키
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # 비밀 액세스 키
-        aws-region: ap-northeast-2
+      #⭐ 빌드된 파일 Docker Image로 build 및 push
+      - name: Docker build
+        run: |
+          docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_PASSWORD }} # id와 패스워드를 이용한 로그인
+          docker build -t roovies/matchimban:${GITHUB_SHA::7} . 
+          docker push roovies/matchimban:${GITHUB_SHA::7}
 
-    #⭐ EC2 인바운드 규칙에 Github Actions IP 보안그룹 추가
-    # AWS_SG_ID는 EC2 인스턴스의 보안그룹 고유ID
-    - name: Add Github Actions IP to Security group
-      run: |
-        aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
-        
-    #⭐ SSH 연결 및 서버 배포 (만약 세션 매니저를 사용하고 싶다면 이 부분의 설정을 세션 매니저로 변경)
-    # 이미지 build 시 민감정보를 포함하는 게 아닌, 컨테이너화 할 때 런타임에 민감정보를 사용하여 유출 방지
-    - name: SSH Connection and Deploy to Server
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.AWS_SSH_HOST }}  # ⭐ 배포 서버에 대한 public ipv4 주소 또는 도메인네임
-        username: ${{ secrets.AWS_SSH_USERNAME }}
-        key: ${{ secrets.AWS_SSH_KEY }} # ⭐ SSH 키 (pem키 ---BEGIN~END~KEY--- 모두 포함)
-        envs: GITHUB_SHA
-        script: |
-          sudo docker rm -f server
-          sudo docker pull roovies/matchimban:${GITHUB_SHA::7}
-          sudo docker tag roovies/matchimban:${GITHUB_SHA::7} matchimban
-          sudo docker run -d --name server \
-            -e TZ=Asia/Seoul \
-            -e MYSQL_ID=${{ secrets.MYSQL_ID }} \
-            -e MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
-            -e RDS_URL=${{ secrets.RDS_URL }} \
-            -p 8080:8080 matchimban
+      #⭐ 해당 Workflow가 돌아가는 runner os의 ip 획득 (EC2 SSH 인바운드 규칙에 임시적으로 허용하기 위해)
+      - name: Get Github Actions IP
+        id: ip
+        uses: haythem/public-ip@v1.2
 
-    #⭐ 배포가 끝나면 EC2 인바운드 규칙에서 Github Actions IP 삭제
-    - name: Remove Github Actions IP From Security Group
-      run: |
-        aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+      #⭐ AWS 인증 정보 구성
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1 # 해당 모듈은 aws 인증정보를 구성한다.
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} # 액세스 키
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # 비밀 액세스 키
+          aws-region: ap-northeast-2
+
+      #⭐ EC2 인바운드 규칙에 Github Actions IP 보안그룹 추가
+      # AWS_SG_ID는 EC2 인스턴스의 보안그룹 고유ID
+      - name: Add Github Actions IP to Security group
+        run: |
+          aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+
+      #⭐ SSH 연결 및 서버 배포 (만약 세션 매니저를 사용하고 싶다면 이 부분의 설정을 세션 매니저로 변경)
+      # 이미지 build 시 민감정보를 포함하는 게 아닌, 컨테이너화 할 때 런타임에 민감정보를 사용하여 유출 방지
+      - name: SSH Connection and Deploy to Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.AWS_SSH_HOST }}  # ⭐ 배포 서버에 대한 public ipv4 주소 또는 도메인네임
+          username: ${{ secrets.AWS_SSH_USERNAME }}
+          key: ${{ secrets.AWS_SSH_KEY }} # ⭐ SSH 키 (pem키 ---BEGIN~END~KEY--- 모두 포함)
+          envs: GITHUB_SHA
+          script: |
+            sudo docker rm -f server
+            sudo docker pull roovies/matchimban:${GITHUB_SHA::7}
+            sudo docker tag roovies/matchimban:${GITHUB_SHA::7} matchimban
+            sudo docker run -d --name server \
+              -e TZ=Asia/Seoul \
+              -e MYSQL_ID=${{ secrets.MYSQL_ID }} \
+              -e MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
+              -e RDS_URL=${{ secrets.RDS_URL }} \
+              -p 8080:8080 matchimban
+
+      #⭐ 배포가 끝나면 EC2 인바운드 규칙에서 Github Actions IP 삭제
+      - name: Remove Github Actions IP From Security Group
+        run: |
+          aws ec2 revoke-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
