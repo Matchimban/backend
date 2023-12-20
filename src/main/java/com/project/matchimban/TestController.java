@@ -2,6 +2,7 @@ package com.project.matchimban;
 
 import com.project.matchimban.common.exception.ErrorConstant;
 import com.project.matchimban.common.exception.SVCException;
+import com.project.matchimban.common.response.ResultData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,11 +11,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Tag(name = "Test", description = "테스트 API")
@@ -53,11 +55,15 @@ public class TestController {
 
 
     @PostMapping("/api/test2/{etc}")
-    public String exceptionTest(@PathVariable String etc) {
+    public ResponseEntity exceptionTest(@Valid @RequestBody TestDto dto, BindingResult bindingResult, @PathVariable String etc) {
+        if(bindingResult.hasErrors()){
+            return new ResponseEntity(new ResultData(bindingResult), HttpStatus.BAD_REQUEST);
+        }
+
         if(etc.equals("first")) throw new SVCException(ErrorConstant.TEST_COUPON_ERROR_NONE_PK);
         else if(etc.equals("second")) throw new SVCException(ErrorConstant.TEST_ETC);
         else if(etc.equals("third")) throw new SVCException(".");
         else if (etc.equals("trace")) testService.stackTraceTest();
-        return "정상 응답";
+        return new ResponseEntity(new ResultData(), HttpStatus.OK);
     }
 }

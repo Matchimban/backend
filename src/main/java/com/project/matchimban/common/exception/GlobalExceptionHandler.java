@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -21,6 +22,7 @@ import java.util.Map;
 public class GlobalExceptionHandler {
 
     private static Map<String, Object> exceptionMap;
+    private static ObjectMapper mapper = new ObjectMapper();
 
     @Value("${env.exceptionPath}")
     private Resource exceptionYmlFile;
@@ -35,8 +37,13 @@ public class GlobalExceptionHandler {
     public ResponseEntity serverExceptionHandler(Exception e) {
         log.error("정의되지 않거나 서버 에러: {}", e.getMessage(), e);
         ResultData resultData = new ResultData();
-        resultData.setCode(ResultCodeConstant.SERVER_FAIL_CD);
-        resultData.setMsg(e.getMessage());
+
+        if (e instanceof HttpMessageNotReadableException) {
+            resultData = mapper.convertValue(exceptionMap.get(ErrorConstant.SERVER_ERROR_JSON_PARSE), ResultData.class);
+        }
+        else {
+            resultData = mapper.convertValue(exceptionMap.get(ErrorConstant.SERVER_ERROR_UNDEFINED), ResultData.class);
+        }
         return new ResponseEntity<>(resultData, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -44,12 +51,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity serviceExceptionHandler(SVCException e) {
         ResultData resultData = new ResultData();
         if(exceptionMap.get(e.getCode()) != null){
-            resultData.setCode(ResultCodeConstant.SVC_FAIL_CD);
-            resultData.setResult(exceptionMap.get(e.getCode()));
+            resultData = mapper.convertValue(exceptionMap.get(e.getCode()), ResultData.class);
         } else{
             log.error("정의되지 않은 에러: {}", e.getMessage(), e);
-            resultData.setCode(ResultCodeConstant.SERVER_FAIL_CD);
-            resultData.setMsg(ErrorConstant.UNDEFINED_ERROR);
+            resultData = mapper.convertValue(exceptionMap.get(ErrorConstant.SERVER_ERROR_UNDEFINED), ResultData.class);
             return new ResponseEntity<>(resultData, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
