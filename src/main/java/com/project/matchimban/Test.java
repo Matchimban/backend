@@ -1,6 +1,6 @@
 package com.project.matchimban;
 
-import com.project.matchimban.global.TimeEntity;
+import com.project.matchimban.common.global.TimeEntity;
 import lombok.Getter;
 import lombok.Setter;
 
