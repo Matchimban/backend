@@ -1,0 +1,30 @@
+###### 이름 규칙 ######
+#도메인_에러_에러내용
+###### 코드 규칙 #####
+# 2xxxx : 성공 응답
+# 4xxxx, 5xxxx : 서버 관련 응답
+# 5?xxx, 6?xxx : 도메인 관련 응답
+
+####### 3xxxx
+TEST_COUPON_ERROR_NONE_PK:
+  code: 30001
+  msg: "존재하지 않는 쿠폰입니다."
+TEST_ETC:
+  code: 30002
+  msg: "에러 메시지"
+
+
+####### 4xxxx
+INPUT_ERROR_VALIDATION:
+  code: 40001
+  msg: "입력값 유효성 검증 실패입니다."
+
+
+####### 5xxxx
+SERVER_ERROR_UNDEFINED:
+  code: 50000
+  msg: "알 수 없는 에러입니다. 개발자에게 문의바랍니다."
+
+SERVER_ERROR_JSON_PARSE:
+  code: 50001
+  msg: "잘못된 형식의 json body 입니다. 개발자에게 문의바랍니다."

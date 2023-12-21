@@ -1,5 +1,8 @@
 package com.project.matchimban;
 
+import com.project.matchimban.common.exception.ErrorConstant;
+import com.project.matchimban.common.exception.SVCException;
+import com.project.matchimban.common.response.ResultData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -8,11 +11,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Tag(name = "Test", description = "테스트 API")
@@ -21,6 +26,7 @@ import java.util.Optional;
 public class TestController {
 
     private final TestRepository testRepository;
+    private final TestService testService;
 
     @Operation(summary = "(테스트)이름 조회", description = "id값을 통해 name을 조회합니다.")
     @Parameter(name = "id", description = "고유ID", example = "1")
@@ -46,5 +52,16 @@ public class TestController {
         test.setName(name);
         testRepository.save(test);
         return "회원 저장 완료";
+    }
+
+
+    @PostMapping("/api/test2/{etc}")
+    public ResponseEntity exceptionTest(@Validated @RequestBody TestDto dto, @PathVariable String etc) {
+
+        if(etc.equals("first")) throw new SVCException(ErrorConstant.TEST_COUPON_ERROR_NONE_PK);
+        else if(etc.equals("second")) throw new SVCException(ErrorConstant.TEST_ETC);
+        else if(etc.equals("third")) throw new SVCException(".");
+        else if (etc.equals("trace")) testService.stackTraceTest();
+        return new ResponseEntity(new ResultData(), HttpStatus.OK);
     }
 }
