@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -55,10 +56,7 @@ public class TestController {
 
 
     @PostMapping("/api/test2/{etc}")
-    public ResponseEntity exceptionTest(@Valid @RequestBody TestDto dto, BindingResult bindingResult, @PathVariable String etc) {
-        if(bindingResult.hasErrors()){
-            return new ResponseEntity(new ResultData(bindingResult), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity exceptionTest(@Validated @RequestBody TestDto dto, @PathVariable String etc) {
 
         if(etc.equals("first")) throw new SVCException(ErrorConstant.TEST_COUPON_ERROR_NONE_PK);
         else if(etc.equals("second")) throw new SVCException(ErrorConstant.TEST_ETC);
