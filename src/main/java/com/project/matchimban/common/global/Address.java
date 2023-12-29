@@ -8,10 +8,10 @@ import javax.persistence.Embeddable;
 @Embeddable
 @Getter
 public class Address {
-    private String sido;
-    private String sigg;
-    private String emd;
-    private String detail;
+    private String addrSido;
+    private String addrSigg;
+    private String addrEmd;
+    private String addrDetail;
 
     @Column(name = "lat")
     private double latitude;
@@ -21,11 +21,11 @@ public class Address {
     protected Address() {
     }
 
-    public Address(String sido, String sigg, String emd, String detail, double latitude, double longitude) {
-        this.sido = sido;
-        this.sigg = sigg;
-        this.emd = emd;
-        this.detail = detail;
+    public Address(String addrSido, String addrSigg, String addrEmd, String addrDetail, double latitude, double longitude) {
+        this.addrSido = addrSido;
+        this.addrSigg = addrSigg;
+        this.addrEmd = addrEmd;
+        this.addrDetail = addrDetail;
         this.latitude = latitude;
         this.longitude = longitude;
     }
