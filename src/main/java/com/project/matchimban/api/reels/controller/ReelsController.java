@@ -1,4 +1,4 @@
-package com.project.matchimban.api.restaurant_application.controller;
+package com.project.matchimban.api.reels.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
