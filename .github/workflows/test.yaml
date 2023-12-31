@@ -35,11 +35,7 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - name: Test with Gradle
-        run: |
-          set RDS_URL=${{ secrets.RDS_URL }}
-          set MYSQL_ID=${{ secrets.MYSQL_ID }}
-          set MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }}
-          ./gradlew --info test
+        run: ./gradlew --info test
 
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1
