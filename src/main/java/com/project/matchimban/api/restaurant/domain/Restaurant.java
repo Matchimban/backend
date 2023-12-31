@@ -63,8 +63,5 @@ public class Restaurant extends TimeEntity {
     @OneToMany(mappedBy = "restaurant")
     private List<Review> reviews = new ArrayList<>();
 
-    private String deleted;
-
-    @Column(name = "deleted_date")
-    private LocalDateTime deletedDate;
+    private RestaurantStatus Status;
 }
