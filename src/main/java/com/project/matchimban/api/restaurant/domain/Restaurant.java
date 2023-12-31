@@ -37,7 +37,6 @@ public class Restaurant extends TimeEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @Column(nullable = false)
     private User user;
 
     @Enumerated(value = EnumType.STRING)
