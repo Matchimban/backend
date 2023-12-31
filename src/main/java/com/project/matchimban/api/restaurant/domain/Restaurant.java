@@ -6,10 +6,14 @@ import com.project.matchimban.api.wishlist.domain.Wishlist;
 import com.project.matchimban.common.global.Address;
 import com.project.matchimban.common.global.TimeEntity;
 import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,6 +27,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Table(name = "restaurant")
 public class Restaurant extends TimeEntity {
 
@@ -34,12 +39,16 @@ public class Restaurant extends TimeEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    @ColumnDefault("KOREA")
     private RestaurantCategory category;
 
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "business_number")
-    private Long businessNumber;
+    @Column(name = "business_number", nullable = false)
+    private String businessNumber;
 
     private String introduction;
     private String telephone;
@@ -63,5 +72,8 @@ public class Restaurant extends TimeEntity {
     @OneToMany(mappedBy = "restaurant")
     private List<Review> reviews = new ArrayList<>();
 
-    private RestaurantStatus Status;
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    @ColumnDefault("PUBLISHED")
+    private RestaurantStatus status;
 }
