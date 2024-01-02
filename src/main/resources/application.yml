@@ -2,6 +2,12 @@ spring:
   profiles:
     active: server
 
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+
 #springdoc:
 #  packages-to-scan: com.project.matchimban
 #  default-consumes-media-type: application/json;charset=UTF-8

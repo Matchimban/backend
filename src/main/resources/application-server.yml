@@ -1,8 +1,11 @@
 spring:
   datasource:
-    url: ${RDS_URL}
-    username: ${MYSQL_ID}
-    password: ${MYSQL_PASSWORD}
+    url: jdbc:mysql://localhost:3306/matchimban
+    username: root
+    password: 6720
+    #url: ${RDS_URL}
+    #username: ${MYSQL_ID}
+    #password: ${MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
