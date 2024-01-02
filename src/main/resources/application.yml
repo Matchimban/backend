@@ -8,6 +8,9 @@ spring:
     activate:
       on-profile: test
 
+env:
+  exceptionPath: "classpath:exception.yml"
+
 #springdoc:
 #  packages-to-scan: com.project.matchimban
 #  default-consumes-media-type: application/json;charset=UTF-8
