@@ -3,9 +3,9 @@
 ###### 코드 규칙 #####
 # 2xxxx : 성공 응답
 # 4xxxx, 5xxxx : 서버 관련 응답
-# 5?xxx, 6?xxx : 도메인 관련 응답
+# 3?xxx, 6?xxx : 도메인 관련 응답
 
-####### 3xxxx
+####### 30xxx 임시 테스트
 TEST_COUPON_ERROR_NONE_PK:
   code: 30001
   msg: "존재하지 않는 쿠폰입니다."
@@ -13,6 +13,15 @@ TEST_ETC:
   code: 30002
   msg: "에러 메시지"
 
+
+####### 31xxx RestaurantReservation
+RESTAURANTRESERVATION_ERROR_RESTAURANT_NONE_PK:
+  code: 31001
+  msg: "존재하지 않는 RESTAURANT 입니다."
+
+RESTAURANTRESERVATION_ERROR_ALREADY_EXISTS:
+  code: 31002
+  msg: "이미 RestaurantReservation 을 생성했습니다."
 
 ####### 4xxxx
 INPUT_ERROR_VALIDATION:

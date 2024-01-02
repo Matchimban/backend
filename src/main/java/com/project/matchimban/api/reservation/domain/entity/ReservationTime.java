@@ -1,5 +1,7 @@
 package com.project.matchimban.api.reservation.domain.entity;
 
+import com.project.matchimban.api.reservation.domain.emums.RestaurantReservationStatus;
+import com.project.matchimban.api.restaurant.domain.Restaurant;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,5 +28,13 @@ public class ReservationTime {
 
     @Column(nullable = false)
     private LocalTime endTime;
+
+
+    public static ReservationTime createReservationTime(RestaurantReservation restaurantReservation, LocalTime startTime, LocalTime endTime){
+        return ReservationTime.builder()
+                .restaurantReservation(restaurantReservation)
+                .startTime(startTime)
+                .endTime(endTime).build();
+    }
 
 }

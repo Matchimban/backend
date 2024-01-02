@@ -2,7 +2,6 @@ package com.project.matchimban.common.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.project.matchimban.common.response.ResultCodeConstant;
 import com.project.matchimban.common.response.ResultData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
