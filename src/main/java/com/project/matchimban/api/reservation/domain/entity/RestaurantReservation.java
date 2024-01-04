@@ -41,4 +41,8 @@ public class RestaurantReservation {
                 .status(status).build();
 
     }
+
+    public void changeStatus(RestaurantReservationStatus status){
+        this.status = status;
+    }
 }
