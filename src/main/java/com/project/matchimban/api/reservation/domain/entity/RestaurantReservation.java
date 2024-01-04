@@ -6,6 +6,8 @@ import com.project.matchimban.api.restaurant.domain.Restaurant;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "restaurant_reservation")
@@ -19,7 +21,7 @@ public class RestaurantReservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
@@ -27,7 +29,11 @@ public class RestaurantReservation {
     @Column(nullable = false)
     private RestaurantReservationStatus status; //상태
 
+    @OneToMany(mappedBy = "restaurantReservation")
+    private List<ReservationTime> reservationTimes;
 
+    @OneToMany(mappedBy = "restaurantReservation")
+    private List<ReservationTable> reservationTables = new ArrayList<>();
 
     public static RestaurantReservation createRestaurantReservation(Restaurant restaurant, RestaurantReservationStatus status){
         return RestaurantReservation.builder()

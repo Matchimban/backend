@@ -19,7 +19,7 @@ public class ReservationTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_reservation_id", nullable = false)
     private RestaurantReservation restaurantReservation;
 

@@ -23,6 +23,10 @@ RESTAURANTRESERVATION_ERROR_ALREADY_EXISTS:
   code: 31002
   msg: "이미 RestaurantReservation 을 생성했습니다."
 
+RESTAURANTRESERVATION_ERROR_NONE_PK:
+  code: 31003
+  msg: "등록된 RestaurantReservation 이 없습니다."
+
 ####### 4xxxx
 INPUT_ERROR_VALIDATION:
   code: 40001
