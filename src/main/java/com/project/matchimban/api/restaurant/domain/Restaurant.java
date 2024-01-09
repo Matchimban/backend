@@ -28,7 +28,6 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "restaurant")
 public class Restaurant extends TimeEntity {
 
     @Id
@@ -47,23 +46,21 @@ public class Restaurant extends TimeEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(name = "business_number", nullable = false)
+    @Column(nullable = false)
     private String businessNumber;
 
     private String introduction;
     private String telephone;
 
-    @Column(name = "business_hours")
     private String businessHours;
 
-    @Column(name = "closed_days")
     private String closedDays;
 
     @Embedded
     private Address address;
     private String notice;
 
-    @Column(name = "origin_country")
+    @Column(nullable = false)
     private String originCountry;
 
     @OneToMany(mappedBy = "restaurant")
