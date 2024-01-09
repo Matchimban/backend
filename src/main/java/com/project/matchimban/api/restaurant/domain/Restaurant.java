@@ -41,7 +41,7 @@ public class Restaurant extends TimeEntity {
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    @ColumnDefault("KOREA")
+    @ColumnDefault("'KOREA'")
     private RestaurantCategory category;
 
     @Column(nullable = false)
@@ -74,6 +74,6 @@ public class Restaurant extends TimeEntity {
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
-    @ColumnDefault("PUBLISHED")
+    @ColumnDefault("'PUBLISHED'")
     private RestaurantStatus status;
 }
