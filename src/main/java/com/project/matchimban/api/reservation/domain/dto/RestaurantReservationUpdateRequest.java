@@ -2,6 +2,7 @@ package com.project.matchimban.api.reservation.domain.dto;
 
 import com.project.matchimban.api.reservation.domain.emums.RestaurantReservationStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -10,6 +11,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Data
+@Builder
 public class RestaurantReservationUpdateRequest {
 
     @Schema(description = "매장 id")

@@ -39,7 +39,13 @@ public class GlobalExceptionHandler {
         ResultData resultData = new ResultData();
 
         if (e instanceof HttpMessageNotReadableException) {
-            resultData = mapper.convertValue(exceptionMap.get(ErrorConstant.SERVER_ERROR_JSON_PARSE), ResultData.class);
+            if(e.getMessage().contains("not one of the values accepted for Enum class")){
+                resultData = mapper.convertValue(exceptionMap.get(ErrorConstant.INPUT_ERROR_ENUM_VALIDATION), ResultData.class);
+            }
+
+            else {
+                resultData = mapper.convertValue(exceptionMap.get(ErrorConstant.SERVER_ERROR_JSON_PARSE), ResultData.class);
+            }
         }
         else {
             resultData = mapper.convertValue(exceptionMap.get(ErrorConstant.SERVER_ERROR_UNDEFINED), ResultData.class);

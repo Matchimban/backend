@@ -5,6 +5,7 @@ public class ErrorConstant {
     public final static String SERVER_ERROR_JSON_PARSE = "SERVER_ERROR_JSON_PARSE";
 
     public final static String INPUT_ERROR_VALIDATION = "INPUT_ERROR_VALIDATION";
+    public final static String INPUT_ERROR_ENUM_VALIDATION = "INPUT_ERROR_ENUM_VALIDATION";
 
     public final static String TEST_COUPON_ERROR_NONE_PK = "TEST_COUPON_ERROR_NONE_PK";
     public final static String TEST_ETC = "TEST_ETC";
