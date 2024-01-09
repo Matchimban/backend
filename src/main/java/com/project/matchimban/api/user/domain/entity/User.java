@@ -1,22 +1,31 @@
 package com.project.matchimban.api.user.domain.entity;
 
-import com.project.matchimban.api.restaurant_application.domain.RestaurantApplication;
-import com.project.matchimban.api.review.domain.Review;
-import com.project.matchimban.common.global.TimeEntity;
 import com.project.matchimban.api.restaurant.domain.Restaurant;
+import com.project.matchimban.api.review.domain.Review;
 import com.project.matchimban.api.user.domain.enums.UserRole;
 import com.project.matchimban.api.user.domain.enums.UserStatus;
 import com.project.matchimban.api.wishlist.domain.Wishlist;
-import lombok.*;
+import com.project.matchimban.common.global.TimeEntity;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
-@Table(name="user")
+@Table(name = "user")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 // Builder 작성 필요
 public class User extends TimeEntity {
@@ -58,9 +67,6 @@ public class User extends TimeEntity {
 
     @OneToMany(mappedBy = "user")
     private List<Wishlist> wishlists = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user")
-    private List<RestaurantApplication> applications = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Review> reviews = new ArrayList<>();
