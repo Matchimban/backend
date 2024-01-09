@@ -8,14 +8,18 @@ import javax.persistence.Embeddable;
 @Embeddable
 @Getter
 public class Address {
+    @Column(nullable = false)
     private String addrSido;
+    @Column(nullable = false)
     private String addrSigg;
+    @Column(nullable = false)
     private String addrEmd;
+    @Column(nullable = false)
     private String addrDetail;
 
-    @Column(name = "lat")
+    @Column(nullable = false)
     private double latitude;
-    @Column(name = "lon")
+    @Column(nullable = false)
     private double longitude;
 
     protected Address() {
