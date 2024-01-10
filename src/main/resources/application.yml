@@ -3,7 +3,7 @@ env:
 
 spring:
   profiles:
-    active: local
+    active: server
 
 #springdoc:
 #  packages-to-scan: com.project.matchimban
