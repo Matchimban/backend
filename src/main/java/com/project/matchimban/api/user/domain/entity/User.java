@@ -18,13 +18,14 @@ import java.util.List;
 @Getter
 @Table(name="user")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-// Builder 작성 필요
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 public class User extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)

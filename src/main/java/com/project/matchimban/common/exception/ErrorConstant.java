@@ -9,4 +9,6 @@ public class ErrorConstant {
     public final static String TEST_COUPON_ERROR_NONE_PK = "TEST_COUPON_ERROR_NONE_PK";
     public final static String TEST_ETC = "TEST_ETC";
 
+    public final static String DUPLICATED_EMAIL = "DUPLICATED_EMAIL";
+
 }
