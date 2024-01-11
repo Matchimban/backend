@@ -2,8 +2,6 @@ package com.project.matchimban.api.user.service.impl;
 
 import com.project.matchimban.api.user.domain.dto.UserSignupRequest;
 import com.project.matchimban.api.user.domain.entity.User;
-import com.project.matchimban.api.user.domain.enums.UserRole;
-import com.project.matchimban.api.user.domain.enums.UserStatus;
 import com.project.matchimban.api.user.repository.UserRepository;
 import com.project.matchimban.api.user.service.UserService;
 import com.project.matchimban.common.exception.ErrorConstant;
@@ -27,15 +25,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public ResponseEntity<Object> signup(UserSignupRequest req) {
-        User user = User.builder()
-                .email(req.getEmail())
-                .password(passwordEncoder.encode(req.getPassword()))
-                .name(req.getName())
-                .nickname(req.getNickname())
-                .phone(req.getPhone())
-                .userRole(UserRole.ROLE_USER)
-                .status(UserStatus.ACTIVE)
-                .build();
+        User user = User.signup(req, passwordEncoder.encode(req.getPassword()));
         if (userRepository.existsUserByEmail(req.getEmail())) {
             throw new SVCException(ErrorConstant.DUPLICATED_EMAIL);
         }
