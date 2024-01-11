@@ -2,8 +2,10 @@ package com.project.matchimban.api.reservation.domain.dto;
 
 import com.project.matchimban.api.reservation.domain.emums.RestaurantReservationStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -11,6 +13,8 @@ import java.time.LocalTime;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class RestaurantReservationUpdateRequest {
 
@@ -19,7 +23,7 @@ public class RestaurantReservationUpdateRequest {
     Long restaurantId;
 
     @Schema(description = "활성화 정보", example = "ACTIVE")
-    @NotNull
+    @NotNull(message = "ef")
     RestaurantReservationStatus status;
 
 
