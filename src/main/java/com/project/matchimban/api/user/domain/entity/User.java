@@ -45,7 +45,6 @@ public class User extends TimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    @ColumnDefault("USER")
     private UserRole userRole;
 
     @Enumerated(EnumType.STRING)
