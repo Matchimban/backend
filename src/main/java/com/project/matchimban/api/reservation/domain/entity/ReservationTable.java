@@ -25,4 +25,12 @@ public class ReservationTable {
 
     @Column(nullable = false)
     private Integer cnt;//테이블 개수
+
+
+    public static ReservationTable createReservationTable(RestaurantReservation restaurantReservation, Integer size, Integer cnt){
+        return ReservationTable.builder()
+                .restaurantReservation(restaurantReservation)
+                .size(size)
+                .cnt(cnt).build();
+    }
 }
