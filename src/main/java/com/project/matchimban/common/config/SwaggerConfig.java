@@ -23,4 +23,12 @@ public class SwaggerConfig {
                         .description("맛침반 프로젝트 API 명세서입니다.")
                         .version("v1"));
     }
+
+    @Bean
+    public GroupedOpenApi restaurantReservationApi() {
+        return GroupedOpenApi.builder()
+                .group("매장_예약")
+                .pathsToMatch("/restaurant-reservations/**")
+                .build();
+    }
 }

@@ -1,6 +1,7 @@
 package com.project.matchimban.common.response;
 
 import com.project.matchimban.common.exception.ValidResult;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
