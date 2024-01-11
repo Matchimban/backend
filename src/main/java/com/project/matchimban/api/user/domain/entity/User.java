@@ -2,6 +2,7 @@ package com.project.matchimban.api.user.domain.entity;
 
 import com.project.matchimban.api.restaurant_application.domain.RestaurantApplication;
 import com.project.matchimban.api.review.domain.Review;
+import com.project.matchimban.api.user.domain.dto.UserSignupRequest;
 import com.project.matchimban.common.global.TimeEntity;
 import com.project.matchimban.api.restaurant.domain.Restaurant;
 import com.project.matchimban.api.user.domain.enums.UserRole;
@@ -64,4 +65,16 @@ public class User extends TimeEntity {
 
     @OneToMany(mappedBy = "user")
     private List<Review> reviews = new ArrayList<>();
+
+    public static User signup(UserSignupRequest req, String password) {
+        return User.builder()
+                .email(req.getEmail())
+                .password(password)
+                .name(req.getName())
+                .nickname(req.getNickname())
+                .phone(req.getPhone())
+                .userRole(UserRole.ROLE_USER)
+                .status(UserStatus.ACTIVE)
+                .build();
+    }
 }
