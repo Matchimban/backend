@@ -44,3 +44,9 @@ SERVER_ERROR_UNDEFINED:
 SERVER_ERROR_JSON_PARSE:
   code: 50001
   msg: "잘못된 형식의 json body 입니다. 개발자에게 문의바랍니다."
+
+
+####### 60xxx : 회원 API
+DUPLICATED_EMAIL:
+  code: 60000
+  msg: "이미 존재하는 이메일입니다."
