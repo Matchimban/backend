@@ -12,7 +12,7 @@ import com.project.matchimban.api.reservation.repository.ReservationTableReposit
 import com.project.matchimban.api.reservation.repository.ReservationTimeRepository;
 import com.project.matchimban.api.reservation.repository.RestaurantReservationRepository;
 import com.project.matchimban.api.reservation.service.RestaurantReservationService;
-import com.project.matchimban.api.restaurant.domain.Restaurant;
+import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.repository.RestaurantRepository;
 import com.project.matchimban.common.exception.ErrorConstant;
 import com.project.matchimban.common.exception.SVCException;
