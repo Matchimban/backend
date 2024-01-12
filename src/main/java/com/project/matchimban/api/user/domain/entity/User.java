@@ -8,8 +8,7 @@ import com.project.matchimban.api.user.domain.enums.UserRole;
 import com.project.matchimban.api.user.domain.enums.UserStatus;
 import com.project.matchimban.api.wishlist.domain.Wishlist;
 import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
