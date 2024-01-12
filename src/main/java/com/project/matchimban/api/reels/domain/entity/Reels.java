@@ -29,6 +29,6 @@ public class Reels extends TimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    @ColumnDefault("PUBLISHED")
+    @ColumnDefault("'PUBLISHED'")
     private ReelsStatus reelsStatus;
 }
