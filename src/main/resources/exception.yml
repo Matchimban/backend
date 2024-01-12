@@ -3,9 +3,9 @@
 ###### 코드 규칙 #####
 # 2xxxx : 성공 응답
 # 4xxxx, 5xxxx : 서버 관련 응답
-# 5?xxx, 6?xxx : 도메인 관련 응답
+# 6?xxx, ~ : 도메인 관련 응답
 
-####### 3xxxx
+####### 30xxx 임시 테스트
 TEST_COUPON_ERROR_NONE_PK:
   code: 30001
   msg: "존재하지 않는 쿠폰입니다."
@@ -14,11 +14,27 @@ TEST_ETC:
   msg: "에러 메시지"
 
 
+####### 61xxx RestaurantReservation
+RESTAURANTRESERVATION_ERROR_RESTAURANT_NONE_PK:
+  code: 61001
+  msg: "존재하지 않는 RESTAURANT 입니다."
+
+RESTAURANTRESERVATION_ERROR_ALREADY_EXISTS:
+  code: 61002
+  msg: "이미 RestaurantReservation 을 생성했습니다."
+
+RESTAURANTRESERVATION_ERROR_NONE_PK:
+  code: 61003
+  msg: "등록된 RestaurantReservation 이 없습니다."
+
 ####### 4xxxx
 INPUT_ERROR_VALIDATION:
   code: 40001
   msg: "입력값 유효성 검증 실패입니다."
 
+INPUT_ERROR_ENUM_VALIDATION:
+  code: 40001
+  msg: "입력값 유효성 검증 실패입니다. 유효한 ENUM String 이 아닙니다."
 
 ####### 5xxxx
 SERVER_ERROR_UNDEFINED:
@@ -28,3 +44,9 @@ SERVER_ERROR_UNDEFINED:
 SERVER_ERROR_JSON_PARSE:
   code: 50001
   msg: "잘못된 형식의 json body 입니다. 개발자에게 문의바랍니다."
+
+
+####### 60xxx : 회원 API
+DUPLICATED_EMAIL:
+  code: 60000
+  msg: "이미 존재하는 이메일입니다."

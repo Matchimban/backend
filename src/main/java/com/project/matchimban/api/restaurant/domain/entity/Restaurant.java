@@ -1,5 +1,6 @@
 package com.project.matchimban.api.restaurant.domain.entity;
 
+import com.project.matchimban.api.reservation.domain.entity.RestaurantReservation;
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantCategory;
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantStatus;
 import com.project.matchimban.api.review.domain.entity.Review;
@@ -22,6 +23,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +68,9 @@ public class Restaurant extends TimeEntity {
     @Column(nullable = false)
     @ColumnDefault("'PUBLISHED'")
     private RestaurantStatus status;
+
+    @OneToOne(mappedBy = "restaurant")
+    private RestaurantReservation restaurantReservation;
 
     @OneToMany(mappedBy = "restaurant")
     private List<Wishlist> wishRestaurant = new ArrayList<>();
