@@ -38,6 +38,6 @@ public class Comments extends TimeEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    @ColumnDefault("PUBLISHED")
+    @ColumnDefault("'PUBLISHED'")
     private CommentsStatus status;
 }

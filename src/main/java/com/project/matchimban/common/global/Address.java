@@ -1,32 +1,33 @@
 package com.project.matchimban.common.global;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Address {
+    @Column(nullable = false)
     private String addrSido;
+
+    @Column(nullable = false)
     private String addrSigg;
+
+    @Column(nullable = false)
     private String addrEmd;
+
+    @Column(nullable = false)
     private String addrDetail;
 
-    @Column(name = "lat")
+    @Column(nullable = false)
     private double latitude;
-    @Column(name = "lon")
+
+    @Column(nullable = false)
     private double longitude;
-
-    protected Address() {
-    }
-
-    public Address(String addrSido, String addrSigg, String addrEmd, String addrDetail, double latitude, double longitude) {
-        this.addrSido = addrSido;
-        this.addrSigg = addrSigg;
-        this.addrEmd = addrEmd;
-        this.addrDetail = addrDetail;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
 }

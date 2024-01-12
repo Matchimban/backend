@@ -1,32 +1,37 @@
-package com.project.matchimban.api.review.domain;
+package com.project.matchimban.api.restaurant.domain.entity;
 
+import com.project.matchimban.api.restaurant.domain.enums.ImageCategory;
 import com.project.matchimban.common.global.TimeEntity;
 import lombok.Getter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
 @Getter
-@Table(name = "review_image")
-public class ReviewImage extends TimeEntity {
+public class RestaurantImage extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "review_id")
-    private Review review;
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
 
-    @Column(name = "origin_file_name")
     private String originFileName;
 
-    @Column(name = "saved_file_name")
     private String savedFileName;
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    @ColumnDefault("'MAIN'")
+    private ImageCategory imageCategory;
 }

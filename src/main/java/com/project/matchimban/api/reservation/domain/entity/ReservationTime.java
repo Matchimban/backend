@@ -1,7 +1,7 @@
 package com.project.matchimban.api.reservation.domain.entity;
 
 import com.project.matchimban.api.reservation.domain.emums.RestaurantReservationStatus;
-import com.project.matchimban.api.restaurant.domain.Restaurant;
+import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import lombok.*;
 
 import javax.persistence.*;
