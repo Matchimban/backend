@@ -50,3 +50,23 @@ SERVER_ERROR_JSON_PARSE:
 DUPLICATED_EMAIL:
   code: 60000
   msg: "이미 존재하는 이메일입니다."
+
+NOT_FOUND_USER:
+  code: 60001
+  msg: "존재하지 않는 회원입니다."
+
+INVALID_TOKEN:
+  code: 60002
+  msg: "유효하지 않은 토큰입니다."
+
+ACCESS_DENY:
+  code: 60003
+  msg: "접근 권한이 없습니다."
+
+PASSWORD_MISMATCH:
+  code: 60004
+  msg: "패스워드가 일치하지 않습니다."
+
+NOT_ACTIVE_USER:
+  code: 60005
+  msg: "계정이 정지 또는 비활성화 되었습니다."

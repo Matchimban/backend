@@ -1,5 +1,6 @@
 package com.project.matchimban.api.user.controller;
 
+import com.project.matchimban.api.user.domain.dto.UserLoginRequest;
 import com.project.matchimban.api.user.domain.dto.UserSignupRequest;
 import com.project.matchimban.api.user.service.UserService;
 import com.project.matchimban.common.exception.ValidResult;
@@ -11,10 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -34,5 +32,11 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<Object> signup(@RequestBody @Valid UserSignupRequest req) {
         return userService.signup(req);
+    }
+
+
+    @PostMapping("/login")
+    public ResponseEntity<Object> login(@RequestBody @Valid UserLoginRequest req) {
+        return userService.login(req);
     }
 }
