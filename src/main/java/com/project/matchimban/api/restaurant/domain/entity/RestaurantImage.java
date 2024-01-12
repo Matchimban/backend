@@ -1,20 +1,22 @@
-package com.project.matchimban.api.restaurant.domain;
+package com.project.matchimban.api.restaurant.domain.entity;
 
+import com.project.matchimban.api.restaurant.domain.enums.ImageCategory;
 import com.project.matchimban.common.global.TimeEntity;
 import lombok.Getter;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
 @Getter
-@Table(name = "restaurant_image")
 public class RestaurantImage extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,12 +26,12 @@ public class RestaurantImage extends TimeEntity {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-    @Column(name = "origin_file_name")
     private String originFileName;
 
-    @Column(name = "saved_file_name")
     private String savedFileName;
 
-    @Column(name = "image_category")
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    @ColumnDefault("'MAIN'")
     private ImageCategory imageCategory;
 }
