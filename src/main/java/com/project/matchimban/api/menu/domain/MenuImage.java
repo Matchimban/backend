@@ -24,9 +24,9 @@ public class MenuImage extends TimeEntity {
     @JoinColumn(name = "menu_id")
     private Menu menu;
 
-    @Column(name = "origin_file_name")
+    @Column(nullable = false)
     private String originFileName;
 
-    @Column(name = "saved_file_name")
+    @Column(nullable = false)
     private String savedFileName;
 }

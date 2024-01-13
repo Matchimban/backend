@@ -1,4 +1,4 @@
-package com.project.matchimban.api.restaurant.domain;
+package com.project.matchimban.api.review.domain.entity;
 
 import com.project.matchimban.common.global.TimeEntity;
 import lombok.Getter;
@@ -10,26 +10,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
 @Getter
-@Table(name = "restaurant_image")
-public class RestaurantImage extends TimeEntity {
+public class ReviewImage extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "restaurant_id")
-    private Restaurant restaurant;
+    @JoinColumn(name = "review_id")
+    private Review review;
 
-    @Column(name = "origin_file_name")
+    @Column(nullable = false)
     private String originFileName;
 
-    @Column(name = "saved_file_name")
+    @Column(nullable = false)
     private String savedFileName;
-
-    @Column(name = "image_category")
-    private ImageCategory imageCategory;
 }

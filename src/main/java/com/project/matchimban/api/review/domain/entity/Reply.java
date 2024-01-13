@@ -1,23 +1,25 @@
-package com.project.matchimban.api.restaurant_application.domain;
+package com.project.matchimban.api.review.domain.entity;
 
+import com.project.matchimban.api.review.domain.enums.ReplyStatus;
 import com.project.matchimban.common.global.TimeEntity;
 import com.project.matchimban.api.user.domain.entity.User;
 import lombok.Getter;
+import org.hibernate.annotations.ColumnDefault;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 @Entity
 @Getter
-@Table(name = "restaurant_application")
-public class RestaurantApplication extends TimeEntity {
-
+public class Reply extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,16 +29,14 @@ public class RestaurantApplication extends TimeEntity {
     private User user;
 
     @OneToOne
-    @JoinColumn(name = "license_id")
-    private BusinessLicense license;
+    @JoinColumn(name = "review_id")
+    private Review review;
 
-    @OneToOne
-    @JoinColumn(name = "report_id")
-    private BusinessReport report;
+    @Column(nullable = false)
+    private String content;
 
-    @OneToOne
-    @JoinColumn(name = "account_id")
-    private Account account;
-
-    private RestaurantApplicationStatus status;
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    @ColumnDefault("'PUBLISHED'")
+    private ReplyStatus status;
 }
