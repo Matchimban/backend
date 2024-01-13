@@ -18,3 +18,8 @@ spring:
 logging.level:
   org.hibernate.SQL: debug
   org.hibernate.type: trace
+
+# 테스트 Build용 jwt 시크릿 키값
+jwt:
+  secret:
+    key: 037d903153c02c0a50dcb8dc006f7s9ebcf22be3b441abfea13ec9319845668aab741e36769c40302e33cf931896574d3232b5d44e6f1b0f8f9b9ca20f84d470
