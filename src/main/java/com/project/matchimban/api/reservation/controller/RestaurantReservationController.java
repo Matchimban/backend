@@ -31,7 +31,7 @@ public class RestaurantReservationController {
             @ApiResponse(responseCode = "40000-61001", description = "실패: 매장 정보가 없는 경우"),
             @ApiResponse(responseCode = "40000-61002", description = "실패: 이미 등록된 경우")
     })
-    @PostMapping("/restaurant-reservations")
+    @PostMapping("/api/restaurant-reservations")
     public ResponseEntity createRestaurantReservation(@Validated @RequestBody RestaurantReservationCreateRequest dto){
         return restaurantReservationService.createRestaurantReservation(dto);
     }
@@ -42,7 +42,7 @@ public class RestaurantReservationController {
             @ApiResponse(responseCode = "20000", description = "조회 성공", content = @Content(schema = @Schema(implementation = RestaurantReservationGetResponse.class))),
             @ApiResponse(responseCode = "40000-61003", description = "실패: 등록된 예약 시스템이 없는 경우")
     })
-    @GetMapping("/restaurant-reservations/{restaurantId}")
+    @GetMapping("/api/restaurant-reservations/{restaurantId}")
     public ResponseEntity getRestaurantReservation(@PathVariable Long restaurantId){
         return restaurantReservationService.getRestaurantReservation(restaurantId);
     }
@@ -52,7 +52,7 @@ public class RestaurantReservationController {
             @ApiResponse(responseCode = "20000", description = "수정 성공"),
             @ApiResponse(responseCode = "40000-61003", description = "실패: 등록된 예약 시스템이 없는 경우")
     })
-    @PutMapping("/restaurant-reservations")
+    @PutMapping("/api/restaurant-reservations")
     public ResponseEntity updateRestaurantReservation(@Validated @RequestBody RestaurantReservationUpdateRequest dto){
         return restaurantReservationService.updateRestaurantReservation(dto);
     }
