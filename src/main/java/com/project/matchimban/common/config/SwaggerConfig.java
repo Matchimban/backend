@@ -28,7 +28,7 @@ public class SwaggerConfig {
     public GroupedOpenApi restaurantReservationApi() {
         return GroupedOpenApi.builder()
                 .group("매장_예약")
-                .pathsToMatch("/restaurant-reservations/**")
+                .pathsToMatch("/api/restaurant-reservations/**")
                 .build();
     }
 }
