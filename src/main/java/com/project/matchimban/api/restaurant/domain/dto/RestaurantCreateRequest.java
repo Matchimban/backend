@@ -2,11 +2,17 @@ package com.project.matchimban.api.restaurant.domain.dto;
 
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantCategory;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
 
+@Getter
 @Schema(description = "매장 등록 DTO")
 public class RestaurantCreateRequest {
+
+    @Schema(description = "회원 아이디")
+    @NotBlank(message = "회원 아이디를 입력해주세요.")
+    private Long userId;
 
     @Schema(description = "카테고리")
     @NotBlank(message = "카테고리를 선택해주세요.")
