@@ -70,3 +70,5 @@ PASSWORD_MISMATCH:
 NOT_ACTIVE_USER:
   code: 60005
   msg: "계정이 정지 또는 비활성화 되었습니다."
+
+####### 62xxx Restaurant
