@@ -1,5 +1,6 @@
 package com.project.matchimban.api.restaurant.domain.dto;
 
+import com.project.matchimban.api.restaurant.domain.enums.RestaurantCategory;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.validation.constraints.NotBlank;
@@ -9,7 +10,7 @@ public class RestaurantCreateRequest {
 
     @Schema(description = "카테고리")
     @NotBlank(message = "카테고리를 선택해주세요.")
-    private String category;
+    private RestaurantCategory category;
 
     @Schema(description = "상호명")
     @NotBlank(message = "상호명을 입력해주세요.")
