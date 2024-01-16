@@ -13,11 +13,17 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
-        format-sql: true
+        format-sql: true3
+
+  redis:
+    host: ${AWS_SSH_HOST}
+    port: 6379
 
 logging.level:
   org.hibernate.SQL: debug
   org.hibernate.type: trace
+
+
 
 # 테스트 Build용 jwt 시크릿 키값
 jwt:
