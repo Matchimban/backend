@@ -3,6 +3,7 @@ package com.project.matchimban.common.exception;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.project.matchimban.common.response.ResultData;
+import io.jsonwebtoken.MalformedJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -71,6 +72,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity validExceptionHandler(MethodArgumentNotValidException e) {
         return new ResponseEntity<>(new ResultData(e.getBindingResult()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity handleMalformedJwtException(MalformedJwtException ex) {
+        ResultData result = new ResultData();
+        result.setCode(HttpStatus.BAD_REQUEST.value());
+        result.setMsg("JWT 형식이 잘못되었습니다.");
+        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
     }
 
 }
