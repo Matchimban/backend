@@ -92,6 +92,7 @@ jobs:
               -e JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \
               -e MYSQL_ID=${{ secrets.MYSQL_ID }} \
               -e MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} \
+              -e AWS_SSH_HOST=${{ secrets.AWS_SSH_HOST }} \
               -e RDS_URL=${{ secrets.RDS_URL }} \
               -p 8080:8080 matchimban
 
