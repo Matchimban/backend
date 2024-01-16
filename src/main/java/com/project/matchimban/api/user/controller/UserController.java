@@ -1,5 +1,6 @@
 package com.project.matchimban.api.user.controller;
 
+import com.project.matchimban.api.auth.jwt.domain.dto.TokenDTO;
 import com.project.matchimban.api.user.domain.dto.UserLoginRequest;
 import com.project.matchimban.api.user.domain.dto.UserSignupRequest;
 import com.project.matchimban.api.user.service.UserService;
@@ -38,5 +39,10 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody @Valid UserLoginRequest req) {
         return userService.login(req);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<Object> refreshAllTokens(@RequestBody TokenDTO tokens) {
+        return userService.refreshAllTokens(tokens);
     }
 }
