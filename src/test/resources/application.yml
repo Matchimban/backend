@@ -16,7 +16,7 @@ spring:
         format-sql: true3
 
   redis:
-    host: ${AWS_SSH_HOST}
+    host: localhost
     port: 6379
 
 logging.level:
