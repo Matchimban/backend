@@ -27,8 +27,8 @@ public class JwtProvider {
 
     private final CustomUserDetailsService customUserDetailsService;
     private final RefreshTokenRepository refreshTokenRepository;
-//    private final long exp = 1000L * 60 * 60; // 1Hour
-    private final long exp = 1000L * 60;
+    private final long exp = 1000L * 60 * 60; // 1Hour
+    private final Integer ttl = 7; // 7Days
 
     @Value("${jwt.secret.key}")
     private String salt;
@@ -50,7 +50,7 @@ public class JwtProvider {
                 RefreshToken.builder()
                         .id(userId)
                         .refreshToken(UUID.randomUUID().toString())
-                        .ttl(120)
+                        .ttl(ttl)
                         .build()
         );
         return savedRefreshToken.getRefreshToken();

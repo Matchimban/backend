@@ -21,7 +21,7 @@ public class RefreshToken {
     @Indexed
     private String refreshToken;
 
-    @TimeToLive(unit = TimeUnit.SECONDS)
+    @TimeToLive(unit = TimeUnit.DAYS)
     private Integer ttl;
 
     public void setTTL(Integer ttl) {
