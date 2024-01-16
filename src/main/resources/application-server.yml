@@ -19,6 +19,7 @@ spring:
   redis:
     host: ${AWS_SSH_HOST}
     port: 6379
+    password: ${REDIS_PASSWORD}
 
 jwt:
   secret:
