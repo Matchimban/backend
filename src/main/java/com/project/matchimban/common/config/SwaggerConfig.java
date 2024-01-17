@@ -31,4 +31,12 @@ public class SwaggerConfig {
                 .pathsToMatch("/api/restaurant-reservations/**")
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi ReservationApi() {
+        return GroupedOpenApi.builder()
+                .group("예약")
+                .pathsToMatch("/api/reservations/**")
+                .build();
+    }
 }

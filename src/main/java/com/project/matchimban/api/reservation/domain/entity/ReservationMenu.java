@@ -17,8 +17,8 @@ public class ReservationMenu {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_reservation_id", nullable = false)
-    private RestaurantReservation restaurantReservation;
+    @JoinColumn(name = "reservation_id", nullable = false)
+    private Reservation reservation;
 
 
     private String menuName; //메뉴 이름

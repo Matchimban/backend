@@ -1,6 +1,7 @@
 package com.project.matchimban.api.reservation.domain.entity;
 
 import com.project.matchimban.api.coupon.domain.entity.UserCoupon;
+import com.project.matchimban.api.reservation.domain.emums.ReservationFailReason;
 import com.project.matchimban.api.review.domain.entity.Review;
 import com.project.matchimban.api.user.domain.entity.User;
 import com.project.matchimban.common.global.TimeEntity;
@@ -64,8 +65,23 @@ public class Reservation extends TimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ReservationStatus status; //상태
+
+
     private String failReason; //실패이유
 
     @OneToOne(mappedBy = "reservation")
     private Review review;
+
+
+    public void changeStatusByImportAccessFail(){
+        this.status = ReservationStatus.FAIL;
+        this.failReason = ReservationFailReason.IMPORT_ACCESS_FAIL.getFailReason();
+    }
+    public void changeStatusBySuccess(){
+        this.status = ReservationStatus.SUCCESS;
+    }
+    public void changeStatusByInvalidVerify(){
+        this.status = ReservationStatus.FAIL;
+        this.failReason = ReservationFailReason.VERIFY_FAIL.getFailReason();
+    }
 }

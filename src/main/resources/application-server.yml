@@ -19,3 +19,8 @@ spring:
 jwt:
   secret:
     key: ${JWT_SECRET_KEY}
+
+iamport:
+  client:
+    apiKey: ${IAMPORT_CLIENT_APIKEY}
+    apiSecret: ${IAMPORT_CLIENT_APISECRET}
