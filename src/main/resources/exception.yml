@@ -23,6 +23,7 @@ INPUT_ERROR_ENUM_VALIDATION:
   code: 40001
   msg: "입력값 유효성 검증 실패입니다. 유효한 ENUM String 이 아닙니다."
 
+
 ####### 5xxxx
 SERVER_ERROR_UNDEFINED:
   code: 50000
@@ -58,6 +59,14 @@ NOT_ACTIVE_USER:
   code: 60005
   msg: "계정이 정지 또는 비활성화 되었습니다."
 
+NOT_FOUND_TOKEN:
+  code: 60006
+  msg: "Refresh Token이 만료되었습니다. 로그인을 다시 하세요."
+
+INVALID_REFRESH_TOKEN:
+  code: 60007
+  msg: "유효하지 않은 Refresh Token입니다."
+
 
 ####### 61xxx RestaurantReservation
 RESTAURANTRESERVATION_ERROR_RESTAURANT_NONE_PK:
@@ -71,6 +80,7 @@ RESTAURANTRESERVATION_ERROR_ALREADY_EXISTS:
 RESTAURANTRESERVATION_ERROR_NONE_PK:
   code: 61003
   msg: "등록된 RestaurantReservation 이 없습니다."
+
 
 ####### 63xxx Reservation
 RESERVATION_ERROR_USER_NONE_PK:

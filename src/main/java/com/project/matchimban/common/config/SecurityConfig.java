@@ -68,7 +68,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests() // authorizeRequest는 deprecated로 권장되지 않음
                 .requestMatchers(
                         new AntPathRequestMatcher("/api/user/signup"),
-                        new AntPathRequestMatcher("/api/user/login")
+                        new AntPathRequestMatcher("/api/user/login"),
+                        new AntPathRequestMatcher("/api/user/refresh")
                 ).permitAll() // antMatchers 역시 마찬가지
                 .requestMatchers(
                         new AntPathRequestMatcher("/api/**")

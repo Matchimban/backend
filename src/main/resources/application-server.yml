@@ -16,6 +16,11 @@ spring:
         format_sql: true
         default_batch_fetch_size: 1000
 
+  redis:
+    host: ${AWS_SSH_HOST}
+    port: 6379
+    password: ${REDIS_PASSWORD}
+
 jwt:
   secret:
     key: ${JWT_SECRET_KEY}
