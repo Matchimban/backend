@@ -106,6 +106,6 @@ public class JwtProvider {
 
     public Authentication getAuthenticationByToken(String token) {
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(this.getEmailByToken(token));
-        return new UsernamePasswordAuthenticationToken(token, "", userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails, token, userDetails.getAuthorities());
     }
 }
