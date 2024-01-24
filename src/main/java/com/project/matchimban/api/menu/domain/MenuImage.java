@@ -18,6 +18,7 @@ import javax.persistence.Table;
 public class MenuImage extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "menu_image_id")
     private Long id;
 
     @Column(nullable = false)
@@ -26,6 +27,6 @@ public class MenuImage extends TimeEntity {
     @Column(nullable = false)
     private String savedFileUrl;
 
-    @OneToOne(mappedBy = "menu")
+    @OneToOne(mappedBy = "menuImage")
     private Menu menu;
 }
