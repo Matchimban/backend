@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,15 +19,15 @@ import javax.persistence.Table;
 public class MenuImage extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "menu_image_id")
     private Long id;
-
-    @OneToOne
-    @JoinColumn(name = "menu_id")
-    private Menu menu;
 
     @Column(nullable = false)
     private String originFileName;
 
     @Column(nullable = false)
-    private String savedFileName;
+    private String savedFileUrl;
+
+    @OneToOne(mappedBy = "menuImage", fetch = FetchType.LAZY)
+    private Menu menu;
 }
