@@ -28,5 +28,5 @@ public class MenuImage extends TimeEntity {
     private String originFileName;
 
     @Column(nullable = false)
-    private String savedFileName;
+    private String savedFileUrl;
 }
