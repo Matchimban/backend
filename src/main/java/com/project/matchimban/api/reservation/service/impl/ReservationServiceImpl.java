@@ -1,5 +1,7 @@
 package com.project.matchimban.api.reservation.service.impl;
 
+import com.project.matchimban.api.menu.domain.Menu;
+import com.project.matchimban.api.menu.repository.MenuRepository;
 import com.project.matchimban.api.reservation.domain.dto.ReservationCreateRequest;
 import com.project.matchimban.api.reservation.domain.entity.Reservation;
 import com.project.matchimban.api.reservation.domain.entity.ReservationMenu;
@@ -26,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -37,6 +40,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final ReservationMenuRepository reservationMenuRepository;
     private final RestaurantReservationRepository restaurantReservationRepository;
     private final UserRepository userRepository;
+    private final MenuRepository menuRepository;
     private IamportClient iamportClient;
 
     @PostConstruct
@@ -85,9 +89,18 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     private boolean isInvalidVerifyPayService(Reservation reservation, Payment payment, ReservationCreateRequest dto){
-        int total = dto.getMenuList().stream().map(m -> m.getPaymentAmount()).reduce(0, Integer::sum);
-        if(payment.getAmount().intValue() != total) return true;
-        if (payment.getAmount().intValue() != reservation.getPaymentAmount()) return true;
+        List<Long> menuIdList = dto.getMenuList().stream().map(m -> m.getMenuId()).collect(Collectors.toList());
+        List<Menu> DBMenuList = menuRepository.findAllById(menuIdList);
+
+        int DBPriceTotal = DBMenuList.stream().map(m -> m.getPrice()).reduce(0, Integer::sum); //정가 가격
+        if(payment.getAmount().intValue()  != DBPriceTotal) {
+            log.error("Iamport 결제 값 != DB_Menu 가격의 합");
+            return true;
+        }
+        if (payment.getAmount().intValue() != reservation.getPaymentAmount()) {
+            log.error("Iamport 결제 값 != DB_Reservation 결제 값");
+            return true;
+        }
         return false;
     }
 

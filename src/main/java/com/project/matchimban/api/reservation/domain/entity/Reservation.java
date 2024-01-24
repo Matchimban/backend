@@ -53,9 +53,6 @@ public class Reservation extends TimeEntity {
     private LocalDateTime cancelDate; //취소일
 
     @Column(nullable = false)
-    private LocalDateTime reviewDate; //리뷰 마감 시간
-
-    @Column(nullable = false)
     private Integer regularPrice; //정가
     @Column(nullable = false)
     private Integer paymentAmount; //결제가

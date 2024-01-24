@@ -1,5 +1,6 @@
 package com.project.matchimban.api.reservation.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project.matchimban.api.reservation.domain.emums.ReservationStatus;
 import com.project.matchimban.api.reservation.domain.entity.Reservation;
 import com.project.matchimban.api.reservation.domain.entity.ReservationMenu;
@@ -34,9 +35,11 @@ public class ReservationCreateRequest {
     int size;
 
     //시작시간
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime startDate;
 
     //종료시간
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime endDate;
 
     //정가
@@ -51,6 +54,8 @@ public class ReservationCreateRequest {
 
     @Data
     public static class Menu{
+        @Schema(description = "메뉴 pk")
+        private Long menuId;
         @Schema(description = "메뉴의 이름")
         private String menuName;
         @Schema(description = "메뉴의 정가")
