@@ -80,7 +80,7 @@ public class SecurityConfig {
                 .anyRequest().denyAll()
                 .and()
                 // JWT 인증 필터 적용
-                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, objectMapper), UsernamePasswordAuthenticationFilter.class)
                 // 예외 핸들링
                 .exceptionHandling()
                 .accessDeniedHandler(new AccessDeniedHandler() {
@@ -90,7 +90,7 @@ public class SecurityConfig {
                         // 응답 형식의 통일성을 위해 ResultData에 인증 관련 오류 메시지를 담고
                         ResultData result = new ResultData();
                         result.setCode(HttpStatus.FORBIDDEN.value());
-                        result.setMsg(ErrorConstant.ACCESS_DENY);
+                        result.setMsg("접근 권한이 없습니다.");
 
                         // response를 통해 JSON응답 메시지를 응답
                         response.setStatus(HttpStatus.FORBIDDEN.value());
@@ -105,7 +105,7 @@ public class SecurityConfig {
                         // 인증 관련 문제
                         ResultData result = new ResultData();
                         result.setCode(HttpStatus.UNAUTHORIZED.value());
-                        result.setMsg(ErrorConstant.INVALID_TOKEN);
+                        result.setMsg("로그인이 필요한 서비스입니다.");
                         
                         response.setStatus(HttpStatus.UNAUTHORIZED.value());
                         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
