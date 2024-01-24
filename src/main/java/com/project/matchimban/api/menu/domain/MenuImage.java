@@ -20,13 +20,12 @@ public class MenuImage extends TimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "menu_id")
-    private Menu menu;
-
     @Column(nullable = false)
     private String originFileName;
 
     @Column(nullable = false)
     private String savedFileUrl;
+
+    @OneToOne(mappedBy = "menu")
+    private Menu menu;
 }

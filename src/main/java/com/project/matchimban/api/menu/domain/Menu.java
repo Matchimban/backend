@@ -40,6 +40,7 @@ public class Menu extends TimeEntity {
     @ColumnDefault("'PUBLISHED'")
     private MenuStatus status;
 
-    @OneToOne(mappedBy = "menu")
+    @OneToOne
+    @JoinColumn(name = "menu_image_id")
     private MenuImage menuImage;
 }
