@@ -5,6 +5,7 @@ import com.project.matchimban.common.global.TimeEntity;
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,6 +18,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 @Getter
+@AttributeOverride(name = "updatedDate", column = @Column(insertable = false, updatable = false))
 public class RestaurantImage extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
