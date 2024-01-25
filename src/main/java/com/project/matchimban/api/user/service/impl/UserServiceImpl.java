@@ -62,6 +62,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ResponseEntity<Object> logout(Long userId, String email) {
+        // Access Token 삭제, Refresh Token 삭제
+        jwtProvider.deleteAccessTokenByEmail(email);
+        jwtProvider.deleteRefreshTokenByUserId(userId);
+        ResultData result = new ResultData();
+        result.setMsg("로그아웃 성공");
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<Object> refreshAllTokens(TokenDTO tokens) {
         // Access Token 검증
         String email = jwtProvider.getEmailByToken(tokens.getAccessToken());
