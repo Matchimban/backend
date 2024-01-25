@@ -1,6 +1,8 @@
 package com.project.matchimban.api.auth.jwt;
 
+import com.project.matchimban.api.auth.jwt.domain.entity.AccessToken;
 import com.project.matchimban.api.auth.jwt.domain.entity.RefreshToken;
+import com.project.matchimban.api.auth.jwt.repository.AccessTokenRepository;
 import com.project.matchimban.api.auth.jwt.repository.RefreshTokenRepository;
 import com.project.matchimban.api.auth.security.service.CustomUserDetailsService;
 import com.project.matchimban.api.user.domain.enums.UserRole;
@@ -27,6 +29,7 @@ public class JwtProvider {
 
     private final CustomUserDetailsService customUserDetailsService;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final AccessTokenRepository accessTokenRepository;
     private final long exp = 1000L * 60 * 60; // 1Hour
     private final Integer ttl = 7; // 7Days
 
@@ -40,7 +43,14 @@ public class JwtProvider {
     }
 
     public String createAccessToken(String email, UserRole userRole) {
-        return createToken(email, userRole);
+        AccessToken savedAccessToken = accessTokenRepository.save(
+                AccessToken.builder()
+                        .email(email)
+                        .accessToken(createToken(email, userRole))
+                        .ttl(1)
+                        .build()
+        );
+        return savedAccessToken.getAccessToken();
     }
 
     public String createRefreshToken(Long userId) {
@@ -82,8 +92,16 @@ public class JwtProvider {
         return email;
     }
 
+    public Optional<AccessToken> getAccessTokenByEmail(String email) {
+        return accessTokenRepository.findById(email);
+    }
+
     public Optional<RefreshToken> getRefreshTokenByUserId(Long userId) {
         return refreshTokenRepository.findById(userId);
+    }
+
+    public void deleteAccessTokenByEmail(String email) {
+        accessTokenRepository.deleteById(email);
     }
 
     public void deleteRefreshTokenByUserId(Long userId) {
@@ -101,6 +119,14 @@ public class JwtProvider {
                 .setSigningKey(secretKey)
                 .build()
                 .parseClaimsJws(token);
+
+        // 로그아웃된 Access Token인지 검증
+        String email = claims.getBody().getSubject();
+        Optional<AccessToken> foundAccessToken = getAccessTokenByEmail(email);
+        if (foundAccessToken.isEmpty()) {
+            return false;
+        }
+
         return !claims.getBody().getExpiration().before(new Date());
     }
 
