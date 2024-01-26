@@ -11,5 +11,8 @@ public interface UserService {
 
     ResponseEntity<Object> login(UserLoginRequest req);
 
+    ResponseEntity<Object> logout(Long userId, String email);
+
     ResponseEntity<Object> refreshAllTokens(TokenDTO tokens);
+
 }

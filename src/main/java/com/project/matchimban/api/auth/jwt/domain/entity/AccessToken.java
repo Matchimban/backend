@@ -12,19 +12,16 @@ import java.util.concurrent.TimeUnit;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
-@RedisHash(value = "refresh")
-public class RefreshToken {
+@RedisHash(value = "access")
+public class AccessToken {
 
     @Id
-    private Long id;
+    private String email;
 
     @Indexed
-    private String refreshToken;
+    private String accessToken;
 
-    @TimeToLive(unit = TimeUnit.DAYS)
+    @TimeToLive(unit = TimeUnit.HOURS)
     private Integer ttl;
 
-    public void setTTL(Integer ttl) {
-        this.ttl = ttl;
-    }
 }

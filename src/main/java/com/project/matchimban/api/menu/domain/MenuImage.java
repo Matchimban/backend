@@ -3,30 +3,35 @@ package com.project.matchimban.api.menu.domain;
 import com.project.matchimban.common.global.TimeEntity;
 import lombok.Getter;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Table(name = "menu_image")
+@AttributeOverride(name = "updatedDate", column = @Column(insertable = false, updatable = false))
 public class MenuImage extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "menu_image_id")
     private Long id;
-
-    @OneToOne
-    @JoinColumn(name = "menu_id")
-    private Menu menu;
 
     @Column(nullable = false)
     private String originFileName;
 
     @Column(nullable = false)
-    private String savedFileName;
+    private String savedFileUrl;
+
+    @Transient
+    private LocalDateTime updatedDate;
+
+    @OneToOne(mappedBy = "menuImage", fetch = FetchType.LAZY)
+    private Menu menu;
 }

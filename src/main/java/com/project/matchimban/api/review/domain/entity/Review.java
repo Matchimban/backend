@@ -8,6 +8,7 @@ import com.project.matchimban.api.user.domain.entity.User;
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -24,6 +25,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@AttributeOverride(name = "updatedDate", column = @Column(insertable = false, updatable = false))
 public class Review extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
