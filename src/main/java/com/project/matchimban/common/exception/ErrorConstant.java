@@ -13,7 +13,7 @@ public class ErrorConstant {
     public final static String DUPLICATED_EMAIL = "DUPLICATED_EMAIL";
     public final static String NOT_FOUND_USER = "NOT_FOUND_USER";
     public final static String INVALID_TOKEN = "INVALID_TOKEN";
-    public final static String ACCESS_DENY = "ACCESS_DENY";
+    public final static String INVALID_SIGNATURE = "INVALID_SIGNATURE";
     public final static String PASSWORD_MISMATCH = "PASSWORD_MISMATCH";
     public final static String NOT_ACTIVE_USER = "NOT_ACTIVE_USER";
 
@@ -29,5 +29,6 @@ public class ErrorConstant {
     public final static String RESERVATION_ERROR_RESTAURANTRESERVATION_NONE_PK = "RESERVATION_ERROR_RESTAURANTRESERVATION_NONE_PK";
     public final static String RESERVATION_ERROR_IAMPORT = "RESERVATION_ERROR_IAMPORT";
     public final static String RESERVATION_ERROR_INVALID_VERIFY = "RESERVATION_ERROR_INVALID_VERIFY";
+    public final static String RESERVATION_ERROR_NONE_PK = "RESERVATION_ERROR_NONE_PK";
 
 }

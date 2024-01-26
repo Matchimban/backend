@@ -11,7 +11,6 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ public class ReservationCreateRequest {
 
     //import 고유번호
     @NotBlank
-    String imp_uid;
+    String impUid;
     @NotNull
     Long restaurantId;
 
@@ -67,6 +66,7 @@ public class ReservationCreateRequest {
     public Reservation toReservationInitEntity(User user, RestaurantReservation restaurantReservation){
         return Reservation.builder()
                 .user(user)
+                .impUid(impUid)
                 .restaurantReservation(restaurantReservation)
                 .size(size)
                 .startDate(startDate)

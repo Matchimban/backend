@@ -1,6 +1,7 @@
 package com.project.matchimban.api.reservation.controller;
 
 import com.project.matchimban.api.reservation.domain.dto.ReservationCreateRequest;
+import com.project.matchimban.api.reservation.domain.dto.ReservationUpdateToFailAndRefundRequest;
 import com.project.matchimban.api.reservation.service.ReservationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,5 +39,15 @@ public class ReservationController {
         return reservationService.createReservation(dto);
     }
 
+    @Operation(summary = "(예약)에러 시 환불 요청", description = "결제를 완료했지만 에러가 발생할 시 환불을 요청합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "20000", description = "환불 성공"),
+            @ApiResponse(responseCode = "40000-63003", description = "실패: iamport 통신 오류"),
+            @ApiResponse(responseCode = "40000-63005", description = "실패: 환불은 됐으나 DB 업데이트 실패한 경우"),
+    })
+    @PatchMapping("/api/reservations/fail-and-refund")
+    public ResponseEntity updateReservationToFailAndRefund(@Validated @RequestBody ReservationUpdateToFailAndRefundRequest dto){
+        return reservationService.updateReservationOfFailAndRefund(dto);
+    }
 
 }

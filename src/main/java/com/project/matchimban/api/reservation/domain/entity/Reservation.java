@@ -42,6 +42,9 @@ public class Reservation extends TimeEntity {
     private UserCoupon userCoupon;
 
     @Column(nullable = false)
+    private String impUid;
+
+    @Column(nullable = false)
     private Integer size;//선택테이블 크기
 
     @Column(nullable = false)
@@ -66,19 +69,22 @@ public class Reservation extends TimeEntity {
 
     private String failReason; //실패이유
 
-    @OneToOne(mappedBy = "reservation")
-    private Review review;
+//    @OneToOne(mappedBy = "reservation")
+//    private Review review;
 
 
     public void changeStatusByImportAccessFail(){
-        this.status = ReservationStatus.FAIL;
+        this.status = ReservationStatus.FAIL_AND_NOT_REFUND;
         this.failReason = ReservationFailReason.IMPORT_ACCESS_FAIL.getFailReason();
     }
     public void changeStatusBySuccess(){
         this.status = ReservationStatus.SUCCESS;
     }
     public void changeStatusByInvalidVerify(){
-        this.status = ReservationStatus.FAIL;
+        this.status = ReservationStatus.FAIL_AND_NOT_REFUND;
         this.failReason = ReservationFailReason.VERIFY_FAIL.getFailReason();
+    }
+    public void changeStatusByFailAndRefund(){
+        this.status = ReservationStatus.FAIL_AND_REFUND;
     }
 }
