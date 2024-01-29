@@ -1,5 +1,6 @@
 package com.project.matchimban.api.restaurant.service.impl;
 
+import com.project.matchimban.api.auth.security.model.CustomUserDetails;
 import com.project.matchimban.api.restaurant.domain.dto.RestaurantCreateRequest;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.repository.RestaurantRepository;
@@ -20,8 +21,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final UserRepository userRepository;
 
-    public Restaurant createRestaurant(RestaurantCreateRequest dto) {
-        User user = userRepository.findById(dto.getUserId())
+    public Restaurant createRestaurant(RestaurantCreateRequest dto, CustomUserDetails userDetails) {
+        User user = userRepository.findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new SVCException(ErrorConstant.NOT_FOUND_USER));
 
         Address address = Address.createAddress(
