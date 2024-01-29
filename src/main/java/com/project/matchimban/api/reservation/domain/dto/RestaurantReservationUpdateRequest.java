@@ -23,7 +23,7 @@ public class RestaurantReservationUpdateRequest {
     Long restaurantId;
 
     @Schema(description = "활성화 정보", example = "ACTIVE")
-    @NotNull(message = "ef")
+    @NotNull
     RestaurantReservationStatus status;
 
 
@@ -37,8 +37,6 @@ public class RestaurantReservationUpdateRequest {
     public static class TimeData{
         @Schema(description = "예약 가능한 시작 시간", example = "12:00:00", type = "string")
         private LocalTime startTime;
-        @Schema(description = "예약 가능한 종료 시간", example = "13:00:00", type = "string")
-        private LocalTime endTime;
     }
     @Data
     public static class TableData{

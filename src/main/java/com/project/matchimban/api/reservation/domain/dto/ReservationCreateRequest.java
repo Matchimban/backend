@@ -11,7 +11,8 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,13 +34,12 @@ public class ReservationCreateRequest {
     //선택 좌석 크기
     int size;
 
-    //시작시간
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    LocalDateTime startDate;
-
-    //종료시간
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    LocalDateTime endDate;
+    //예약날
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    LocalDate rstDate;
+    //예약시간
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+    LocalTime rstTime;
 
     //정가
     int regularPrice;
@@ -69,8 +69,8 @@ public class ReservationCreateRequest {
                 .impUid(impUid)
                 .restaurantReservation(restaurantReservation)
                 .size(size)
-                .startDate(startDate)
-                .endDate(endDate)
+                .rstDate(rstDate)
+                .rstTime(rstTime)
                 .regularPrice(regularPrice)
                 .paymentAmount(paymentAmount)
                 .status(ReservationStatus.ING)

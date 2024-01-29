@@ -33,7 +33,7 @@ public class RestaurantReservation {
     private List<ReservationTime> reservationTimes;
 
     @OneToMany(mappedBy = "restaurantReservation")
-    private List<ReservationTable> reservationTables = new ArrayList<>();
+    private List<ReservationSeat> reservationSeats = new ArrayList<>();
 
     public static RestaurantReservation createRestaurantReservation(Restaurant restaurant, RestaurantReservationStatus status){
         return RestaurantReservation.builder()

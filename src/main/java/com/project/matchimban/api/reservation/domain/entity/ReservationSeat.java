@@ -5,12 +5,12 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "reservation_table")
+@Table(name = "reservation_seat")
 @Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class ReservationTable {
+public class ReservationSeat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +27,8 @@ public class ReservationTable {
     private Integer cnt;//테이블 개수
 
 
-    public static ReservationTable createReservationTable(RestaurantReservation restaurantReservation, Integer size, Integer cnt){
-        return ReservationTable.builder()
+    public static ReservationSeat createReservationSeat(RestaurantReservation restaurantReservation, Integer size, Integer cnt){
+        return ReservationSeat.builder()
                 .restaurantReservation(restaurantReservation)
                 .size(size)
                 .cnt(cnt).build();

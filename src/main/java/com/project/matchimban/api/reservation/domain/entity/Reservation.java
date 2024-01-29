@@ -12,7 +12,9 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 
 @Entity
@@ -48,10 +50,9 @@ public class Reservation extends TimeEntity {
     private Integer size;//선택테이블 크기
 
     @Column(nullable = false)
-    private LocalDateTime startDate; //시작일
-
+    private LocalDate rstDate; //예약일
     @Column(nullable = false)
-    private LocalDateTime endDate; //종료일
+    private LocalTime rstTime; //예약시간
 
     private LocalDateTime cancelDate; //취소일
 

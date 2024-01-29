@@ -2,14 +2,14 @@ package com.project.matchimban.api.reservation.service.impl;
 
 import com.project.matchimban.api.menu.domain.Menu;
 import com.project.matchimban.api.menu.repository.MenuRepository;
+import com.project.matchimban.api.reservation.domain.dto.ReservationCreateGetFormRequest;
+import com.project.matchimban.api.reservation.domain.dto.ReservationCreateGetFormResponse;
 import com.project.matchimban.api.reservation.domain.dto.ReservationCreateRequest;
 import com.project.matchimban.api.reservation.domain.dto.ReservationUpdateToFailAndRefundRequest;
 import com.project.matchimban.api.reservation.domain.entity.Reservation;
 import com.project.matchimban.api.reservation.domain.entity.ReservationMenu;
 import com.project.matchimban.api.reservation.domain.entity.RestaurantReservation;
-import com.project.matchimban.api.reservation.repository.ReservationMenuRepository;
-import com.project.matchimban.api.reservation.repository.ReservationRepository;
-import com.project.matchimban.api.reservation.repository.RestaurantReservationRepository;
+import com.project.matchimban.api.reservation.repository.*;
 import com.project.matchimban.api.reservation.service.ReservationService;
 import com.project.matchimban.api.user.domain.entity.User;
 import com.project.matchimban.api.user.repository.UserRepository;
@@ -43,6 +43,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final RestaurantReservationRepository restaurantReservationRepository;
     private final UserRepository userRepository;
     private final MenuRepository menuRepository;
+    private final ReservationQueryRepository reservationQueryRepository;
 
     private IamportClient iamportClient;
 
@@ -110,7 +111,6 @@ public class ReservationServiceImpl implements ReservationService {
     @Transactional
     @Override
     public ResponseEntity updateReservationOfFailAndRefund(ReservationUpdateToFailAndRefundRequest dto){
-        HttpStatus httpStatus = HttpStatus.OK;
         try {
             iamportClient.cancelPaymentByImpUid(new CancelData(dto.getImpUid(), true));
         } catch (Exception e) {
@@ -121,7 +121,23 @@ public class ReservationServiceImpl implements ReservationService {
         Reservation reservation = reservationRepository.findByImpUid(dto.getImpUid())
                 .orElseThrow(() -> new SVCException(ErrorConstant.RESERVATION_ERROR_NONE_PK));
         reservation.changeStatusByFailAndRefund();
-        return new ResponseEntity(new ResultData(), httpStatus);
+        return new ResponseEntity(new ResultData(), HttpStatus.OK);
     }
 
+    public ResponseEntity getReservationCreateForm(ReservationCreateGetFormRequest dto){
+        ResultData resultData = new ResultData();
+
+        ReservationCreateGetFormResponse returnData = new ReservationCreateGetFormResponse();
+
+        RestaurantReservation restaurantReservation = restaurantReservationRepository.findFirstByRestaurantId(dto.getRestaurantId())
+                .orElseThrow(() -> new SVCException(ErrorConstant.RESERVATION_ERROR_RESTAURANTRESERVATION_NONE_PK));
+        List<Reservation> reservationListByDate = reservationQueryRepository.getReservationListByDate(dto);
+
+        returnData.changeAvailInfo(restaurantReservation, dto, reservationListByDate);
+
+        //메뉴 정보 호출은 추후 논의
+
+        resultData.setResult(returnData);
+        return new ResponseEntity(resultData, HttpStatus.OK);
+    }
 }
