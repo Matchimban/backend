@@ -1,6 +1,5 @@
 package com.project.matchimban.api.reservation.domain.dto;
 
-import com.project.matchimban.api.reservation.domain.entity.Reservation;
 import com.project.matchimban.api.reservation.domain.entity.RestaurantReservation;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -19,7 +18,7 @@ public class ReservationCreateGetFormResponse {
     Map<LocalTime, HashMap<Integer, Integer>> timeInfo = new HashMap<>();
 
 
-    public void changeAvailInfo(RestaurantReservation rstRsv, ReservationCreateGetFormRequest requestDto, List<Reservation> reservationListByDate) {
+    public void changeAvailInfo(RestaurantReservation rstRsv, ReservationCreateGetFormRequest requestDto, List<ReservationFormDto> reservationListByDate) {
         this.restaurantId = requestDto.getRestaurantId();
         rstRsv.getReservationTimes().forEach(t -> this.timeInfo.put(t.getRstTime(), (HashMap<Integer, Integer>) createSeatMap(rstRsv)));
         reservationListByDate.forEach(r -> {

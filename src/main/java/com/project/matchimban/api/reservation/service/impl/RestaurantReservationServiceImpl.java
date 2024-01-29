@@ -8,9 +8,7 @@ import com.project.matchimban.api.reservation.domain.emums.RestaurantReservation
 import com.project.matchimban.api.reservation.domain.entity.ReservationSeat;
 import com.project.matchimban.api.reservation.domain.entity.ReservationTime;
 import com.project.matchimban.api.reservation.domain.entity.RestaurantReservation;
-import com.project.matchimban.api.reservation.repository.ReservationSeatRepository;
-import com.project.matchimban.api.reservation.repository.ReservationTimeRepository;
-import com.project.matchimban.api.reservation.repository.RestaurantReservationRepository;
+import com.project.matchimban.api.reservation.repository.*;
 import com.project.matchimban.api.reservation.service.RestaurantReservationService;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.repository.RestaurantRepository;

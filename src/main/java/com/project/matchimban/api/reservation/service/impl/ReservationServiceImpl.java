@@ -2,10 +2,7 @@ package com.project.matchimban.api.reservation.service.impl;
 
 import com.project.matchimban.api.menu.domain.Menu;
 import com.project.matchimban.api.menu.repository.MenuRepository;
-import com.project.matchimban.api.reservation.domain.dto.ReservationCreateGetFormRequest;
-import com.project.matchimban.api.reservation.domain.dto.ReservationCreateGetFormResponse;
-import com.project.matchimban.api.reservation.domain.dto.ReservationCreateRequest;
-import com.project.matchimban.api.reservation.domain.dto.ReservationUpdateToFailAndRefundRequest;
+import com.project.matchimban.api.reservation.domain.dto.*;
 import com.project.matchimban.api.reservation.domain.entity.Reservation;
 import com.project.matchimban.api.reservation.domain.entity.ReservationMenu;
 import com.project.matchimban.api.reservation.domain.entity.RestaurantReservation;
@@ -43,7 +40,6 @@ public class ReservationServiceImpl implements ReservationService {
     private final RestaurantReservationRepository restaurantReservationRepository;
     private final UserRepository userRepository;
     private final MenuRepository menuRepository;
-    private final ReservationQueryRepository reservationQueryRepository;
 
     private IamportClient iamportClient;
 
@@ -131,7 +127,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         RestaurantReservation restaurantReservation = restaurantReservationRepository.findFirstByRestaurantId(dto.getRestaurantId())
                 .orElseThrow(() -> new SVCException(ErrorConstant.RESERVATION_ERROR_RESTAURANTRESERVATION_NONE_PK));
-        List<Reservation> reservationListByDate = reservationQueryRepository.getReservationListByDate(dto);
+        List<ReservationFormDto> reservationListByDate = reservationRepository.getReservationListByDate(dto);
 
         returnData.changeAvailInfo(restaurantReservation, dto, reservationListByDate);
 

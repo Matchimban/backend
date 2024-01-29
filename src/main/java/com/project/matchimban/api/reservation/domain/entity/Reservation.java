@@ -2,7 +2,6 @@ package com.project.matchimban.api.reservation.domain.entity;
 
 import com.project.matchimban.api.coupon.domain.entity.UserCoupon;
 import com.project.matchimban.api.reservation.domain.emums.ReservationFailReason;
-import com.project.matchimban.api.review.domain.entity.Review;
 import com.project.matchimban.api.user.domain.entity.User;
 import com.project.matchimban.common.global.TimeEntity;
 import com.project.matchimban.api.reservation.domain.emums.ReservationStatus;
