@@ -95,7 +95,7 @@ public class Restaurant extends TimeEntity {
                 .businessHours(dto.getBusinessHours())
                 .closedDays(dto.getClosedDays())
                 .notice(dto.getNotice())
-                .status(RestaurantStatus.PUBLISHED)
+                .status(RestaurantStatus.UNVERIFIED)
                 .user(user)
                 .address(address)
                 .build();
