@@ -1,8 +1,8 @@
 package com.project.matchimban.api.restaurant.service;
 
 import com.project.matchimban.api.restaurant.domain.dto.RestaurantCreateRequest;
-import org.springframework.http.ResponseEntity;
+import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 
 public interface RestaurantService {
-    ResponseEntity<Object> createRestaurant(RestaurantCreateRequest dto);
+    Restaurant createRestaurant(RestaurantCreateRequest dto);
 }
