@@ -1,5 +1,6 @@
-package com.project.matchimban.api.menu.domain;
+package com.project.matchimban.api.restaurant.domain.entity;
 
+import com.project.matchimban.api.restaurant.domain.entity.Menu;
 import com.project.matchimban.common.global.TimeEntity;
 import lombok.Getter;
 

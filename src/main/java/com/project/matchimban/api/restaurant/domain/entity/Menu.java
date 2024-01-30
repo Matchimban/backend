@@ -1,8 +1,11 @@
-package com.project.matchimban.api.menu.domain;
+package com.project.matchimban.api.restaurant.domain.entity;
 
-import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
+import com.project.matchimban.api.restaurant.domain.enums.MenuStatus;
 import com.project.matchimban.common.global.TimeEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Column;
@@ -15,11 +18,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 @Entity
 @Getter
-@Table(name = "menu")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Menu extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
