@@ -5,12 +5,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Schema(description = "매장 등록 DTO")
 public class RestaurantCreateRequest {
     @Schema(description = "카테고리")
-    @NotBlank(message = "카테고리를 선택해주세요.")
+    @NotNull(message = "카테고리를 선택해주세요.")
     private RestaurantCategory category;
 
     @Schema(description = "상호명")
@@ -42,11 +43,11 @@ public class RestaurantCreateRequest {
     private String addrDetail;
 
     @Schema(description = "위도")
-    @NotBlank(message = "위도를 입력해주세요.")
+    @NotNull(message = "위도를 입력해주세요.")
     private double latitude;
 
     @Schema(description = "경도")
-    @NotBlank(message = "경도를 입력해주세요.")
+    @NotNull(message = "경도를 입력해주세요.")
     private double longitude;
 
     @Schema(description = "매장 소개")
