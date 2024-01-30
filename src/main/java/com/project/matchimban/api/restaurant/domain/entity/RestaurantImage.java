@@ -1,6 +1,5 @@
 package com.project.matchimban.api.restaurant.domain.entity;
 
-import com.project.matchimban.api.restaurant.domain.dto.RestaurantImageCreateRequest;
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantImageCategory;
 import com.project.matchimban.common.global.TimeEntity;
 import lombok.AccessLevel;
@@ -10,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -25,6 +25,7 @@ import javax.persistence.ManyToOne;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AttributeOverride(name = "updatedDate", column = @Column(insertable = false, updatable = false))
 public class RestaurantImage extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
