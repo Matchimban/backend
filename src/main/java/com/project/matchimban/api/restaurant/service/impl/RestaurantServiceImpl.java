@@ -25,6 +25,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final UserRepository userRepository;
 
+    @Transactional
     public void createRestaurant(RestaurantCreateRequest dto, CustomUserDetails userDetails) {
         User user = userRepository.findByEmail(userDetails.getUsername())
                 .orElseThrow(() -> new SVCException(ErrorConstant.NOT_FOUND_USER));
@@ -38,7 +39,8 @@ public class RestaurantServiceImpl implements RestaurantService {
                 dto.getLongitude()
         );
 
-        Restaurant.createRestaurant(dto, user, address);
+        Restaurant restaurant = Restaurant.createRestaurant(dto, user, address);
+        restaurantRepository.save(restaurant);
     }
 
     public void registerRestaurantImage(Long id, List<RestaurantImageCreateRequest> images) {
