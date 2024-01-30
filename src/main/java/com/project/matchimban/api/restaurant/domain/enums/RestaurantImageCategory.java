@@ -1,5 +1,5 @@
 package com.project.matchimban.api.restaurant.domain.enums;
 
-public enum ImageCategory {
-    MAIN
+public enum RestaurantImageCategory {
+    MAIN, MENU
 }
