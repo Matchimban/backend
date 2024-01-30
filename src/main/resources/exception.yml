@@ -72,3 +72,6 @@ NOT_ACTIVE_USER:
   msg: "계정이 정지 또는 비활성화 되었습니다."
 
 ####### 62xxx Restaurant
+RESTAURANT_ERROR_NOT_FOUND_RESTAURANT:
+  code: 62000
+  msg: "존재하지 않는 매장입니다."
