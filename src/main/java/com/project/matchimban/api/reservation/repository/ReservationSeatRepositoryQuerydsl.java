@@ -1,6 +1,6 @@
 package com.project.matchimban.api.reservation.repository;
 
 
-public interface ReservationSeatRepositoryCustom {
+public interface ReservationSeatRepositoryQuerydsl {
     void deleteByRestaurantReservationId(Long restaurantReservationId);
 }

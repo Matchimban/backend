@@ -3,6 +3,7 @@ package com.project.matchimban.api.reservation.controller;
 import com.project.matchimban.api.reservation.domain.dto.ReservationCreateGetFormRequest;
 import com.project.matchimban.api.reservation.domain.dto.ReservationCreateRequest;
 import com.project.matchimban.api.reservation.domain.dto.ReservationUpdateToFailAndRefundRequest;
+import com.project.matchimban.api.reservation.domain.dto.ReservationUpdateToRefundRequest;
 import com.project.matchimban.api.reservation.service.ReservationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -13,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 
 @Tag(name = "Reservation", description = "예약 API")
@@ -55,8 +58,14 @@ public class ReservationController {
             @ApiResponse(responseCode = "40000-40001", description = "실패: 입력값 검증에 실패한 경우"),
     })
     @GetMapping("/api/reservations")
-    public ResponseEntity getReservationCreateForm(@Validated @RequestBody ReservationCreateGetFormRequest dto){
+    public ResponseEntity getReservationCreateForm(@Validated ReservationCreateGetFormRequest dto){
         return reservationService.getReservationCreateForm(dto);
+    }
+
+
+    @PatchMapping("/api/reservations/refund") //고객의 환불요청
+    public ResponseEntity updateReservationToRefund(@Validated @RequestBody ReservationUpdateToRefundRequest dto){
+        return reservationService.updateReservationToRefund(dto);
     }
 
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class ReservationSeatQuerydslRepositoryImpl implements ReservationSeatRepositoryCustom {
+public class ReservationSeatRepositoryQuerydslImpl implements ReservationSeatRepositoryQuerydsl {
 
     private final JPAQueryFactory queryFactory;
     QReservationSeat reservationSeat = QReservationSeat.reservationSeat;

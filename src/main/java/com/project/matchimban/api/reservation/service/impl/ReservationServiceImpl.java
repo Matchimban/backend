@@ -136,4 +136,14 @@ public class ReservationServiceImpl implements ReservationService {
         resultData.setResult(returnData);
         return new ResponseEntity(resultData, HttpStatus.OK);
     }
+
+    @Transactional
+    @Override
+    public ResponseEntity updateReservationToRefund(ReservationUpdateToRefundRequest dto){
+        //환불
+
+
+
+        return new ResponseEntity(new ResultData(), HttpStatus.OK);
+    }
 }

@@ -4,6 +4,6 @@ import com.project.matchimban.api.reservation.domain.entity.ReservationTime;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface ReservationTimeRepository extends JpaRepository<ReservationTime, Long>, ReservationTimeRepositoryCustom {
+public interface ReservationTimeRepository extends JpaRepository<ReservationTime, Long>, ReservationTimeRepositoryQuerydsl {
 
 }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class ReservationTimeQuerydslRepositoryImpl implements ReservationTimeRepositoryCustom{
+public class ReservationTimeRepositoryQuerydslImpl implements ReservationTimeRepositoryQuerydsl {
     private final JPAQueryFactory queryFactory;
     QReservationTime reservationTime = QReservationTime.reservationTime;
 

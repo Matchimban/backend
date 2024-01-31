@@ -1,7 +1,9 @@
 package com.project.matchimban.api.reservation.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -15,6 +17,7 @@ public class ReservationCreateGetFormRequest {
     Long restaurantId;
 
     @Schema(description = "조회할 날짜")
-    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     LocalDate rstDate;
 }

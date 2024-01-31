@@ -5,6 +5,6 @@ import com.project.matchimban.api.reservation.domain.dto.ReservationFormDto;
 
 import java.util.List;
 
-public interface ReservationRepositoryCustom {
+public interface ReservationRepositoryQuerydsl {
     List<ReservationFormDto> getReservationListByDate(ReservationCreateGetFormRequest dto);
 }
