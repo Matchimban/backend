@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -141,8 +142,30 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public ResponseEntity updateReservationToRefund(ReservationUpdateToRefundRequest dto){
         //환불
+        Reservation reservation = reservationRepository.findById(dto.getReservationId())
+                .orElseThrow(() -> new SVCException(ErrorConstant.RESERVATION_ERROR_NONE_PK));
 
+        //예약일과 현재일 비교해 환불값 측정
+        Integer refundAmount = reservation.calculateRefundAmount();
 
+        //아임포트 환불하기
+        IamportResponse<Payment> iamportPayInfo = null;
+        try {
+            if(refundAmount == 0){ //환불불가
+
+            } else {
+                if (reservation.getPaymentAmount() == refundAmount) { //전체환불
+                    iamportClient.cancelPaymentByImpUid(new CancelData(reservation.getImpUid(), true));
+                } else { //부분환불
+                    iamportClient.cancelPaymentByImpUid(new CancelData(reservation.getImpUid(), true, new BigDecimal(refundAmount)));
+                }
+
+                //환불내역 저장
+                reservation.changeStatusByRefund(refundAmount);
+            }
+        }catch (Exception e){
+            new SVCException(ErrorConstant.RESERVATION_ERROR_IAMPORT);
+        }
 
         return new ResponseEntity(new ResultData(), HttpStatus.OK);
     }

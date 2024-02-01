@@ -14,6 +14,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 
 @Entity
@@ -86,5 +87,21 @@ public class Reservation extends TimeEntity {
     }
     public void changeStatusByFailAndRefund(){
         this.status = ReservationStatus.FAIL_AND_REFUND;
+    }
+    public void changeStatusByRefund(int refundAmount){
+        this.status = ReservationStatus.CANCEL;
+        this.refundAmount = refundAmount;
+    }
+    public Integer calculateRefundAmount(){
+        long diff = ChronoUnit.DAYS.between(this.rstDate, LocalDate.now());
+        Integer result = 0;
+        if(diff < 2){
+            result = 0;
+        } else if(diff < 3){
+            result = this.paymentAmount / 2;
+        } else {
+            result = this.paymentAmount;
+        }
+        return result;
     }
 }

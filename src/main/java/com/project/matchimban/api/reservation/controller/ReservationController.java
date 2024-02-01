@@ -62,7 +62,12 @@ public class ReservationController {
         return reservationService.getReservationCreateForm(dto);
     }
 
-
+    @Operation(summary = "(예약)예약 취소 및 환불 요청", description = "예약을 취소하고, 결제된 환불금액은 환불정책에 따라 처리합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "20000", description = "예약 취소 및 환불 성공"),
+            @ApiResponse(responseCode = "40000-63003", description = "실패: iamport 통신 오류"),
+            @ApiResponse(responseCode = "40000-63005", description = "실패: 예약 pk 조회 오류"),
+    })
     @PatchMapping("/api/reservations/refund") //고객의 환불요청
     public ResponseEntity updateReservationToRefund(@Validated @RequestBody ReservationUpdateToRefundRequest dto){
         return reservationService.updateReservationToRefund(dto);
