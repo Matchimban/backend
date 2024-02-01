@@ -40,6 +40,6 @@ cloud:
     s3:
       bucket: bucketbucket
     region:
-      static: regionregion
+      static: ap-southeast-1
     stack:
       auto: false
