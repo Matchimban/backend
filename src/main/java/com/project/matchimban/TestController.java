@@ -2,6 +2,8 @@ package com.project.matchimban;
 
 import com.project.matchimban.common.exception.ErrorConstant;
 import com.project.matchimban.common.exception.SVCException;
+import com.project.matchimban.common.global.FileInfo;
+import com.project.matchimban.common.modules.S3FileHandler;
 import com.project.matchimban.common.response.ResultData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -13,11 +15,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.util.Optional;
 
 @Tag(name = "Test", description = "테스트 API")
@@ -27,6 +28,7 @@ public class TestController {
 
     private final TestRepository testRepository;
     private final TestService testService;
+    private final S3FileHandler s3FileHandler;
 
     @Operation(summary = "(테스트)이름 조회", description = "id값을 통해 name을 조회합니다.")
     @Parameter(name = "id", description = "고유ID", example = "1")
@@ -63,5 +65,13 @@ public class TestController {
         else if(etc.equals("third")) throw new SVCException(".");
         else if (etc.equals("trace")) testService.stackTraceTest();
         return new ResponseEntity(new ResultData(), HttpStatus.OK);
+    }
+
+    @PostMapping("/api/file/upload")
+    public String s3FileUploadTest(@RequestPart(value = "file") MultipartFile file) {
+
+        Optional<FileInfo> uploadFile = s3FileHandler.uploadFile(file);
+        if (uploadFile.isPresent()) return "성공";
+        else return "실패";
     }
 }
