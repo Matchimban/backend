@@ -1,5 +1,6 @@
 package com.project.matchimban.api.reservation.service.impl;
 
+import com.project.matchimban.api.auth.security.model.CustomUserDetails;
 import com.project.matchimban.api.menu.domain.Menu;
 import com.project.matchimban.api.menu.repository.MenuRepository;
 import com.project.matchimban.api.reservation.domain.dto.*;
@@ -147,26 +148,31 @@ public class ReservationServiceImpl implements ReservationService {
 
         //예약일과 현재일 비교해 환불값 측정
         Integer refundAmount = reservation.calculateRefundAmount();
+        if(refundAmount==0) new SVCException(ErrorConstant.RESERVATION_IMPOSSIBLE_REFUND);
 
         //아임포트 환불하기
         IamportResponse<Payment> iamportPayInfo = null;
         try {
-            if(refundAmount == 0){ //환불불가
-
-            } else {
-                if (reservation.getPaymentAmount() == refundAmount) { //전체환불
-                    iamportClient.cancelPaymentByImpUid(new CancelData(reservation.getImpUid(), true));
-                } else { //부분환불
-                    iamportClient.cancelPaymentByImpUid(new CancelData(reservation.getImpUid(), true, new BigDecimal(refundAmount)));
-                }
-
-                //환불내역 저장
-                reservation.changeStatusByRefund(refundAmount);
+            if (reservation.getPaymentAmount() == refundAmount) { //전체환불
+                iamportClient.cancelPaymentByImpUid(new CancelData(reservation.getImpUid(), true));
+            } else { //부분환불
+                iamportClient.cancelPaymentByImpUid(new CancelData(reservation.getImpUid(), true, new BigDecimal(refundAmount)));
             }
+            //환불내역 저장
+            reservation.changeStatusByRefund(refundAmount);
         }catch (Exception e){
             new SVCException(ErrorConstant.RESERVATION_ERROR_IAMPORT);
         }
 
         return new ResponseEntity(new ResultData(), HttpStatus.OK);
+    }
+
+
+    public ResponseEntity getReservationListForUser(CustomUserDetails currentUser){
+        ResultData resultData = new ResultData();
+        List<ReservationForUserDto> reservationListForUser = reservationRepository.getReservationListForUser(currentUser.getUserId());
+        resultData.setResult(reservationListForUser);
+
+        return new ResponseEntity(resultData, HttpStatus.OK);
     }
 }

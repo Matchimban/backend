@@ -91,9 +91,10 @@ public class Reservation extends TimeEntity {
     public void changeStatusByRefund(int refundAmount){
         this.status = ReservationStatus.CANCEL;
         this.refundAmount = refundAmount;
+        this.cancelDate = LocalDateTime.now();
     }
     public Integer calculateRefundAmount(){
-        long diff = ChronoUnit.DAYS.between(this.rstDate, LocalDate.now());
+        long diff = ChronoUnit.DAYS.between(LocalDate.now(), this.rstDate);
         Integer result = 0;
         if(diff < 2){
             result = 0;

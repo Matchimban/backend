@@ -1,5 +1,7 @@
 package com.project.matchimban.api.reservation.controller;
 
+import com.project.matchimban.api.auth.security.model.CurrentUser;
+import com.project.matchimban.api.auth.security.model.CustomUserDetails;
 import com.project.matchimban.api.reservation.domain.dto.ReservationCreateGetFormRequest;
 import com.project.matchimban.api.reservation.domain.dto.ReservationCreateRequest;
 import com.project.matchimban.api.reservation.domain.dto.ReservationUpdateToFailAndRefundRequest;
@@ -14,8 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
 
 
 @Tag(name = "Reservation", description = "예약 API")
@@ -67,10 +67,20 @@ public class ReservationController {
             @ApiResponse(responseCode = "20000", description = "예약 취소 및 환불 성공"),
             @ApiResponse(responseCode = "40000-63003", description = "실패: iamport 통신 오류"),
             @ApiResponse(responseCode = "40000-63005", description = "실패: 예약 pk 조회 오류"),
+            @ApiResponse(responseCode = "40000-63006", description = "실패: 환불 가능한 금액이 없습니다."),
     })
     @PatchMapping("/api/reservations/refund") //고객의 환불요청
     public ResponseEntity updateReservationToRefund(@Validated @RequestBody ReservationUpdateToRefundRequest dto){
         return reservationService.updateReservationToRefund(dto);
     }
 
+    @Operation(summary = "(예약)내 예약 리스트 조회", description = "내 예약 리스트를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "20000", description = "조회 성공"),
+            @ApiResponse(responseCode = "40000-40001", description = "실패: 입력값 검증에 실패한 경우"),
+    })
+    @GetMapping("/api/reservations/my")
+    public ResponseEntity getReservationListForUser(@CurrentUser CustomUserDetails currentUser){
+        return reservationService.getReservationListForUser(currentUser);
+    }
 }

@@ -1,12 +1,11 @@
 package com.project.matchimban.api.reservation.repository;
 
-import com.project.matchimban.api.reservation.domain.dto.QReservationFormDto;
-import com.project.matchimban.api.reservation.domain.dto.ReservationCreateGetFormRequest;
-import com.project.matchimban.api.reservation.domain.dto.ReservationFormDto;
+import com.project.matchimban.api.reservation.domain.dto.*;
 import com.project.matchimban.api.reservation.domain.emums.ReservationStatus;
 import com.project.matchimban.api.reservation.domain.entity.QReservation;
 import com.project.matchimban.api.reservation.domain.entity.QRestaurantReservation;
 import com.project.matchimban.api.restaurant.domain.entity.QRestaurant;
+import com.project.matchimban.api.user.domain.entity.QUser;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -22,6 +21,8 @@ public class ReservationRepositoryQuerydslImpl implements ReservationRepositoryQ
     QReservation reservation = QReservation.reservation;
     QRestaurantReservation restaurantReservation = QRestaurantReservation.restaurantReservation;
     QRestaurant restaurant = QRestaurant.restaurant;
+    QUser user = QUser.user;
+
 
     @Override
     public List<ReservationFormDto> getReservationListByDate(ReservationCreateGetFormRequest dto){
@@ -35,4 +36,24 @@ public class ReservationRepositoryQuerydslImpl implements ReservationRepositoryQ
                         .and(reservation.rstDate.eq(dto.getRstDate())))
                 .fetch();
     }
+
+    @Override
+    public List<ReservationForUserDto> getReservationListForUser(Long userId) {
+        return queryFactory
+                .select(new QReservationForUserDto(reservation.id, reservation.size, reservation.rstDate, reservation.rstTime, reservation.cancelDate,
+                        reservation.regularPrice, reservation.paymentAmount, reservation.refundAmount, reservation.status))
+                .from(reservation)
+                .join(reservation.user, user)
+                .where(user.id.eq(userId)
+                        .and(
+                                reservation.status.stringValue().eq(ReservationStatus.SUCCESS.toString())
+                                        .or(reservation.status.stringValue().eq(ReservationStatus.CANCEL.toString()))
+                                        .or(reservation.status.stringValue().eq(ReservationStatus.FAIL_AND_NOT_REFUND.toString()))
+                        )
+                )
+                .fetch();
+
+    }
+
+
 }

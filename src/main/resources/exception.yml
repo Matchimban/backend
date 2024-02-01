@@ -109,3 +109,7 @@ RESERVATION_ERROR_NONE_PK:
   code: 63005
   msg: "존재하지 않는 예약 pk 입니다."
 
+RESERVATION_IMPOSSIBLE_REFUND:
+  code: 63006
+  msg: "환불정책에 의해 환불 가능한 금액이 없습니다."
+
