@@ -10,6 +10,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -55,5 +56,18 @@ public class ReservationRepositoryQuerydslImpl implements ReservationRepositoryQ
 
     }
 
-
+    public Long getCntOfReservation(ReservationCreatePreRequest dto){
+        return queryFactory
+                .select(reservation.count()) //해당 날, 시간, 좌석에 대한 개수
+                .from(reservation)
+                .where(reservation.rstDate.eq(dto.getRstDate())
+                        .and(reservation.rstTime.eq(dto.getRstTime()))
+                        .and(reservation.size.eq(dto.getSize()))
+                        .and(reservation.status.in(
+                                new ReservationStatus[]{
+                                        ReservationStatus.ING,
+                                        ReservationStatus.SUCCESS})
+                        ) //ING, SUCCESS
+                ).fetchOne();
+    }
 }

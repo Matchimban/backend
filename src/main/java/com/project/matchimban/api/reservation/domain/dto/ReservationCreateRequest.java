@@ -27,6 +27,9 @@ public class ReservationCreateRequest {
     @NotNull
     Long restaurantId;
 
+    @NotNull
+    Long reservationId;
+
     //예약자
     @NotNull
     Long userId;

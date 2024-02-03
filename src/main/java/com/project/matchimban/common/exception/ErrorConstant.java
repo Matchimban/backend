@@ -31,6 +31,7 @@ public class ErrorConstant {
     public final static String RESERVATION_ERROR_INVALID_VERIFY = "RESERVATION_ERROR_INVALID_VERIFY";
     public final static String RESERVATION_ERROR_NONE_PK = "RESERVATION_ERROR_NONE_PK";
     public final static String RESERVATION_IMPOSSIBLE_REFUND = "RESERVATION_IMPOSSIBLE_REFUND";
+    public final static String RESERVATION_NO_REMAIN_SEAT = "RESERVATION_NO_REMAIN_SEAT";
 
 
 }

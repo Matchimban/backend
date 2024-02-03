@@ -56,36 +56,54 @@ public class ReservationServiceImpl implements ReservationService {
     @Value("${iamport.client.apiSecret}")
     private String iamportApiSecret;
 
-    @Transactional(noRollbackFor=RuntimeException.class)
-    @Override
-    public ResponseEntity createReservation(ReservationCreateRequest dto){
-        User user = userRepository.findById(dto.getUserId())
+    @Transactional
+    public ResponseEntity createPreReservation(ReservationCreatePreRequest dto, Long userId) {
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new SVCException(ErrorConstant.RESERVATION_ERROR_USER_NONE_PK));
 
         RestaurantReservation restaurantReservation = restaurantReservationRepository.findFirstByRestaurantId(dto.getRestaurantId())
                 .orElseThrow(() -> new SVCException(ErrorConstant.RESERVATION_ERROR_RESTAURANTRESERVATION_NONE_PK));
+
+        if(!isReservationPossible(dto, restaurantReservation))
+            new SVCException(ErrorConstant.RESERVATION_NO_REMAIN_SEAT);
 
         Reservation reservation = dto.toReservationInitEntity(user, restaurantReservation);
         reservationRepository.save(reservation);
         List<ReservationMenu> menuList = dto.toReservationMenuEntityList(reservation);
         reservationMenuRepository.saveAll(menuList);
 
+        ReservationCreatePreResponse res = ReservationCreatePreResponse.builder()
+                .reservationId(reservation.getId()).build();
 
+        ResultData resultData = new ResultData();
+        resultData.setResult(res);
+        return new ResponseEntity(resultData, HttpStatus.OK);
+    }
+
+
+
+    @Transactional(noRollbackFor=RuntimeException.class)
+    @Override
+    public ResponseEntity createReservationAndValid(ReservationCreateRequest dto){
+        Reservation reservation = reservationRepository.findById(dto.getReservationId())
+                .orElseThrow(() -> new SVCException(ErrorConstant.RESERVATION_ERROR_NONE_PK));
+
+        //ING
         IamportResponse<Payment> iamportPayInfo = null;
         try {
             iamportPayInfo = iamportClient.paymentByImpUid(dto.getImpUid());
         } catch (Exception e) {
             log.error("Import Access Error");
-            reservation.changeStatusByImportAccessFail();
+            reservation.changeStatusByImportAccessFail(); //FAIL_AND_NOT_REFUND
             throw new SVCException(ErrorConstant.RESERVATION_ERROR_IAMPORT);
         }
 
         if(isInvalidVerifyPayService(reservation, iamportPayInfo.getResponse(), dto)){ //실패
             log.error("결제 값 Invalid verify Error");
-            reservation.changeStatusByInvalidVerify();
+            reservation.changeStatusByInvalidVerify(); //FAIL_AND_REFUND
             throw new SVCException(ErrorConstant.RESERVATION_ERROR_INVALID_VERIFY);
         } else { //성공
-            reservation.changeStatusBySuccess();
+            reservation.changeStatusBySuccess(); //SUCCESS
         }
         return new ResponseEntity(new ResultData(), HttpStatus.OK);
     }
@@ -174,5 +192,18 @@ public class ReservationServiceImpl implements ReservationService {
         resultData.setResult(reservationListForUser);
 
         return new ResponseEntity(resultData, HttpStatus.OK);
+    }
+
+    private boolean isReservationPossible(ReservationCreatePreRequest dto, RestaurantReservation rstRsv){
+        //가능 총개수
+        Integer totalCnt = rstRsv.getReservationSeats().stream()
+                .filter(s -> s.getSize() == dto.getSize())
+                .findFirst().get().getCnt();
+
+        //예약된 개수
+        Long curCnt = reservationRepository.getCntOfReservation(dto);
+
+        if(totalCnt > curCnt) return true;
+        return false;
     }
 }

@@ -113,3 +113,6 @@ RESERVATION_IMPOSSIBLE_REFUND:
   code: 63006
   msg: "환불정책에 의해 환불 가능한 금액이 없습니다."
 
+RESERVATION_NO_REMAIN_SEAT:
+  code: 63007
+  msg: "해당 좌석의 여석이 없습니다."
