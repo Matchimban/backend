@@ -3,6 +3,7 @@ package com.project.matchimban.common.exception;
 public class ErrorConstant {
     public final static String SERVER_ERROR_UNDEFINED = "SERVER_ERROR_UNDEFINED";
     public final static String SERVER_ERROR_JSON_PARSE = "SERVER_ERROR_JSON_PARSE";
+    public final static String ACCESS_DENY = "ACCESS_DENY";
 
     public final static String INPUT_ERROR_VALIDATION = "INPUT_ERROR_VALIDATION";
     public final static String INPUT_ERROR_ENUM_VALIDATION = "INPUT_ERROR_ENUM_VALIDATION";
