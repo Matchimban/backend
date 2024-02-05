@@ -3,8 +3,6 @@ package com.project.matchimban.common.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.matchimban.api.auth.jwt.JwtProvider;
 import com.project.matchimban.api.auth.security.filter.JwtAuthenticationFilter;
-import com.project.matchimban.common.exception.ErrorConstant;
-import com.project.matchimban.common.exception.SVCException;
 import com.project.matchimban.common.response.ResultData;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -36,6 +37,7 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableGlobalMethodSecurity(securedEnabled=true ,prePostEnabled=true)
 public class SecurityConfig {
 
     private final JwtProvider jwtProvider;
@@ -44,6 +46,14 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
+    public RoleHierarchy roleHierarchy() {
+        RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
+        roleHierarchy.setHierarchy("ROLE_ADMIN > ROLE_OWNER\n" +
+                "ROLE_OWNER > ROLE_USER");
+        return roleHierarchy;
     }
 
     @Bean
@@ -71,13 +81,7 @@ public class SecurityConfig {
                         new AntPathRequestMatcher("/api/user/login"),
                         new AntPathRequestMatcher("/api/user/refresh")
                 ).permitAll() // antMatchers 역시 마찬가지
-                .requestMatchers(
-                        new AntPathRequestMatcher("/api/**")
-                ).hasRole("USER")
-                .requestMatchers(
-                        new AntPathRequestMatcher("/admin/**")
-                ).hasRole("ADMIN") // hasRole은 ROLE_이라는 prefix를 자동으로 붙여줌
-                .anyRequest().denyAll()
+                .anyRequest().authenticated()
                 .and()
                 // JWT 인증 필터 적용
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider, objectMapper), UsernamePasswordAuthenticationFilter.class)
@@ -106,7 +110,7 @@ public class SecurityConfig {
                         ResultData result = new ResultData();
                         result.setCode(HttpStatus.UNAUTHORIZED.value());
                         result.setMsg("로그인이 필요한 서비스입니다.");
-                        
+
                         response.setStatus(HttpStatus.UNAUTHORIZED.value());
                         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
                         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
