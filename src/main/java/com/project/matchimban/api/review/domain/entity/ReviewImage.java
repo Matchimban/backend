@@ -1,9 +1,9 @@
 package com.project.matchimban.api.review.domain.entity;
 
 import com.project.matchimban.common.global.TimeEntity;
+import com.project.matchimban.common.global.annotation.DoNotUseUpdatedDate;
 import lombok.Getter;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 
 @Entity
 @Getter
-@AttributeOverride(name = "updatedDate", column = @Column(insertable = false, updatable = false))
+@DoNotUseUpdatedDate
 public class ReviewImage extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
