@@ -1,9 +1,9 @@
 package com.project.matchimban.api.menu.domain;
 
 import com.project.matchimban.common.global.TimeEntity;
+import com.project.matchimban.common.global.annotation.DoNotUseUpdatedDate;
 import lombok.Getter;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@AttributeOverride(name = "updatedDate", column = @Column(insertable = false, updatable = false))
+@DoNotUseUpdatedDate
 public class MenuImage extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
