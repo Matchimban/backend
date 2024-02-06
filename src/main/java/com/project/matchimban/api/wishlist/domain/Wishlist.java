@@ -3,8 +3,8 @@ package com.project.matchimban.api.wishlist.domain;
 import com.project.matchimban.api.user.domain.entity.User;
 import com.project.matchimban.common.global.TimeEntity;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
+import com.project.matchimban.common.global.annotation.DoNotUseUpdatedDate;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-@AttributeOverride(name = "updatedDate", column = @Column(insertable = false, updatable = false))
+@DoNotUseUpdatedDate
 public class Wishlist extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -36,6 +36,10 @@ INPUT_ERROR_ENUM_VALIDATION:
   code: 40001
   msg: "입력값 유효성 검증 실패입니다. 유효한 ENUM String 이 아닙니다."
 
+ACCESS_DENY:
+  code: 40003
+  msg: "접근 권한이 없습니다."
+
 ####### 5xxxx
 SERVER_ERROR_UNDEFINED:
   code: 50000
