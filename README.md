@@ -10,7 +10,7 @@
 
 |이지환|이재운|현초은|
 |:---:|:---:|:---:|
-|![119032680](https://github.com/Matchimban/backend/assets/71584474/1622839c-913c-48ee-9ac5-fecf0896b3e5)|![73781215](https://github.com/Matchimban/backend/assets/71584474/32a54fdc-8ba0-4eb9-b66e-71c7201967b4)|![71584474 (1)](https://github.com/Matchimban/backend/assets/71584474/a13b3da7-ebec-424a-bb1f-38ed7c2646e4)|
+|<img src="https://github.com/roovies.png" width="150">|<img src="https://github.com/woonie155.png" width="150">|<img src="https://github.com/2384320.png" width="150">|
 |[@roovies](https://github.com/roovies)|[@woonie](https://github.com/woonie155)|[@2384320](https://github.com/2384320)|
 
 # 🔧 기술 스택
