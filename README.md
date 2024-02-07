@@ -11,7 +11,7 @@
 |이지환|이재운|현초은|
 |:---:|:---:|:---:|
 |<img src="https://github.com/roovies.png" width="150">|<img src="https://github.com/woonie155.png" width="150">|<img src="https://github.com/2384320.png" width="150">|
-|[@roovies](https://github.com/roovies)|[@woonie](https://github.com/woonie155)|[@2384320](https://github.com/2384320)|
+|[@roovies](https://github.com/roovies)|[@woonie155](https://github.com/woonie155)|[@2384320](https://github.com/2384320)|
 
 # 🔧 기술 스택
 ### Backend
