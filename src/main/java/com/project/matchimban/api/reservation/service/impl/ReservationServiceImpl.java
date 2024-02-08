@@ -222,4 +222,25 @@ public class ReservationServiceImpl implements ReservationService {
         resultData.setResult(reservationRepository.getReservationListForOwner(pageable, restaurantId));
         return new ResponseEntity(resultData, HttpStatus.OK);
     }
+
+    @Transactional
+    @Override
+    public ResponseEntity updateReservationToRefundForOwner(CustomUserDetails currentUser, ReservationUpdateToRefundForOwnerRequest dto) {
+        Reservation reservation = reservationRepository.findById(dto.getReservationId())
+                .orElseThrow(() -> new SVCException(ErrorConstant.RESERVATION_ERROR_NONE_PK));
+
+        if(currentUser.getUserId()!=reservation.getRestaurantReservation().getRestaurant().getUser().getId()){
+            throw new SVCException(ErrorConstant.RESERVATION_ERROR_OWNER_REFUND_INVALID_VERIFY);
+        }
+
+        IamportResponse<Payment> iamportPayInfo = null;
+        try {
+            iamportClient.cancelPaymentByImpUid(new CancelData(reservation.getImpUid(), true));
+            reservation.changeStatusByOwnerRefund(dto.getRefundAmount());
+        }catch (Exception e){
+            new SVCException(ErrorConstant.RESERVATION_ERROR_IAMPORT);
+        }
+
+        return new ResponseEntity(new ResultData(), HttpStatus.OK);
+    }
 }

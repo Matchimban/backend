@@ -1,6 +1,7 @@
 package com.project.matchimban.api.reservation.domain.entity;
 
 import com.project.matchimban.api.coupon.domain.entity.UserCoupon;
+import com.project.matchimban.api.reservation.domain.emums.ReservationCancelReason;
 import com.project.matchimban.api.reservation.domain.emums.ReservationFailReason;
 import com.project.matchimban.api.user.domain.entity.User;
 import com.project.matchimban.common.global.TimeEntity;
@@ -74,6 +75,9 @@ public class Reservation extends TimeEntity {
 
     private String failReason; //실패이유
 
+    @Enumerated(EnumType.STRING)
+    private ReservationCancelReason cancelReason;
+
 //    @OneToOne(mappedBy = "reservation")
 //    private Review review;
 
@@ -94,6 +98,12 @@ public class Reservation extends TimeEntity {
     }
     public void changeStatusByRefund(int refundAmount){
         this.status = ReservationStatus.CANCEL;
+        this.refundAmount = refundAmount;
+        this.cancelDate = LocalDateTime.now();
+    }
+    public void changeStatusByOwnerRefund(int refundAmount){
+        this.status = ReservationStatus.CANCEL;
+        this.cancelReason = ReservationCancelReason.OWNER;
         this.refundAmount = refundAmount;
         this.cancelDate = LocalDateTime.now();
     }

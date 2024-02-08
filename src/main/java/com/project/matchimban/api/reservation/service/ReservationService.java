@@ -13,4 +13,5 @@ public interface ReservationService {
     ResponseEntity updateReservationToRefund(ReservationUpdateToRefundRequest dto);
     ResponseEntity getReservationListForUser(CustomUserDetails currentUser);
     ResponseEntity getReservationListForOwner(CustomUserDetails currentUser, Pageable pageable, Long restaurantId);
+    ResponseEntity updateReservationToRefundForOwner(CustomUserDetails currentUser, ReservationUpdateToRefundForOwnerRequest dto);
 }

@@ -38,7 +38,7 @@ public class ReservationController {
     })
     @PostMapping("/api/reservations/pre")
     public ResponseEntity CreatePreReservation(@Validated @RequestBody ReservationCreatePreRequest dto,
-                                               @CurrentUser CustomUserDetails currentUser){
+                                               @CurrentUser CustomUserDetails currentUser) {
         return reservationServiceFacade.createPreReservation(dto, currentUser.getUserId());
     }
 
@@ -51,7 +51,7 @@ public class ReservationController {
             @ApiResponse(responseCode = "40000-63005", description = "실패: 예약 pk 조회 오류"),
     })
     @PostMapping("/api/reservations")
-    public ResponseEntity createReservationAndValid(@Validated @RequestBody ReservationCreateRequest dto){
+    public ResponseEntity createReservationAndValid(@Validated @RequestBody ReservationCreateRequest dto) {
         return reservationService.createReservationAndValid(dto);
     }
 
@@ -63,7 +63,7 @@ public class ReservationController {
             @ApiResponse(responseCode = "40000-63005", description = "실패: 환불은 됐으나 DB 업데이트 실패한 경우"),
     })
     @PatchMapping("/api/reservations/fail-and-refund")
-    public ResponseEntity updateReservationToFailAndRefund(@Validated @RequestBody ReservationUpdateToFailAndRefundRequest dto){
+    public ResponseEntity updateReservationToFailAndRefund(@Validated @RequestBody ReservationUpdateToFailAndRefundRequest dto) {
         return reservationService.updateReservationOfFailAndRefund(dto);
     }
 
@@ -73,7 +73,7 @@ public class ReservationController {
             @ApiResponse(responseCode = "40000-40001", description = "실패: 입력값 검증에 실패한 경우"),
     })
     @GetMapping("/api/reservations")
-    public ResponseEntity getReservationCreateForm(@Validated ReservationCreateGetFormRequest dto){
+    public ResponseEntity getReservationCreateForm(@Validated ReservationCreateGetFormRequest dto) {
         return reservationService.getReservationCreateForm(dto);
     }
 
@@ -85,7 +85,7 @@ public class ReservationController {
             @ApiResponse(responseCode = "40000-63006", description = "실패: 환불 가능한 금액이 없습니다."),
     })
     @PatchMapping("/api/reservations/refund") //고객의 환불요청
-    public ResponseEntity updateReservationToRefund(@Validated @RequestBody ReservationUpdateToRefundRequest dto){
+    public ResponseEntity updateReservationToRefund(@Validated @RequestBody ReservationUpdateToRefundRequest dto) {
         return reservationService.updateReservationToRefund(dto);
     }
 
@@ -95,7 +95,7 @@ public class ReservationController {
             @ApiResponse(responseCode = "40000-40001", description = "실패: 입력값 검증에 실패한 경우"),
     })
     @GetMapping("/api/reservations/my")
-    public ResponseEntity getReservationListForUser(@CurrentUser CustomUserDetails currentUser){
+    public ResponseEntity getReservationListForUser(@CurrentUser CustomUserDetails currentUser) {
         return reservationService.getReservationListForUser(currentUser);
     }
 
@@ -108,7 +108,20 @@ public class ReservationController {
     @GetMapping("/api/reservations/owner/{restaurantId}")
     public ResponseEntity getReservationListForOwner(@CurrentUser CustomUserDetails currentUser,
                                                      @PageableDefault(sort = "reservationId", direction = Sort.Direction.DESC) Pageable pageable,
-                                                     @PathVariable("restaurantId") Long restaurantId){
+                                                     @PathVariable("restaurantId") Long restaurantId) {
         return reservationService.getReservationListForOwner(currentUser, pageable, restaurantId);
+    }
+
+    @Operation(summary = "(예약)사장이 예약 취소 및 환불", description = "사장이 등록된 예약을 취소하고 환불")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "20000", description = "조회 성공"),
+            @ApiResponse(responseCode = "40000-61003", description = "실패: 예약 pk 조회 오류"),
+            @ApiResponse(responseCode = "40000-63010", description = "실패: 환불권한이 없는 경우"),
+    })
+    @PatchMapping("/api/reservations/owner/refund")
+    public ResponseEntity updateReservationRefundForOwner(@CurrentUser CustomUserDetails currentUser,
+                                                          @Validated @RequestBody ReservationUpdateToRefundForOwnerRequest dto) {
+
+        return reservationService.updateReservationToRefundForOwner(currentUser, dto);
     }
 }

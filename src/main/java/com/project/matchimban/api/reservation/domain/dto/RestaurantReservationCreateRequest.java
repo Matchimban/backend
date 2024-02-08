@@ -14,7 +14,7 @@ import java.util.List;
 public class RestaurantReservationCreateRequest {
 
     @Schema(description = "매장 id")
-    @NotNull @Positive
+    @NotNull
     Long restaurantId;
 
     @Schema(description = "예약 가능한 시간들")
@@ -33,5 +33,4 @@ public class RestaurantReservationCreateRequest {
         private int cnt;
         private int size;
     }
-
 }
