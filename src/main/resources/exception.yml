@@ -116,3 +116,11 @@ RESERVATION_IMPOSSIBLE_REFUND:
 RESERVATION_NO_REMAIN_SEAT:
   code: 63007
   msg: "해당 좌석의 여석이 없습니다."
+
+RESERVATION_ERROR_RESTAURANT_NONE_PK:
+  code: 63008
+  msg: "존재하지 않는 매장 pk 입니다."
+
+RESERVATION_ERROR_OWNER_GET_INVALID_VERIFY:
+  code: 63009
+  msg: "해당 매장을 조회할 수 있는 권한이 없습니다."

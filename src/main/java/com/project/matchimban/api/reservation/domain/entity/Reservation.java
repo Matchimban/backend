@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 
 @Entity
@@ -42,6 +43,9 @@ public class Reservation extends TimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_coupon_id")
     private UserCoupon userCoupon;
+
+    @OneToMany(mappedBy = "reservation")
+    private List<ReservationMenu> reservationMenus;
 
     @Column(nullable = false)
     private String impUid;

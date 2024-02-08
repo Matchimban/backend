@@ -11,6 +11,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +36,7 @@ public class ReservationController {
             @ApiResponse(responseCode = "40000-63002", description = "실패: 매장_예약 pk 조회 오류"),
             @ApiResponse(responseCode = "40000-63007", description = "실패: 여석이 없는 경우"),
     })
-    @PostMapping("/api/reservations")
+    @PostMapping("/api/reservations/pre")
     public ResponseEntity CreatePreReservation(@Validated @RequestBody ReservationCreatePreRequest dto,
                                                @CurrentUser CustomUserDetails currentUser){
         return reservationServiceFacade.createPreReservation(dto, currentUser.getUserId());
@@ -94,5 +97,18 @@ public class ReservationController {
     @GetMapping("/api/reservations/my")
     public ResponseEntity getReservationListForUser(@CurrentUser CustomUserDetails currentUser){
         return reservationService.getReservationListForUser(currentUser);
+    }
+
+    @Operation(summary = "(예약)사장이 매장의 예약 리스트 조회", description = "사장이 매장의 예약 리스트 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "20000", description = "조회 성공"),
+            @ApiResponse(responseCode = "40000-63004", description = "실패: 매장 pk 조회 오류"),
+            @ApiResponse(responseCode = "40000-63009", description = "실패: 매장의 사장과 요청자가 다른 경우"),
+    })
+    @GetMapping("/api/reservations/owner/{restaurantId}")
+    public ResponseEntity getReservationListForOwner(@CurrentUser CustomUserDetails currentUser,
+                                                     @PageableDefault(sort = "reservationId", direction = Sort.Direction.DESC) Pageable pageable,
+                                                     @PathVariable("restaurantId") Long restaurantId){
+        return reservationService.getReservationListForOwner(currentUser, pageable, restaurantId);
     }
 }

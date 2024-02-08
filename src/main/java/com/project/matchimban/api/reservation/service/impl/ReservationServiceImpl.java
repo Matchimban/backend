@@ -9,6 +9,8 @@ import com.project.matchimban.api.reservation.domain.entity.ReservationMenu;
 import com.project.matchimban.api.reservation.domain.entity.RestaurantReservation;
 import com.project.matchimban.api.reservation.repository.*;
 import com.project.matchimban.api.reservation.service.ReservationService;
+import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
+import com.project.matchimban.api.restaurant.repository.RestaurantRepository;
 import com.project.matchimban.api.user.domain.entity.User;
 import com.project.matchimban.api.user.repository.UserRepository;
 import com.project.matchimban.common.exception.ErrorConstant;
@@ -21,6 +23,8 @@ import com.siot.IamportRestClient.response.Payment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -42,6 +46,7 @@ public class ReservationServiceImpl implements ReservationService {
     private final RestaurantReservationRepository restaurantReservationRepository;
     private final UserRepository userRepository;
     private final MenuRepository menuRepository;
+    private final RestaurantRepository restaurantRepository;
 
     private IamportClient iamportClient;
 
@@ -205,5 +210,16 @@ public class ReservationServiceImpl implements ReservationService {
 
         if(totalCnt > curCnt) return true;
         return false;
+    }
+
+    public ResponseEntity getReservationListForOwner(CustomUserDetails currentUser, Pageable pageable, Long restaurantId) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new SVCException(ErrorConstant.RESERVATION_ERROR_RESTAURANT_NONE_PK));
+        if(restaurant.getUser().getId() != currentUser.getUserId())
+            throw new SVCException(ErrorConstant.RESERVATION_ERROR_OWNER_GET_INVALID_VERIFY);
+
+        ResultData resultData = new ResultData();
+        resultData.setResult(reservationRepository.getReservationListForOwner(pageable, restaurantId));
+        return new ResponseEntity(resultData, HttpStatus.OK);
     }
 }
