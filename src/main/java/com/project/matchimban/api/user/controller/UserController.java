@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -55,6 +56,7 @@ public class UserController {
     @Operation(summary = "로그아웃 API", description = "📌 Request Body 없이 액세스 토큰만 전달하면 됩니다.", responses = {
             @ApiResponse(responseCode = "20000", description = "[성공] 로그아웃 완료")
     })
+    @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/logout")
     public ResponseEntity<Object> logout(@CurrentUser CustomUserDetails currentUser) {
         return userService.logout(currentUser.getUserId(), currentUser.getUsername());
@@ -68,6 +70,7 @@ public class UserController {
             @ApiResponse(responseCode = "60006", description = "[실패] Refresh Token이 만료되었습니다. 로그인을 다시 하세요."),
             @ApiResponse(responseCode = "60007", description = "[실패] 유효하지 않은 Refresh Token입니다.")
     })
+    @PreAuthorize("hasRole('USER')")
     @PostMapping("/refresh")
     public ResponseEntity<Object> refreshAllTokens(@RequestBody TokenDTO tokens) {
         return userService.refreshAllTokens(tokens);
