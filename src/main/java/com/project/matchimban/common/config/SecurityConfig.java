@@ -79,7 +79,10 @@ public class SecurityConfig {
                 .requestMatchers(
                         new AntPathRequestMatcher("/api/user/signup"),
                         new AntPathRequestMatcher("/api/user/login"),
-                        new AntPathRequestMatcher("/api/user/refresh")
+                        new AntPathRequestMatcher("/api/user/refresh"),
+                        new AntPathRequestMatcher("/swagger-ui/**"),
+                        new AntPathRequestMatcher("/v3/api-docs/**"),
+                        new AntPathRequestMatcher("swagger-ui.html")
                 ).permitAll() // antMatchers 역시 마찬가지
                 .anyRequest().authenticated()
                 .and()
