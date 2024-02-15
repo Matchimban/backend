@@ -5,10 +5,10 @@ import com.project.matchimban.common.global.TimeEntity;
 import com.project.matchimban.api.reservation.domain.entity.Reservation;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.user.domain.entity.User;
+import com.project.matchimban.common.global.annotation.DoNotUseUpdatedDate;
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -25,7 +25,7 @@ import java.util.List;
 
 @Entity
 @Getter
-@AttributeOverride(name = "updatedDate", column = @Column(insertable = false, updatable = false))
+@DoNotUseUpdatedDate
 public class Review extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

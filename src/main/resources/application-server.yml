@@ -25,6 +25,18 @@ jwt:
   secret:
     key: ${JWT_SECRET_KEY}
 
+cloud:
+  aws:
+    credentials:
+      access-key: ${S3_ACCESS_KEY}
+      secret-key: ${S3_SECRET_KEY}
+    s3:
+      bucket: ${S3_BUCKET}
+    region:
+      static: ${S3_REGION}
+    stack:
+      auto: false
+
 iamport:
   client:
     apiKey: ${IAMPORT_CLIENT_APIKEY}
