@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -62,6 +63,7 @@ public class ReservationController {
             @ApiResponse(responseCode = "40000-63003", description = "실패: iamport 통신 오류"),
             @ApiResponse(responseCode = "40000-63005", description = "실패: 환불은 됐으나 DB 업데이트 실패한 경우"),
     })
+
     @PatchMapping("/api/reservations/fail-and-refund")
     public ResponseEntity updateReservationToFailAndRefund(@Validated @RequestBody ReservationUpdateToFailAndRefundRequest dto) {
         return reservationService.updateReservationOfFailAndRefund(dto);
@@ -105,6 +107,7 @@ public class ReservationController {
             @ApiResponse(responseCode = "40000-63004", description = "실패: 매장 pk 조회 오류"),
             @ApiResponse(responseCode = "40000-63009", description = "실패: 매장의 사장과 요청자가 다른 경우"),
     })
+    @PreAuthorize("hasRole('OWNER')")
     @GetMapping("/api/reservations/owner/{restaurantId}")
     public ResponseEntity getReservationListForOwner(@CurrentUser CustomUserDetails currentUser,
                                                      @PageableDefault(sort = "reservationId", direction = Sort.Direction.DESC) Pageable pageable,
@@ -118,6 +121,7 @@ public class ReservationController {
             @ApiResponse(responseCode = "40000-61003", description = "실패: 예약 pk 조회 오류"),
             @ApiResponse(responseCode = "40000-63010", description = "실패: 환불권한이 없는 경우"),
     })
+    @PreAuthorize("hasRole('OWNER')")
     @PatchMapping("/api/reservations/owner/refund")
     public ResponseEntity updateReservationRefundForOwner(@CurrentUser CustomUserDetails currentUser,
                                                           @Validated @RequestBody ReservationUpdateToRefundForOwnerRequest dto) {
