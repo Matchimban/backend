@@ -14,5 +14,7 @@ public class RestaurantImageCreateRequest {
     @NotBlank(message = "이미지 유형을 선택해주세요")
     private RestaurantImageCategory category;
 
+    @Schema(description = "이미지 파일")
+    @NotBlank(message = "이미지 파일을 등록해주세요")
     private MultipartFile multipartFile;
 }
