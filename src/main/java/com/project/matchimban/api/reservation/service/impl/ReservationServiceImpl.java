@@ -191,11 +191,18 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
-    public ResponseEntity getReservationListForUser(CustomUserDetails currentUser){
+    public ResponseEntity getReservationListForUser(CustomUserDetails currentUser, Pageable pageable){
         ResultData resultData = new ResultData();
-        List<ReservationForUserDto> reservationListForUser = reservationRepository.getReservationListForUser(currentUser.getUserId());
-        resultData.setResult(reservationListForUser);
+        resultData.setResult(reservationRepository.getReservationListForUser(pageable, currentUser.getUserId()));
 
+        return new ResponseEntity(resultData, HttpStatus.OK);
+    }
+
+    public ResponseEntity getReservationDetailForUser(CustomUserDetails currentUser, Long reservationId){
+        ResultData resultData = new ResultData();
+        Reservation rsv = reservationRepository.getReservationDetailForUser(reservationId);
+        ReservationDetailForUserDto detailData = new ReservationDetailForUserDto(rsv);
+        resultData.setResult(detailData);
         return new ResponseEntity(resultData, HttpStatus.OK);
     }
 

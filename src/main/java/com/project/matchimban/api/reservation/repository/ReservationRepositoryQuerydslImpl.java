@@ -2,9 +2,7 @@ package com.project.matchimban.api.reservation.repository;
 
 import com.project.matchimban.api.reservation.domain.dto.*;
 import com.project.matchimban.api.reservation.domain.emums.ReservationStatus;
-import com.project.matchimban.api.reservation.domain.entity.QReservation;
-import com.project.matchimban.api.reservation.domain.entity.QReservationMenu;
-import com.project.matchimban.api.reservation.domain.entity.QRestaurantReservation;
+import com.project.matchimban.api.reservation.domain.entity.*;
 import com.project.matchimban.api.restaurant.domain.entity.QRestaurant;
 import com.project.matchimban.api.user.domain.entity.QUser;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -44,8 +42,8 @@ public class ReservationRepositoryQuerydslImpl implements ReservationRepositoryQ
     }
 
     @Override
-    public List<ReservationForUserDto> getReservationListForUser(Long userId) {
-        return queryFactory
+    public Page<ReservationForUserDto> getReservationListForUser(Pageable pageable, Long userId) {
+        List<ReservationForUserDto> content = queryFactory
                 .select(new QReservationForUserDto(reservation))
                 .from(reservation)
                 .join(reservation.user, user)
@@ -56,8 +54,29 @@ public class ReservationRepositoryQuerydslImpl implements ReservationRepositoryQ
                                         .or(reservation.status.stringValue().eq(ReservationStatus.FAIL_AND_NOT_REFUND.toString()))
                         )
                 )
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
+        JPAQuery<Long> countQuery = queryFactory
+                .select(reservation.count())
+                .from(reservation)
+                .join(reservation.user, user)
+                .where(user.id.eq(userId)
+                        .and(
+                                reservation.status.stringValue().eq(ReservationStatus.SUCCESS.toString())
+                                        .or(reservation.status.stringValue().eq(ReservationStatus.CANCEL.toString()))
+                                        .or(reservation.status.stringValue().eq(ReservationStatus.FAIL_AND_NOT_REFUND.toString()))
+                        )
+                );
+        return PageableExecutionUtils.getPage(content, pageable, countQuery::fetchOne);
+    }
 
+    @Override
+    public Reservation getReservationDetailForUser(Long reservationId) {
+        return queryFactory
+                .selectFrom(reservation)
+                .where(reservation.id.eq(reservationId))
+                .fetchOne();
     }
 
     public Long getCntOfReservation(ReservationCreatePreRequest dto){

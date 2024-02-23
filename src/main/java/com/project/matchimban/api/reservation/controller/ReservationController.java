@@ -97,9 +97,20 @@ public class ReservationController {
             @ApiResponse(responseCode = "40000-40001", description = "실패: 입력값 검증에 실패한 경우"),
     })
     @GetMapping("/api/reservations/my")
-    public ResponseEntity getReservationListForUser(@CurrentUser CustomUserDetails currentUser) {
-        return reservationService.getReservationListForUser(currentUser);
+    public ResponseEntity getReservationListForUser(@CurrentUser CustomUserDetails currentUser,
+                                                    @PageableDefault(sort = "reservationId", direction = Sort.Direction.DESC) Pageable pageable) {
+        return reservationService.getReservationListForUser(currentUser, pageable);
     }
+
+    @Operation(summary = "(예약)내 예약 상세 조회", description = "내 예약을 상세 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "20000", description = "조회 성공"),
+    })
+    @GetMapping("/api/reservations/my/{reservationId}")
+    public ResponseEntity ReservationDetailForUserDto(@CurrentUser CustomUserDetails currentUser, @PathVariable Long reservationId) {
+        return reservationService.getReservationDetailForUser(currentUser, reservationId);
+    }
+
 
     @Operation(summary = "(예약)사장이 매장의 예약 리스트 조회", description = "사장이 매장의 예약 리스트 조회")
     @ApiResponses(value = {
