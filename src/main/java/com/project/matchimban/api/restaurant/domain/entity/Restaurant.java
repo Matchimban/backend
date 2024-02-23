@@ -1,7 +1,7 @@
 package com.project.matchimban.api.restaurant.domain.entity;
 
 import com.project.matchimban.api.reservation.domain.entity.RestaurantReservation;
-import com.project.matchimban.api.restaurant.domain.dto.RestaurantCreateRequest;
+import com.project.matchimban.api.restaurant.domain.dto.RestaurantCreateDTO;
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantCategory;
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantStatus;
 import com.project.matchimban.api.review.domain.entity.Review;
@@ -84,7 +84,7 @@ public class Restaurant extends TimeEntity {
     @OneToMany(mappedBy = "restaurant")
     private List<Review> reviews = new ArrayList<>();
 
-    public static Restaurant createRestaurant(RestaurantCreateRequest dto, User user, Address address) {
+    public static Restaurant createRestaurant(RestaurantCreateDTO dto, User user, Address address) {
         return Restaurant.builder()
                 .category(dto.getCategory())
                 .name(dto.getName())
@@ -95,7 +95,7 @@ public class Restaurant extends TimeEntity {
                 .businessHours(dto.getBusinessHours())
                 .closedDays(dto.getClosedDays())
                 .notice(dto.getNotice())
-                .status(RestaurantStatus.UNVERIFIED)
+                .status(RestaurantStatus.UNAUTHORIZED)
                 .user(user)
                 .address(address)
                 .build();
