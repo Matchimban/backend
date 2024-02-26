@@ -1,7 +1,7 @@
 package com.project.matchimban.api.reservation.domain.dto;
 
 import com.project.matchimban.api.reservation.domain.emums.RestaurantReservationStatus;
-import com.project.matchimban.api.reservation.domain.entity.ReservationTable;
+import com.project.matchimban.api.reservation.domain.entity.ReservationSeat;
 import com.project.matchimban.api.reservation.domain.entity.ReservationTime;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -17,8 +17,8 @@ public class RestaurantReservationGetResponse {
     @Schema(description = "예약 가능한 시간들")
     List<TimeData> reservationTimeList = new ArrayList<>();
 
-    @Schema(description = "예약 가능한 테이블의 개수 및 크기")
-    List<TableData> reservationTableList = new ArrayList<>();
+    @Schema(description = "예약 가능한 잔여석의 개수 및 크기")
+    List<SeatData> reservationSeatList = new ArrayList<>();
 
     @Schema(description = "활성화 정보")
     RestaurantReservationStatus status;
@@ -26,23 +26,20 @@ public class RestaurantReservationGetResponse {
     @Data
     public static class TimeData{
         @Schema(description = "예약 가능한 시작 시간", example = "12:00:00", type = "string")
-        private LocalTime startTime;
-        @Schema(description = "예약 가능한 시작 시간", example = "12:00:00", type = "string")
-        private LocalTime endTime;
+        private LocalTime rstTime;
 
         TimeData(ReservationTime time){
-            this.startTime = time.getStartTime();
-            this.endTime = time.getEndTime();
+            this.rstTime = time.getRstTime();
         }
     }
     @Data
-    public static class TableData{
+    public static class SeatData{
         private int cnt;
         private int size;
 
-        TableData(ReservationTable table){
-            this.cnt = table.getCnt();
-            this.size = table.getSize();
+        SeatData(ReservationSeat seat){
+            this.cnt = seat.getCnt();
+            this.size = seat.getSize();
         }
     }
 
@@ -52,10 +49,10 @@ public class RestaurantReservationGetResponse {
                         .map(t -> new TimeData(t))
                         .collect(Collectors.toList()));
     }
-    public void changeTableList(List<ReservationTable> reservationTableList){
-        this.reservationTableList.addAll(
-                reservationTableList.stream()
-                        .map(t -> new TableData(t))
+    public void changeTableList(List<ReservationSeat> reservationSeatList){
+        this.reservationSeatList.addAll(
+                reservationSeatList.stream()
+                        .map(t -> new SeatData(t))
                         .collect(Collectors.toList()));
     }
 }

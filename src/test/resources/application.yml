@@ -43,3 +43,8 @@ cloud:
       static: ap-southeast-1
     stack:
       auto: false
+
+iamport:
+  client:
+    apiKey: test
+    apiSecret: test

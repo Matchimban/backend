@@ -14,19 +14,6 @@ TEST_ETC:
   msg: "에러 메시지"
 
 
-####### 61xxx RestaurantReservation
-RESTAURANTRESERVATION_ERROR_RESTAURANT_NONE_PK:
-  code: 61001
-  msg: "존재하지 않는 RESTAURANT 입니다."
-
-RESTAURANTRESERVATION_ERROR_ALREADY_EXISTS:
-  code: 61002
-  msg: "이미 RestaurantReservation 을 생성했습니다."
-
-RESTAURANTRESERVATION_ERROR_NONE_PK:
-  code: 61003
-  msg: "등록된 RestaurantReservation 이 없습니다."
-
 ####### 4xxxx
 INPUT_ERROR_VALIDATION:
   code: 40001
@@ -39,6 +26,7 @@ INPUT_ERROR_ENUM_VALIDATION:
 ACCESS_DENY:
   code: 40003
   msg: "접근 권한이 없습니다."
+
 
 ####### 5xxxx
 SERVER_ERROR_UNDEFINED:
@@ -87,3 +75,60 @@ EXPIRED_TOKEN:
   code: 60008
   msg: "토큰이 만료되었습니다."
 
+
+
+
+####### 61xxx RestaurantReservation
+RESTAURANTRESERVATION_ERROR_RESTAURANT_NONE_PK:
+  code: 61001
+  msg: "존재하지 않는 RESTAURANT 입니다."
+
+RESTAURANTRESERVATION_ERROR_ALREADY_EXISTS:
+  code: 61002
+  msg: "이미 RestaurantReservation 을 생성했습니다."
+
+RESTAURANTRESERVATION_ERROR_NONE_PK:
+  code: 61003
+  msg: "등록된 RestaurantReservation 이 없습니다."
+
+
+####### 63xxx Reservation
+RESERVATION_ERROR_USER_NONE_PK:
+  code: 63001
+  msg: "존재하지 않는 예약자 pk 입니다."
+
+RESERVATION_ERROR_RESTAURANTRESERVATION_NONE_PK:
+  code: 63002
+  msg: "존재하지 않는 매장_예약 pk 입니다."
+
+RESERVATION_ERROR_IAMPORT:
+  code: 63003
+  msg: "import 서버 통신 에러입니다."
+
+RESERVATION_ERROR_INVALID_VERIFY:
+  code: 63004
+  msg: "결제 검증 실패입니다."
+
+RESERVATION_ERROR_NONE_PK:
+  code: 63005
+  msg: "존재하지 않는 예약 pk 입니다."
+
+RESERVATION_IMPOSSIBLE_REFUND:
+  code: 63006
+  msg: "환불정책에 의해 환불 가능한 금액이 없습니다."
+
+RESERVATION_NO_REMAIN_SEAT:
+  code: 63007
+  msg: "해당 좌석의 여석이 없습니다."
+
+RESERVATION_ERROR_RESTAURANT_NONE_PK:
+  code: 63008
+  msg: "존재하지 않는 매장 pk 입니다."
+
+RESERVATION_ERROR_OWNER_GET_INVALID_VERIFY:
+  code: 63009
+  msg: "해당 매장을 조회할 수 있는 권한이 없습니다."
+
+RESERVATION_ERROR_OWNER_REFUND_INVALID_VERIFY:
+  code: 63010
+  msg: "해당 예약을 환불할 권한이 없습니다."

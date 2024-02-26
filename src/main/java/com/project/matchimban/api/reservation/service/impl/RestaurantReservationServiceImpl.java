@@ -5,12 +5,10 @@ import com.project.matchimban.api.reservation.domain.dto.RestaurantReservationCr
 import com.project.matchimban.api.reservation.domain.dto.RestaurantReservationGetResponse;
 import com.project.matchimban.api.reservation.domain.dto.RestaurantReservationUpdateRequest;
 import com.project.matchimban.api.reservation.domain.emums.RestaurantReservationStatus;
-import com.project.matchimban.api.reservation.domain.entity.ReservationTable;
+import com.project.matchimban.api.reservation.domain.entity.ReservationSeat;
 import com.project.matchimban.api.reservation.domain.entity.ReservationTime;
 import com.project.matchimban.api.reservation.domain.entity.RestaurantReservation;
-import com.project.matchimban.api.reservation.repository.ReservationTableRepository;
-import com.project.matchimban.api.reservation.repository.ReservationTimeRepository;
-import com.project.matchimban.api.reservation.repository.RestaurantReservationRepository;
+import com.project.matchimban.api.reservation.repository.*;
 import com.project.matchimban.api.reservation.service.RestaurantReservationService;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.repository.RestaurantRepository;
@@ -33,7 +31,7 @@ public class RestaurantReservationServiceImpl implements RestaurantReservationSe
     private final RestaurantReservationRepository restaurantReservationRepository;
     private final RestaurantRepository restaurantRepository;
     private final ReservationTimeRepository reservationTimeRepository;
-    private final ReservationTableRepository reservationTableRepository;
+    private final ReservationSeatRepository reservationSeatRepository;
 
     @Transactional
     @Override
@@ -56,16 +54,16 @@ public class RestaurantReservationServiceImpl implements RestaurantReservationSe
         //3. 예약 가능한 시간 데이터 생성
         dto.getReservationTimeList().stream().forEach(
                 t-> {
-                    ReservationTime rsvTime = ReservationTime.createReservationTime(rstRsv, t.getStartTime(), t.getEndTime());
+                    ReservationTime rsvTime = ReservationTime.createReservationTime(rstRsv, t.getRstTime());
                     reservationTimeRepository.save(rsvTime);
                 }
         );
 
         //4. 예약 가능한 테이블 데이터 생성
-        dto.getReservationTableList().stream().forEach(
+        dto.getReservationSeatList().stream().forEach(
                 t-> {
-                    ReservationTable rsvTable = ReservationTable.createReservationTable(rstRsv, t.getSize(), t.getCnt());
-                    reservationTableRepository.save(rsvTable);
+                    ReservationSeat rsvTable = ReservationSeat.createReservationSeat(rstRsv, t.getSize(), t.getCnt());
+                    reservationSeatRepository.save(rsvTable);
                 }
         );
 
@@ -84,7 +82,7 @@ public class RestaurantReservationServiceImpl implements RestaurantReservationSe
         result.changeTimeList(rstRsv.getReservationTimes());
 
         //3. 예약 가능한 매장테이블 조회
-        result.changeTableList(rstRsv.getReservationTables());
+        result.changeTableList(rstRsv.getReservationSeats());
 
         result.setStatus(rstRsv.getStatus());
 
@@ -98,20 +96,20 @@ public class RestaurantReservationServiceImpl implements RestaurantReservationSe
                 .orElseThrow(() -> new SVCException(ErrorConstant.RESTAURANTRESERVATION_ERROR_NONE_PK));
 
         rstRsv.changeStatus(dto.getStatus());
-        reservationTableRepository.deleteByRestaurantReservationId(rstRsv.getId());
+        reservationSeatRepository.deleteByRestaurantReservationId(rstRsv.getId());
         reservationTimeRepository.deleteByRestaurantReservationId(rstRsv.getId());
 
         //재설정
         dto.getReservationTimeList().stream().forEach(
                 t-> {
-                    ReservationTime rsvTime = ReservationTime.createReservationTime(rstRsv, t.getStartTime(), t.getEndTime());
+                    ReservationTime rsvTime = ReservationTime.createReservationTime(rstRsv, t.getStartTime());
                     reservationTimeRepository.save(rsvTime);
                 }
         );
         dto.getReservationTableList().stream().forEach(
                 t-> {
-                    ReservationTable rsvTable = ReservationTable.createReservationTable(rstRsv, t.getSize(), t.getCnt());
-                    reservationTableRepository.save(rsvTable);
+                    ReservationSeat rsvSeat = ReservationSeat.createReservationSeat(rstRsv, t.getSize(), t.getCnt());
+                    reservationSeatRepository.save(rsvSeat);
                 }
         );
 

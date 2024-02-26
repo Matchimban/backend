@@ -14,26 +14,23 @@ import java.util.List;
 public class RestaurantReservationCreateRequest {
 
     @Schema(description = "매장 id")
-    @NotNull @Positive
+    @NotNull
     Long restaurantId;
 
     @Schema(description = "예약 가능한 시간들")
     List<ReservationTime> reservationTimeList;
 
-    @Schema(description = "예약 가능한 테이블의 개수 및 크기")
-    List<ReservationTable> reservationTableList;
+    @Schema(description = "예약 가능한 잔여석의 개수 및 크기")
+    List<ReservationSeat> reservationSeatList;
 
     @Data
     public static class ReservationTime{
         @Schema(description = "예약 가능한 시작 시간", example = "12:00:00", type = "string")
-        private LocalTime startTime;
-        @Schema(description = "예약 가능한 종료 시간", example = "13:00:00", type = "string")
-        private LocalTime endTime;
+        private LocalTime rstTime;
     }
     @Data
-    public static class ReservationTable{
+    public static class ReservationSeat{
         private int cnt;
         private int size;
     }
-
 }
