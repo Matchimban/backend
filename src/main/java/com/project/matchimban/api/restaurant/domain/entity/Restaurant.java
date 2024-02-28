@@ -1,7 +1,7 @@
 package com.project.matchimban.api.restaurant.domain.entity;
 
 import com.project.matchimban.api.reservation.domain.entity.RestaurantReservation;
-import com.project.matchimban.api.restaurant.domain.dto.RestaurantCreateDTO;
+import com.project.matchimban.api.restaurant.domain.dto.RestaurantCreateRequest;
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantCategory;
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantStatus;
 import com.project.matchimban.api.review.domain.entity.Review;
@@ -78,23 +78,25 @@ public class Restaurant extends TimeEntity {
     @OneToOne(mappedBy = "restaurant")
     private RestaurantReservation restaurantReservation;
 
+    @Builder.Default
     @OneToMany(mappedBy = "restaurant")
     private List<Wishlist> wishRestaurant = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "restaurant")
     private List<Review> reviews = new ArrayList<>();
 
-    public static Restaurant createRestaurant(RestaurantCreateDTO dto, User user, Address address) {
+    public static Restaurant createRestaurant(RestaurantCreateRequest request, User user, Address address) {
         return Restaurant.builder()
-                .category(dto.getCategory())
-                .name(dto.getName())
-                .businessNumber(dto.getBusinessNumber())
-                .originCountry(dto.getOriginCountry())
-                .introduction(dto.getIntroduction())
-                .telephone(dto.getTelephone())
-                .businessHours(dto.getBusinessHours())
-                .closedDays(dto.getClosedDays())
-                .notice(dto.getNotice())
+                .category(request.getCategory())
+                .name(request.getName())
+                .businessNumber(request.getBusinessNumber())
+                .originCountry(request.getOriginCountry())
+                .introduction(request.getIntroduction())
+                .telephone(request.getTelephone())
+                .businessHours(request.getBusinessHours())
+                .closedDays(request.getClosedDays())
+                .notice(request.getNotice())
                 .status(RestaurantStatus.UNAUTHORIZED)
                 .user(user)
                 .address(address)
