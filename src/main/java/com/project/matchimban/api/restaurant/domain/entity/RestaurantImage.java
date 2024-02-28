@@ -1,5 +1,6 @@
 package com.project.matchimban.api.restaurant.domain.entity;
 
+import com.project.matchimban.api.restaurant.domain.dto.RestaurantImageCreateRequest;
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantImageCategory;
 import com.project.matchimban.common.global.TimeEntity;
 import com.project.matchimban.common.global.annotation.DoNotUseUpdatedDate;
@@ -10,7 +11,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -45,12 +45,12 @@ public class RestaurantImage extends TimeEntity {
     @ColumnDefault("'MAIN'")
     private RestaurantImageCategory imageCategory;
 
-//    public static RestaurantImage createRestaurantImage(Restaurant restaurant, RestaurantImageCreateRequest request) {
-//        return RestaurantImage.builder()
-//                .restaurant(restaurant)
-//                .originFileName()
-//                .savedFileName()
-//                .imageCategory(request.getCategory())
-//                .build();
-//    }
+    public static RestaurantImage createRestaurantImage(Restaurant restaurant, RestaurantImageCreateRequest request) {
+        return RestaurantImage.builder()
+                .restaurant(restaurant)
+                .originFileName("dd")
+                .savedFileName("dd")
+                .imageCategory(request.getCategory())
+                .build();
+    }
 }
