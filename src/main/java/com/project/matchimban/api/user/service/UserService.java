@@ -15,4 +15,6 @@ public interface UserService {
 
     ResponseEntity<Object> refreshAllTokens(TokenDTO tokens);
 
+    Boolean isEmailDuplicated(String email);
+
 }
