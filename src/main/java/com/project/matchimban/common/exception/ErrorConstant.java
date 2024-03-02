@@ -25,7 +25,15 @@ public class ErrorConstant {
     public final static String RESTAURANTRESERVATION_ERROR_ALREADY_EXISTS = "RESTAURANTRESERVATION_ERROR_ALREADY_EXISTS";
     public final static String RESTAURANTRESERVATION_ERROR_NONE_PK = "RESTAURANTRESERVATION_ERROR_NONE_PK";
 
-    //restaurant
+    /**
+    * restaurant
+    */
     public final static String RESTAURANT_ERROR_NOT_FOUND_RESTAURANT = "RESTAURANT_ERROR_NOT_FOUND_RESTAURANT";
+
+    /**
+     * file image
+     */
+    public final static String FILE_ERROR_NULL_FILE = "FILE_ERROR_NULL_FILE";
+    public final static String FILE_ERROR_UNKNOWN_EXTENSION = "FILE_ERROR_UNKNOWN_EXTENSION";
 
 }
