@@ -45,11 +45,11 @@ public class RestaurantImage extends TimeEntity {
     @ColumnDefault("'MAIN'")
     private RestaurantImageCategory imageCategory;
 
-    public static RestaurantImage createRestaurantImage(Restaurant restaurant, RestaurantImageCreateRequest request) {
+    public static RestaurantImage createRestaurantImage(Restaurant restaurant, RestaurantImageCreateRequest request, String savedFileName) {
         return RestaurantImage.builder()
                 .restaurant(restaurant)
-                .originFileName("dd")
-                .savedFileName("dd")
+                .originFileName(request.getMultipartFile().getOriginalFilename())
+                .savedFileName(savedFileName)
                 .imageCategory(request.getCategory())
                 .build();
     }
