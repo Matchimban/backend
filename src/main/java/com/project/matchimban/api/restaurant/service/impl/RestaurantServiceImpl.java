@@ -14,12 +14,14 @@ import com.project.matchimban.api.user.repository.UserRepository;
 import com.project.matchimban.common.exception.ErrorConstant;
 import com.project.matchimban.common.exception.SVCException;
 import com.project.matchimban.common.global.Address;
+import com.project.matchimban.common.global.FileInfo;
 import com.project.matchimban.common.modules.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -54,9 +56,14 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     public void createRestaurantImage(List<RestaurantImageCreateRequest> images, Restaurant restaurant) {
         for (RestaurantImageCreateRequest request : images) {
-            String savedFileName = s3Service.saveFile(request.getMultipartFile());
-            RestaurantImage image = RestaurantImage.createRestaurantImage(restaurant, request, savedFileName);
+            Optional<FileInfo> fileInfo = s3Service.saveFile(request.getMultipartFile());
+
+            if (fileInfo.isEmpty())
+                throw new SVCException(ErrorConstant.FILE_ERROR_NULL_FILE);
+
+            RestaurantImage image = RestaurantImage.createRestaurantImage(restaurant, request, fileInfo.get());
             restaurantImageRepository.save(image);
+            // saveAll로 한꺼번에 하면 성능 개선 가능
         }
     }
 
