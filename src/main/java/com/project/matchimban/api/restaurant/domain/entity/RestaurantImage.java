@@ -39,7 +39,7 @@ public class RestaurantImage extends TimeEntity {
 
     private String originFileName;
 
-    private String savedFileName;
+    private String savedFileUrl;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
@@ -50,7 +50,7 @@ public class RestaurantImage extends TimeEntity {
         return RestaurantImage.builder()
                 .restaurant(restaurant)
                 .originFileName(fileInfo.getOriginalFileName())
-                .savedFileName(fileInfo.getSavedFileName())
+                .savedFileUrl(fileInfo.getSavedFileUrl())
                 .imageCategory(request.getCategory())
                 .build();
     }

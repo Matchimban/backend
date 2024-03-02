@@ -16,5 +16,5 @@ public class RestaurantImageCreateRequest {
 
     @Schema(description = "이미지 파일")
     @NotBlank(message = "이미지 파일을 등록해주세요")
-    private MultipartFile multipartFile;
+    private MultipartFile file;
 }
