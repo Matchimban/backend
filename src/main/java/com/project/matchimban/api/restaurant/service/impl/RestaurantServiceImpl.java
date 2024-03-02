@@ -5,6 +5,8 @@ import com.project.matchimban.api.restaurant.domain.dto.MenuCreateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.RestaurantCreateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.RestaurantImageCreateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.RestaurantRegisterRequest;
+import com.project.matchimban.api.restaurant.domain.entity.Menu;
+import com.project.matchimban.api.restaurant.domain.entity.MenuImage;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.domain.entity.RestaurantImage;
 import com.project.matchimban.api.restaurant.repository.RestaurantImageRepository;
@@ -56,7 +58,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     public void createRestaurantImage(List<RestaurantImageCreateRequest> images, Restaurant restaurant) {
         for (RestaurantImageCreateRequest request : images) {
-            Optional<FileInfo> fileInfo = s3Service.saveFile(request.getMultipartFile());
+            Optional<FileInfo> fileInfo = s3Service.saveFile(request.getFile());
 
             if (fileInfo.isEmpty())
                 throw new SVCException(ErrorConstant.FILE_ERROR_NULL_FILE);
@@ -68,6 +70,15 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     public void createRestaurantMenu(List<MenuCreateRequest> menus, Restaurant restaurant) {
+        for (MenuCreateRequest request : menus) {
+            Optional<FileInfo> fileInfo = s3Service.saveFile(request.getImage());
 
+            if (fileInfo.isEmpty())
+                throw new SVCException(ErrorConstant.FILE_ERROR_NULL_FILE);
+
+            MenuImage menuImage = MenuImage.createMenuImage(fileInfo.get());
+            Menu menu = Menu.createMenu(restaurant, request, menuImage);
+            // saveAll로 한꺼번에 하면 성능 개선 가능
+        }
     }
 }
