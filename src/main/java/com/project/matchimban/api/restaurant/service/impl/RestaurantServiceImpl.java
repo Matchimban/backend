@@ -1,7 +1,5 @@
 package com.project.matchimban.api.restaurant.service.impl;
 
-import com.amazonaws.services.s3.internal.S3AbortableInputStream;
-import com.project.matchimban.Test;
 import com.project.matchimban.api.auth.security.model.CustomUserDetails;
 import com.project.matchimban.api.restaurant.domain.dto.MenuCreateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.RestaurantCreateRequest;
@@ -9,11 +7,10 @@ import com.project.matchimban.api.restaurant.domain.dto.RestaurantImageCreateReq
 import com.project.matchimban.api.restaurant.domain.dto.RestaurantRegisterRequest;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.domain.entity.RestaurantImage;
-import com.project.matchimban.api.restaurant.repository.RestaurantRepository;
+import com.project.matchimban.api.restaurant.repository.RestaurantImageRepository;
 import com.project.matchimban.api.restaurant.service.RestaurantService;
 import com.project.matchimban.api.user.domain.entity.User;
 import com.project.matchimban.api.user.repository.UserRepository;
-import com.project.matchimban.api.wishlist.domain.Wishlist;
 import com.project.matchimban.common.exception.ErrorConstant;
 import com.project.matchimban.common.exception.SVCException;
 import com.project.matchimban.common.global.Address;
@@ -28,7 +25,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class RestaurantServiceImpl implements RestaurantService {
-    private final RestaurantRepository restaurantRepository;
+    private final RestaurantImageRepository restaurantImageRepository;
     private final UserRepository userRepository;
     private final S3Service s3Service;
 
@@ -52,23 +49,18 @@ public class RestaurantServiceImpl implements RestaurantService {
                 request.getLongitude()
         );
 
-        Restaurant restaurant = Restaurant.createRestaurant(request, user, address);
-        return restaurant;
+        return Restaurant.createRestaurant(request, user, address);
     }
 
     public void createRestaurantImage(List<RestaurantImageCreateRequest> images, Restaurant restaurant) {
         for (RestaurantImageCreateRequest request : images) {
-            //s3Service.uploadFile();
-            RestaurantImage image = RestaurantImage.createRestaurantImage(restaurant, request);
-
+            String savedFileName = s3Service.saveFile(request.getMultipartFile());
+            RestaurantImage image = RestaurantImage.createRestaurantImage(restaurant, request, savedFileName);
+            restaurantImageRepository.save(image);
         }
     }
 
     public void createRestaurantMenu(List<MenuCreateRequest> menus, Restaurant restaurant) {
-
-    }
-
-    public void registerRestaurantImage(Long restaurantId, List<RestaurantImageCreateRequest> images) {
 
     }
 }
