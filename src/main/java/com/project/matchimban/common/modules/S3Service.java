@@ -38,19 +38,18 @@ public class S3Service {
         String today = new SimpleDateFormat("yyMMdd").format(new Date());
         String uuid = UUID.randomUUID().toString();
 
-        // 현재 파일이 사진인지도 봐야 함.
-
         if (extension != null)
             throw new SVCException(ErrorConstant.FILE_ERROR_UNKNOWN_EXTENSION);
 
         String savedFileName = today.concat(uuid).concat(".").concat(extension);
+        String savedFileUrl = getSavedFileUrl(savedFileName);
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentType(file.getContentType());
         metadata.setContentLength(file.getSize());
 
         try {
-            amazonS3Client.putObject(bucket, today + savedFileName, file.getInputStream(), metadata);
+            amazonS3Client.putObject(bucket, savedFileName, file.getInputStream(), metadata);
         } catch (IOException e) {
             throw new SVCException(ErrorConstant.FILE_ERROR_NULL_FILE);
         }
@@ -58,41 +57,20 @@ public class S3Service {
         return Optional.ofNullable(
                 FileInfo.builder()
                         .originalFileName(originalFileName)
-                        .savedFileName(savedFileName)
+                        .savedFileUrl(savedFileUrl)
                         .build()
         );
     }
 
-//    public Optional<FileInfo> uploadFile(MultipartFile file) {
-//        try {
-//            String originalFileName = file.getOriginalFilename();
-//            String today = new SimpleDateFormat("yyMMdd").format(new Date()) + "/"; // 230615
-//            String extension = originalFileName.substring(originalFileName.lastIndexOf('.')); // .jpg
-//            String savedFileName = UUID.randomUUID() + extension;
-//            StringBuilder sb = new StringBuilder();
-//            sb.append("https://");
-//            sb.append(bucket);
-//            sb.append(".s3.");
-//            sb.append(region);
-//            sb.append(".amazonaws.com/");
-//            sb.append(today);
-//            sb.append(savedFileName);
-//            String savedURL = sb.toString();
-//            ObjectMetadata metadata = new ObjectMetadata();
-//            metadata.setContentType(file.getContentType());
-//            metadata.setContentLength(file.getSize());
-//            amazonS3Client.putObject(bucket, today + savedFileName, file.getInputStream(), metadata);
-//            FileInfo fileinfo = FileInfo.builder()
-//                    .originalFileName(originalFileName)
-//                    .savedURL(savedURL)
-//                    .build();
-//            return Optional.ofNullable(fileinfo);
-//
-//        } catch (Exception e) {
-//            //throw new SVCException(ErrorConstant.S3_ERROR_SAVE_FILE);
-//        }
-//        return
-//    }
+    private String getSavedFileUrl(String savedFileName) {
+        return new StringBuilder().append("https://")
+                .append(bucket)
+                .append(".s3.")
+                .append(region)
+                .append(".amazonaws.com/")
+                .append(savedFileName)
+                .toString();
+    }
 
     public void getFile(String fileURL) {
         String key = fileURL.substring(60);
