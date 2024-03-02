@@ -1,7 +1,9 @@
 package com.project.matchimban.api.restaurant.domain.entity;
 
+import com.project.matchimban.api.restaurant.domain.dto.MenuCreateRequest;
 import com.project.matchimban.api.restaurant.domain.enums.MenuStatus;
 import com.project.matchimban.common.global.TimeEntity;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,8 +25,8 @@ import javax.persistence.OneToOne;
 @Entity
 @Getter
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Menu extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,4 +50,14 @@ public class Menu extends TimeEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_image_id")
     private MenuImage menuImage;
+
+    public static Menu createMenu(Restaurant restaurant, MenuCreateRequest request, MenuImage menuImage) {
+        return Menu.builder()
+                .restaurant(restaurant)
+                .name(request.getName())
+                .price(request.getPrice())
+                .status(MenuStatus.PUBLISHED)
+                .menuImage(menuImage)
+                .build();
+    }
 }
