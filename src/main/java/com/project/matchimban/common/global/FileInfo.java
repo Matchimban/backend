@@ -10,6 +10,6 @@ public class FileInfo {
 
     private String originalFileName;
 
-    private String savedFileName;
+    private String savedFileUrl;
 
 }
