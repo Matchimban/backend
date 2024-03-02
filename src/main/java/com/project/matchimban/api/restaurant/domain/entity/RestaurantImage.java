@@ -2,6 +2,7 @@ package com.project.matchimban.api.restaurant.domain.entity;
 
 import com.project.matchimban.api.restaurant.domain.dto.RestaurantImageCreateRequest;
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantImageCategory;
+import com.project.matchimban.common.global.FileInfo;
 import com.project.matchimban.common.global.TimeEntity;
 import com.project.matchimban.common.global.annotation.DoNotUseUpdatedDate;
 import lombok.AccessLevel;
@@ -45,11 +46,11 @@ public class RestaurantImage extends TimeEntity {
     @ColumnDefault("'MAIN'")
     private RestaurantImageCategory imageCategory;
 
-    public static RestaurantImage createRestaurantImage(Restaurant restaurant, RestaurantImageCreateRequest request, String savedFileName) {
+    public static RestaurantImage createRestaurantImage(Restaurant restaurant, RestaurantImageCreateRequest request, FileInfo fileInfo) {
         return RestaurantImage.builder()
                 .restaurant(restaurant)
-                .originFileName(request.getMultipartFile().getOriginalFilename())
-                .savedFileName(savedFileName)
+                .originFileName(fileInfo.getOriginalFileName())
+                .savedFileName(fileInfo.getSavedFileName())
                 .imageCategory(request.getCategory())
                 .build();
     }
