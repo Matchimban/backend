@@ -23,7 +23,7 @@ public class EmailController {
 
     private final EmailService emailService;
 
-    @Operation(summary = "인증코드 이메일 전송 API", responses = {
+    @Operation(summary = "인증코드 이메일 전송 API", description = "📌 authCode는 검증 시에만 담아서 전송하면 됩니다.", responses = {
             @ApiResponse(responseCode = "40001", description = "[실패] 입력값 유효성 검증 실패", content = @Content(schema = @Schema(implementation = ValidResult.class))),
             @ApiResponse(responseCode = "60000", description = "[실패] 이미 존재하는 이메일입니다.")
     })

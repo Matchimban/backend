@@ -34,9 +34,17 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public GroupedOpenApi emailApi() {
+        return GroupedOpenApi.builder()
+                .group("3. 이메일 API")
+                .pathsToMatch("/api/email/**")
+                .build();
+    }
+
+    @Bean
     public GroupedOpenApi restaurantReservationApi() {
         return GroupedOpenApi.builder()
-                .group("3. 매장_예약 API")
+                .group("4. 매장_예약 API")
                 .pathsToMatch("/api/restaurant-reservations/**")
                 .build();
     }
@@ -44,7 +52,7 @@ public class SwaggerConfig {
     @Bean
     public GroupedOpenApi ReservationApi() {
         return GroupedOpenApi.builder()
-                .group("4. 예약 API")
+                .group("5. 예약 API")
                 .pathsToMatch("/api/reservations/**")
                 .build();
     }
