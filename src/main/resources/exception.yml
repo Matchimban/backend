@@ -132,3 +132,14 @@ RESERVATION_ERROR_OWNER_GET_INVALID_VERIFY:
 RESERVATION_ERROR_OWNER_REFUND_INVALID_VERIFY:
   code: 63010
   msg: "해당 예약을 환불할 권한이 없습니다."
+
+#......
+#......
+####### 67xxx Email
+FAILED_TO_SEND_EMAIL:
+  code: 67001
+  msg: "이메일 전송에 실패했습니다. 관리자에게 문의바랍니다."
+
+NOT_FOUND_EMAIL_AND_CODE:
+  code: 67002
+  msg: "유효시간 만료 또는 이메일 정보가 잘못되었습니다."

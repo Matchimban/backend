@@ -80,6 +80,7 @@ public class SecurityConfig {
                         new AntPathRequestMatcher("/api/user/signup"),
                         new AntPathRequestMatcher("/api/user/login"),
                         new AntPathRequestMatcher("/api/user/refresh"),
+                        new AntPathRequestMatcher("/api/email/**"),
                         new AntPathRequestMatcher("/swagger-ui/**"),
                         new AntPathRequestMatcher("/v3/api-docs/**"),
                         new AntPathRequestMatcher("swagger-ui.html")
