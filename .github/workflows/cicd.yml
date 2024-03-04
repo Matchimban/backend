@@ -101,6 +101,7 @@ jobs:
               -e S3_REGION=${{ secrets.S3_REGION }} \
               -e IAMPORT_CLIENT_APIKEY=${{ secrets.IAMPORT_CLIENT_APIKEY }} \
               -e IAMPORT_CLIENT_APISECRET=${{ secrets.IAMPORT_CLIENT_APISECRET }} \
+              -v /home/ec2-user/logs:/logs \
               -p 8080:8080 matchimban
 
       #⭐ 배포가 끝나면 EC2 인바운드 규칙에서 Github Actions IP 삭제
