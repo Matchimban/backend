@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public ResponseEntity<Object> signup(UserSignupRequest req) {
         User user = User.signup(req, passwordEncoder.encode(req.getPassword()));
-        if (userRepository.existsUserByEmail(req.getEmail())) {
+        if (this.isEmailDuplicated(req.getEmail())) {
             throw new SVCException(ErrorConstant.DUPLICATED_EMAIL);
         }
         ResultData result = new ResultData();
@@ -96,5 +96,10 @@ public class UserServiceImpl implements UserService {
                 .refreshToken(jwtProvider.createRefreshToken(foundUser.getId()))
                 .build());
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Override
+    public Boolean isEmailDuplicated(String email) {
+        return userRepository.existsUserByEmail(email);
     }
 }

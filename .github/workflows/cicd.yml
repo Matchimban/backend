@@ -101,6 +101,10 @@ jobs:
               -e S3_REGION=${{ secrets.S3_REGION }} \
               -e IAMPORT_CLIENT_APIKEY=${{ secrets.IAMPORT_CLIENT_APIKEY }} \
               -e IAMPORT_CLIENT_APISECRET=${{ secrets.IAMPORT_CLIENT_APISECRET }} \
+              -e SMTP_HOST=${{ secrets.SMTP_HOST }} \
+              -e SMTP_PORT=${{ secrets.SMTP_PORT }} \
+              -e SMTP_USERNAME=${{ secrets.SMTP_USERNAME }} \
+              -e SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }} \
               -v /home/ec2-user/logs:/logs \
               -p 8080:8080 matchimban
 
