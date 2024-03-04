@@ -1,7 +1,6 @@
 env:
   exceptionPath: "classpath:exception.yml"
-logging:
-  config: classpath:logback-spring.xml
+
 spring:
   datasource:
     url: jdbc:h2:mem:test;MODE=MySQL;DATABASE_TO_LOWER=TRUE
@@ -39,9 +38,9 @@ spring:
           writetimeout: 5000
     auth-code-expiration-millis: 1800000
 
-logging.level:
-  org.hibernate.SQL: debug
-  org.hibernate.type: trace
+#logging.level:
+#  org.hibernate.SQL: debug
+#  org.hibernate.type: trace
 
 
 
