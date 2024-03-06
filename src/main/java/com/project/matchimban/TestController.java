@@ -3,7 +3,7 @@ package com.project.matchimban;
 import com.project.matchimban.common.exception.ErrorConstant;
 import com.project.matchimban.common.exception.SVCException;
 import com.project.matchimban.common.global.FileInfo;
-import com.project.matchimban.common.modules.S3FileHandler;
+import com.project.matchimban.common.modules.S3Service;
 import com.project.matchimban.common.response.ResultData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,7 +28,7 @@ public class TestController {
 
     private final TestRepository testRepository;
     private final TestService testService;
-    private final S3FileHandler s3FileHandler;
+    private final S3Service s3Service;
 
     @Operation(summary = "(테스트)이름 조회", description = "id값을 통해 name을 조회합니다.")
     @Parameter(name = "id", description = "고유ID", example = "1")
@@ -69,9 +69,8 @@ public class TestController {
 
     @PostMapping("/api/file/upload")
     public String s3FileUploadTest(@RequestPart(value = "file") MultipartFile file) {
-
-        Optional<FileInfo> uploadFile = s3FileHandler.uploadFile(file);
-        if (uploadFile.isPresent()) return "성공";
+        Optional<FileInfo> fileInfo = s3Service.saveFile(file);
+        if (fileInfo.isPresent()) return "성공";
         else return "실패";
     }
 }

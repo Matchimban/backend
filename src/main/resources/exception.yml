@@ -5,6 +5,7 @@
 # 4xxxx, 5xxxx : 서버 관련 응답
 # 6?xxx, ~ : 도메인 관련 응답
 
+
 ####### 30xxx 임시 테스트
 TEST_COUPON_ERROR_NONE_PK:
   code: 30001
@@ -76,8 +77,6 @@ EXPIRED_TOKEN:
   msg: "토큰이 만료되었습니다."
 
 
-
-
 ####### 61xxx RestaurantReservation
 RESTAURANTRESERVATION_ERROR_RESTAURANT_NONE_PK:
   code: 61001
@@ -90,6 +89,12 @@ RESTAURANTRESERVATION_ERROR_ALREADY_EXISTS:
 RESTAURANTRESERVATION_ERROR_NONE_PK:
   code: 61003
   msg: "등록된 RestaurantReservation 이 없습니다."
+
+
+####### 62xxx Restaurant
+RESTAURANT_ERROR_NOT_FOUND_RESTAURANT:
+  code: 62000
+  msg: "존재하지 않는 매장입니다."
 
 
 ####### 63xxx Reservation
@@ -133,8 +138,23 @@ RESERVATION_ERROR_OWNER_REFUND_INVALID_VERIFY:
   code: 63010
   msg: "해당 예약을 환불할 권한이 없습니다."
 
+
+####### 63xxx File & Image
+FILE_ERROR_NULL_FILE:
+  code: 63000
+  msg: "입력된 파일이 없습니다."
+
+FILE_ERROR_UNKNOWN_EXTENSION:
+  code: 63001
+  msg: "파일의 확장자를 읽을 수 없습니다."
+
+
 #......
+
+
 #......
+
+
 ####### 67xxx Email
 FAILED_TO_SEND_EMAIL:
   code: 67001

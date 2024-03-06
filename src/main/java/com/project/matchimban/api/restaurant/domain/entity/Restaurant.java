@@ -1,6 +1,7 @@
 package com.project.matchimban.api.restaurant.domain.entity;
 
 import com.project.matchimban.api.reservation.domain.entity.RestaurantReservation;
+import com.project.matchimban.api.restaurant.domain.dto.RestaurantCreateRequest;
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantCategory;
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantStatus;
 import com.project.matchimban.api.review.domain.entity.Review;
@@ -8,8 +9,11 @@ import com.project.matchimban.api.user.domain.entity.User;
 import com.project.matchimban.api.wishlist.domain.Wishlist;
 import com.project.matchimban.common.global.Address;
 import com.project.matchimban.common.global.TimeEntity;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.Column;
@@ -29,7 +33,9 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
+@Builder
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Restaurant extends TimeEntity {
 
     @Id
@@ -72,9 +78,28 @@ public class Restaurant extends TimeEntity {
     @OneToOne(mappedBy = "restaurant")
     private RestaurantReservation restaurantReservation;
 
+    @Builder.Default
     @OneToMany(mappedBy = "restaurant")
     private List<Wishlist> wishRestaurant = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "restaurant")
     private List<Review> reviews = new ArrayList<>();
+
+    public static Restaurant createRestaurant(RestaurantCreateRequest request, User user, Address address) {
+        return Restaurant.builder()
+                .category(request.getCategory())
+                .name(request.getName())
+                .businessNumber(request.getBusinessNumber())
+                .originCountry(request.getOriginCountry())
+                .introduction(request.getIntroduction())
+                .telephone(request.getTelephone())
+                .businessHours(request.getBusinessHours())
+                .closedDays(request.getClosedDays())
+                .notice(request.getNotice())
+                .status(RestaurantStatus.UNAUTHORIZED)
+                .user(user)
+                .address(address)
+                .build();
+    }
 }

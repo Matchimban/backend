@@ -1,9 +1,15 @@
-package com.project.matchimban.api.menu.domain;
+package com.project.matchimban.api.restaurant.domain.entity;
 
+import com.project.matchimban.common.global.FileInfo;
 import com.project.matchimban.common.global.TimeEntity;
 import com.project.matchimban.common.global.annotation.DoNotUseUpdatedDate;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,7 +22,10 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@DoNotUseUpdatedDate
+@Builder
+@AttributeOverride(name = "updatedDate", column = @Column(insertable = false, updatable = false))
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class MenuImage extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,4 +43,11 @@ public class MenuImage extends TimeEntity {
 
     @OneToOne(mappedBy = "menuImage", fetch = FetchType.LAZY)
     private Menu menu;
+
+    public static MenuImage createMenuImage(FileInfo fileInfo) {
+        return MenuImage.builder()
+                .originFileName(fileInfo.getOriginalFileName())
+                .savedFileUrl(fileInfo.getSavedFileUrl())
+                .build();
+    }
 }
