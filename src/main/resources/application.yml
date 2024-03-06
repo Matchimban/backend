@@ -5,6 +5,8 @@ spring:
   profiles:
     active: server
 
+logging:
+  config: classpath:logback-spring.xml
 #springdoc:
 #  packages-to-scan: com.project.matchimban
 #  default-consumes-media-type: application/json;charset=UTF-8

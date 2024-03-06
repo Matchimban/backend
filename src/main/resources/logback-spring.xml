@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+
+    <!-- 변수값 설정 -->
+    <property name="LOGS_PATH" value="/logs"/>
+    <property name="LOGS_LEVEL" value="INFO"/>
+
+    <!-- Console Appender -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%red([%thread]) %clr(%-5level) %clr(%d{yy-MM-dd HH:mm:ss}){green} %clr([%logger{0}-%M:%line]){cyan} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File Appender -->
+    <appender name="File" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 출력 패턴 설정 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%-5level %d{yy-MM-dd HH:mm:ss} [%logger{0}-%M:%line] - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+
+        <!-- Rolling 정책 -->
+        <springProfile name="server">
+            <file>${LOGS_PATH}/log_file.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${LOGS_PATH}/%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+<!--                <maxFileSize>10MB</maxFileSize>-->
+                <totalSizeCap>10MB</totalSizeCap>
+                <maxHistory>7</maxHistory>
+            </rollingPolicy>
+        </springProfile>
+    </appender>
+
+
+    <!-- 전역 설정 -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+    <root level="${LOGS_LEVEL}">
+        <appender-ref ref="File"/>
+    </root>
+
+</configuration>

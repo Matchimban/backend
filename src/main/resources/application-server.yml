@@ -21,6 +21,23 @@ spring:
     port: 6379
     password: ${REDIS_PASSWORD}
 
+  mail:
+    host: ${SMTP_HOST}
+    port: ${SMTP_PORT}
+    username: ${SMTP_USERNAME}
+    password: ${SMTP_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+    auth-code-expiration-millis: 1800000
+
 jwt:
   secret:
     key: ${JWT_SECRET_KEY}
@@ -36,3 +53,8 @@ cloud:
       static: ${S3_REGION}
     stack:
       auto: false
+
+iamport:
+  client:
+    apiKey: ${IAMPORT_CLIENT_APIKEY}
+    apiSecret: ${IAMPORT_CLIENT_APISECRET}

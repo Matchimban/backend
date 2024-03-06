@@ -9,14 +9,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SwaggerConfig {
     @Bean
-    public GroupedOpenApi publicApi() {
-        return GroupedOpenApi.builder()
-                .group("그룹 이름")
-                .pathsToMatch("/api/**")
-                .build();
-    }
-
-    @Bean
     public OpenAPI openAPI() {
         return new OpenAPI()
                 .info(new Info().title("맛침반 API 명세서")
@@ -25,10 +17,43 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public GroupedOpenApi publicApi() {
+        return GroupedOpenApi.builder()
+                .group("1. 전체 API")
+                .pathsToMatch("/api/**")
+                .build();
+    }
+
+
+    @Bean
+    public GroupedOpenApi userApi() {
+        return GroupedOpenApi.builder()
+                .group("2. 회원 API")
+                .pathsToMatch("/api/user/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi emailApi() {
+        return GroupedOpenApi.builder()
+                .group("3. 이메일 API")
+                .pathsToMatch("/api/email/**")
+                .build();
+    }
+
+    @Bean
     public GroupedOpenApi restaurantReservationApi() {
         return GroupedOpenApi.builder()
-                .group("매장_예약")
+                .group("4. 매장_예약 API")
                 .pathsToMatch("/api/restaurant-reservations/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi ReservationApi() {
+        return GroupedOpenApi.builder()
+                .group("5. 예약 API")
+                .pathsToMatch("/api/reservations/**")
                 .build();
     }
 }

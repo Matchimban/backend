@@ -24,17 +24,13 @@ public class ReservationTime {
     private RestaurantReservation restaurantReservation;
 
     @Column(nullable = false)
-    private LocalTime startTime;
-
-    @Column(nullable = false)
-    private LocalTime endTime;
+    private LocalTime rstTime;
 
 
-    public static ReservationTime createReservationTime(RestaurantReservation restaurantReservation, LocalTime startTime, LocalTime endTime){
+    public static ReservationTime createReservationTime(RestaurantReservation restaurantReservation, LocalTime rstTime){
         return ReservationTime.builder()
                 .restaurantReservation(restaurantReservation)
-                .startTime(startTime)
-                .endTime(endTime).build();
+                .rstTime(rstTime).build();
     }
 
 }
