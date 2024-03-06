@@ -71,7 +71,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     public void createRestaurantImage(List<RestaurantImageCreateRequest> imageInfo, Restaurant restaurant) {
         List<RestaurantImage> images = new ArrayList<>();
         for (RestaurantImageCreateRequest request : imageInfo) {
-            Optional<FileInfo> fileInfo = s3Service.saveFile(request.getFile());
+            Optional<FileInfo> fileInfo = s3Service.saveFile(request.getImage());
 
             if (fileInfo.isEmpty())
                 throw new SVCException(ErrorConstant.FILE_ERROR_NULL_FILE);
