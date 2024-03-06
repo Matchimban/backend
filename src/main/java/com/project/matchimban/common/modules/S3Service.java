@@ -38,7 +38,7 @@ public class S3Service {
         String today = new SimpleDateFormat("yyMMdd").format(new Date());
         String uuid = UUID.randomUUID().toString();
 
-        if (extension != null)
+        if (extension == null)
             throw new SVCException(ErrorConstant.FILE_ERROR_UNKNOWN_EXTENSION);
 
         String savedFileName = today.concat(uuid).concat(".").concat(extension);
