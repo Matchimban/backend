@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -75,6 +76,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     public ResponseEntity validExceptionHandler(MethodArgumentNotValidException e) {
+        return new ResponseEntity<>(new ResultData(e.getBindingResult()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<Object> bindExceptionHandler(BindException e) {
         return new ResponseEntity<>(new ResultData(e.getBindingResult()), HttpStatus.BAD_REQUEST);
     }
 
