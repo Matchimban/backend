@@ -9,7 +9,10 @@ import com.project.matchimban.api.restaurant.domain.entity.Menu;
 import com.project.matchimban.api.restaurant.domain.entity.MenuImage;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.domain.entity.RestaurantImage;
+import com.project.matchimban.api.restaurant.repository.MenuImageRepository;
+import com.project.matchimban.api.restaurant.repository.MenuRepository;
 import com.project.matchimban.api.restaurant.repository.RestaurantImageRepository;
+import com.project.matchimban.api.restaurant.repository.RestaurantRepository;
 import com.project.matchimban.api.restaurant.service.RestaurantService;
 import com.project.matchimban.api.user.domain.entity.User;
 import com.project.matchimban.api.user.repository.UserRepository;
@@ -22,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,14 +33,20 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class RestaurantServiceImpl implements RestaurantService {
-    private final RestaurantImageRepository restaurantImageRepository;
     private final UserRepository userRepository;
+
+    private final RestaurantRepository restaurantRepository;
+    private final RestaurantImageRepository restaurantImageRepository;
+    private final MenuRepository menuRepository;
+    private final MenuImageRepository menuImageRepository;
+
     private final S3Service s3Service;
 
     @Transactional
     public void registerRestaurant(RestaurantRegisterRequest request, CustomUserDetails userDetails) {
         User user = userRepository.findById(userDetails.getUserId())
                 .orElseThrow(() -> new SVCException(ErrorConstant.NOT_FOUND_USER));
+        // 만약 user가 null이라면? NullPointerException 발생
 
         Restaurant restaurant = createRestaurant(request.getRestaurant(), user);
         createRestaurantImage(request.getImages(), restaurant);
@@ -53,24 +63,29 @@ public class RestaurantServiceImpl implements RestaurantService {
                 request.getLongitude()
         );
 
-        return Restaurant.createRestaurant(request, user, address);
+        Restaurant restaurant = Restaurant.createRestaurant(request, user, address);
+        restaurantRepository.save(restaurant);
+        return restaurant;
     }
 
-    public void createRestaurantImage(List<RestaurantImageCreateRequest> images, Restaurant restaurant) {
-        for (RestaurantImageCreateRequest request : images) {
+    public void createRestaurantImage(List<RestaurantImageCreateRequest> imageInfo, Restaurant restaurant) {
+        List<RestaurantImage> images = new ArrayList<>();
+        for (RestaurantImageCreateRequest request : imageInfo) {
             Optional<FileInfo> fileInfo = s3Service.saveFile(request.getFile());
 
             if (fileInfo.isEmpty())
                 throw new SVCException(ErrorConstant.FILE_ERROR_NULL_FILE);
 
             RestaurantImage image = RestaurantImage.createRestaurantImage(restaurant, request, fileInfo.get());
-            restaurantImageRepository.save(image);
-            // saveAll로 한꺼번에 하면 성능 개선 가능
+            images.add(image);
         }
+        restaurantImageRepository.saveAll(images);
     }
 
-    public void createRestaurantMenu(List<MenuCreateRequest> menus, Restaurant restaurant) {
-        for (MenuCreateRequest request : menus) {
+    public void createRestaurantMenu(List<MenuCreateRequest> menuInfo, Restaurant restaurant) {
+        List<Menu> menus = new ArrayList<>();
+        List<MenuImage> menuImages = new ArrayList<>();
+        for (MenuCreateRequest request : menuInfo) {
             Optional<FileInfo> fileInfo = s3Service.saveFile(request.getImage());
 
             if (fileInfo.isEmpty())
@@ -78,7 +93,12 @@ public class RestaurantServiceImpl implements RestaurantService {
 
             MenuImage menuImage = MenuImage.createMenuImage(fileInfo.get());
             Menu menu = Menu.createMenu(restaurant, request, menuImage);
-            // saveAll로 한꺼번에 하면 성능 개선 가능
+
+            menuImages.add(menuImage);
+            menus.add(menu);
         }
+
+        menuImageRepository.saveAll(menuImages);
+        menuRepository.saveAll(menus);
     }
 }
