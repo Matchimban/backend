@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -24,8 +25,8 @@ import javax.persistence.ManyToOne;
 
 @Entity
 @Getter
-@DoNotUseUpdatedDate
 @Builder
+@AttributeOverride(name = "updatedDate", column = @Column(insertable = false, updatable = false))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class RestaurantImage extends TimeEntity {

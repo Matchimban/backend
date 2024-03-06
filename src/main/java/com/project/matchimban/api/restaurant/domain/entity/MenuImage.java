@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -22,7 +23,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Builder
-@DoNotUseUpdatedDate
+@AttributeOverride(name = "updatedDate", column = @Column(insertable = false, updatable = false))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class MenuImage extends TimeEntity {
