@@ -2,7 +2,6 @@ package com.project.matchimban.api.restaurant.domain.entity;
 
 import com.project.matchimban.common.global.FileInfo;
 import com.project.matchimban.common.global.TimeEntity;
-import com.project.matchimban.common.global.annotation.DoNotUseUpdatedDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

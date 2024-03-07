@@ -1,6 +1,5 @@
 package com.project.matchimban.api.restaurant.controller;
 
-import com.project.matchimban.api.auth.jwt.domain.dto.TokenDTO;
 import com.project.matchimban.api.auth.security.model.CustomUserDetails;
 import com.project.matchimban.api.restaurant.domain.dto.RestaurantRegisterRequest;
 import com.project.matchimban.api.restaurant.service.RestaurantService;
@@ -39,7 +38,6 @@ public class RestaurantController {
             @ApiResponse(responseCode = "60000", description = "이미 존재하는 회원"),
             @ApiResponse(responseCode = "63000", description = "저장 안 된 파일"),
             @ApiResponse(responseCode = "63001", description = "읽을 수 없는 파일의 확장자")
-
     })
     @PostMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Object> registerRestaurant(
