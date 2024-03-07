@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,20 +51,13 @@ public class RestaurantController {
         return new ResponseEntity<>(new ResultData(), HttpStatus.CREATED);
     }
 
-//    @PostMapping("")
-//    public ResponseEntity<Object> registerRestaurant(
-//            @RequestBody @Valid RestaurantCreateRequest dto,
-//            @AuthenticationPrincipal CustomUserDetails userDetails
-//    ) {
-//        restaurantService.registerRestaurant(dto, userDetails);
-//        return new ResponseEntity<>(new ResultData(), HttpStatus.CREATED);
-//    }
-
-//    @PostMapping("/{restaurantId}/image")
-//    public ResponseEntity<Object> registerRestaurantImage(
-//            @PathVariable Long restaurantId,
-//            @RequestBody @Valid List<RestaurantImageCreateRequest> request) {
-//        restaurantService.registerRestaurantImage(restaurantId, images);
-//        return new ResponseEntity<>(new ResultData(), HttpStatus.CREATED);
-//    }
+    @Operation(summary = "매장 전체 조회", description = "매장 전체를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "20000", description = "조회 성공")
+    })
+    @GetMapping(value = "")
+    public ResponseEntity<Object> getRestaurants() {
+        restaurantService.getRestaurants();
+        return new ResponseEntity<>(new ResultData(), HttpStatus.OK);
+    }
 }
