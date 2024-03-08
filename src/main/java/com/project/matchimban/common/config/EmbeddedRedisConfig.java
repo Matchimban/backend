@@ -22,23 +22,26 @@ import javax.annotation.PreDestroy;
 @Profile({"embedded", "test"})
 @Configuration
 public class EmbeddedRedisConfig {
+
+    private RedisServer redisServer;
+
     @Value("${spring.redis.port}")
     private int redisPort;
-    private RedisServer redisServer;
     @Value("${spring.redis.host}")
     private String redisHost;
-    @Value("${spring.redis.port}")
-    private int port;
+
     private static final String REDISSON_HOST_PREFIX = "redis://";
+    private static final String REDIS_SERVER_MAX_MEMORY = "maxmemory 1128M";
+
     @PostConstruct
     public void startRedis() {
         redisServer = RedisServer.builder()
                 .port(redisPort)
-                .setting("maxmemory 128M")
+                .setting(REDIS_SERVER_MAX_MEMORY)
                 .build();
         try {
             redisServer.start();
-        } catch (Exception e){
+        } catch (Exception e) {
             log.error("{}", e);
         }
     }
@@ -54,10 +57,10 @@ public class EmbeddedRedisConfig {
     public RedisConnectionFactory redisConnectionFactory() {
         RedisStandaloneConfiguration redisConfiguration = new RedisStandaloneConfiguration();
         redisConfiguration.setHostName(redisHost);
-        redisConfiguration.setPort(port);
-        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(redisConfiguration);
-        return lettuceConnectionFactory;
+        redisConfiguration.setPort(redisPort);
+        return new LettuceConnectionFactory(redisConfiguration);
     }
+
     @Bean
     public RedisTemplate<?, ?> redisTemplate() {
         // RedisTemplate을 이용하여 Redis에 CRUD 작업 수행
