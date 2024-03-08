@@ -86,6 +86,10 @@ public class Restaurant extends TimeEntity {
     @OneToMany(mappedBy = "restaurant")
     private List<Review> reviews = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "restaurant")
+    private List<RestaurantImage> restaurantImages = new ArrayList<>();
+
     public static Restaurant createRestaurant(RestaurantCreateRequest request, User user, Address address) {
         return Restaurant.builder()
                 .category(request.getCategory())
