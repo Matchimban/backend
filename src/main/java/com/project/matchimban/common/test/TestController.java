@@ -1,4 +1,4 @@
-package com.project.matchimban;
+package com.project.matchimban.common.test;
 
 import com.project.matchimban.common.exception.ErrorConstant;
 import com.project.matchimban.common.exception.SVCException;

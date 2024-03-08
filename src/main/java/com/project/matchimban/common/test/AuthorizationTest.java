@@ -1,4 +1,4 @@
-package com.project.matchimban;
+package com.project.matchimban.common.test;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;

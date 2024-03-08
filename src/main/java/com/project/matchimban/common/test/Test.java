@@ -1,4 +1,4 @@
-package com.project.matchimban;
+package com.project.matchimban.common.test;
 
 import com.project.matchimban.common.global.TimeEntity;
 import lombok.Getter;
