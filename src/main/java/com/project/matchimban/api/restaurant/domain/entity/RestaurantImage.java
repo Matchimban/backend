@@ -4,7 +4,6 @@ import com.project.matchimban.api.restaurant.domain.dto.RestaurantImageCreateReq
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantImageCategory;
 import com.project.matchimban.common.global.FileInfo;
 import com.project.matchimban.common.global.TimeEntity;
-import com.project.matchimban.common.global.annotation.DoNotUseUpdatedDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

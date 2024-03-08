@@ -5,6 +5,7 @@ import com.project.matchimban.api.restaurant.domain.dto.MenuCreateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.RestaurantCreateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.RestaurantImageCreateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.RestaurantRegisterRequest;
+import com.project.matchimban.api.restaurant.domain.dto.RestaurantsReadResponse;
 import com.project.matchimban.api.restaurant.domain.entity.Menu;
 import com.project.matchimban.api.restaurant.domain.entity.MenuImage;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
@@ -13,6 +14,7 @@ import com.project.matchimban.api.restaurant.repository.MenuImageRepository;
 import com.project.matchimban.api.restaurant.repository.MenuRepository;
 import com.project.matchimban.api.restaurant.repository.RestaurantImageRepository;
 import com.project.matchimban.api.restaurant.repository.RestaurantRepository;
+import com.project.matchimban.api.restaurant.repository.RestaurantRepositoryQuerydsl;
 import com.project.matchimban.api.restaurant.service.RestaurantService;
 import com.project.matchimban.api.user.domain.entity.User;
 import com.project.matchimban.api.user.repository.UserRepository;
@@ -39,6 +41,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantImageRepository restaurantImageRepository;
     private final MenuRepository menuRepository;
     private final MenuImageRepository menuImageRepository;
+    private final RestaurantRepositoryQuerydsl restaurantRepositoryQuerydsl;
 
     private final S3Service s3Service;
 
@@ -100,5 +103,13 @@ public class RestaurantServiceImpl implements RestaurantService {
 
         menuImageRepository.saveAll(menuImages);
         menuRepository.saveAll(menus);
+    }
+
+    public List<RestaurantsReadResponse> getRestaurants() {
+        List<RestaurantsReadResponse> responses = new ArrayList<>();
+        restaurantRepositoryQuerydsl.getRestaurantsLeftJoinImage();
+
+
+        return responses;
     }
 }

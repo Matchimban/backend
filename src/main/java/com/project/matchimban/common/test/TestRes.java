@@ -1,4 +1,4 @@
-package com.project.matchimban;
+package com.project.matchimban.common.test;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

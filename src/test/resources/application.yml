@@ -2,23 +2,32 @@ env:
   exceptionPath: "classpath:exception.yml"
 
 spring:
+  profiles:
+    active: test
+
   datasource:
     url: jdbc:h2:mem:test;MODE=MySQL;DATABASE_TO_LOWER=TRUE
     username: sa
     password:
     driver-class-name: org.h2.Driver
+
   jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database: mysql
+    show-sql: true
     hibernate:
       ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
         format-sql: true3
+        use_sql_comments: true
+        default_batch_fetch_size: 1000
 
   redis:
     host: localhost
     port: 6379
-    password: 1234
+    password: ""
 
   # 테스트용 SMTP
   mail:
@@ -58,7 +67,7 @@ cloud:
     s3:
       bucket: bucketbucket
     region:
-      static: ap-southeast-1
+      static: ap-northeast-2
     stack:
       auto: false
 

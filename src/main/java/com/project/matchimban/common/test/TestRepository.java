@@ -1,4 +1,4 @@
-package com.project.matchimban;
+package com.project.matchimban.common.test;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

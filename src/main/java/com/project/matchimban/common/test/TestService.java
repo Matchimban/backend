@@ -1,4 +1,4 @@
-package com.project.matchimban;
+package com.project.matchimban.common.test;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

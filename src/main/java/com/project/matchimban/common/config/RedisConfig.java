@@ -19,12 +19,11 @@ public class RedisConfig {
 
     @Value("${spring.redis.host}")
     private String host;
-
     @Value("${spring.redis.port}")
     private int port;
-
     @Value("${spring.redis.password}")
     private String password;
+
     private static final String REDISSON_HOST_PREFIX = "redis://";
 
     @Bean
@@ -33,8 +32,7 @@ public class RedisConfig {
         redisConfiguration.setHostName(host);
         redisConfiguration.setPort(port);
         redisConfiguration.setPassword(password);
-        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(redisConfiguration);
-        return lettuceConnectionFactory;
+        return new LettuceConnectionFactory(redisConfiguration);
     }
 
     @Bean
