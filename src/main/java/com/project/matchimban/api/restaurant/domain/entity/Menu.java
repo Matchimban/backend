@@ -1,6 +1,6 @@
 package com.project.matchimban.api.restaurant.domain.entity;
 
-import com.project.matchimban.api.restaurant.domain.dto.MenuCreateRequest;
+import com.project.matchimban.api.restaurant.domain.dto.request.MenuCreateRequest;
 import com.project.matchimban.api.restaurant.domain.enums.MenuStatus;
 import com.project.matchimban.common.global.TimeEntity;
 import lombok.AccessLevel;

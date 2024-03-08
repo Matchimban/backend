@@ -1,6 +1,6 @@
 package com.project.matchimban.api.restaurant.domain.entity;
 
-import com.project.matchimban.api.restaurant.domain.dto.RestaurantImageCreateRequest;
+import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantImageCreateRequest;
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantImageCategory;
 import com.project.matchimban.common.global.FileInfo;
 import com.project.matchimban.common.global.TimeEntity;
