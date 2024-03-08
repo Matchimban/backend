@@ -1,15 +1,18 @@
 package com.project.matchimban.api.restaurant.service.impl;
 
 import com.project.matchimban.api.auth.security.model.CustomUserDetails;
-import com.project.matchimban.api.restaurant.domain.dto.MenuCreateRequest;
-import com.project.matchimban.api.restaurant.domain.dto.RestaurantCreateRequest;
-import com.project.matchimban.api.restaurant.domain.dto.RestaurantImageCreateRequest;
-import com.project.matchimban.api.restaurant.domain.dto.RestaurantRegisterRequest;
-import com.project.matchimban.api.restaurant.domain.dto.RestaurantsReadResponse;
+import com.project.matchimban.api.restaurant.domain.dto.request.MenuCreateRequest;
+import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantCreateRequest;
+import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantImageCreateRequest;
+import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantRegisterRequest;
+import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantUpdateRequest;
+import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantsReadResponse;
 import com.project.matchimban.api.restaurant.domain.entity.Menu;
 import com.project.matchimban.api.restaurant.domain.entity.MenuImage;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.domain.entity.RestaurantImage;
+import com.project.matchimban.api.restaurant.domain.enums.RestaurantCategory;
+import com.project.matchimban.api.restaurant.domain.enums.RestaurantStatus;
 import com.project.matchimban.api.restaurant.repository.MenuImageRepository;
 import com.project.matchimban.api.restaurant.repository.MenuRepository;
 import com.project.matchimban.api.restaurant.repository.RestaurantImageRepository;
@@ -23,7 +26,9 @@ import com.project.matchimban.common.exception.SVCException;
 import com.project.matchimban.common.global.Address;
 import com.project.matchimban.common.global.FileInfo;
 import com.project.matchimban.common.modules.S3Service;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -105,11 +111,33 @@ public class RestaurantServiceImpl implements RestaurantService {
         menuRepository.saveAll(menus);
     }
 
-    public List<RestaurantsReadResponse> getRestaurants() {
-        List<RestaurantsReadResponse> responses = new ArrayList<>();
-        restaurantRepositoryQuerydsl.getRestaurantsLeftJoinImage();
+//    public List<RestaurantsReadResponse> getRestaurants() {
+//        List<RestaurantsReadResponse> responses = new ArrayList<>();
+//        //restaurantRepositoryQuerydsl.getRestaurantsLeftJoinImage();
+//
+//
+//        return responses;
+//    }
 
+    @Transactional(readOnly = true)
+    public List<Restaurant> getRestaurants() {
+        return restaurantRepository.findAll();
+    }
 
-        return responses;
+    @Transactional(readOnly = true)
+    public Restaurant getRestaurant(Long id) {
+        return restaurantRepository.findById(id).orElseThrow();
+    }
+
+    @Transactional
+    public void updateRestaurant(Long id, RestaurantUpdateRequest request) {
+        Restaurant restaurant = restaurantRepository.findById(id)
+                .orElseThrow();
+
+        Address address = Address.createAddress(
+                "eeee", "eee", "e", "ee", 1.1, 1.1
+        );
+        restaurant.updateRestaurant(request, address);
+        restaurantRepository.save(restaurant);
     }
 }

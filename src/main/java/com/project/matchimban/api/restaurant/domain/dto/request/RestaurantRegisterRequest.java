@@ -1,4 +1,4 @@
-package com.project.matchimban.api.restaurant.domain.dto;
+package com.project.matchimban.api.restaurant.domain.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

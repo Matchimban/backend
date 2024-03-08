@@ -1,6 +1,6 @@
 package com.project.matchimban.api.restaurant.repository.impl;
 
-import com.project.matchimban.api.restaurant.domain.dto.RestaurantsReadResponse;
+import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantsReadResponse;
 import com.project.matchimban.api.restaurant.repository.RestaurantRepositoryQuerydsl;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.project.matchimban.api.restaurant.domain.entity.QRestaurant.restaurant;
 
 @Repository
 @RequiredArgsConstructor

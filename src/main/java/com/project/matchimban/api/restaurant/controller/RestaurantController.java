@@ -1,7 +1,10 @@
 package com.project.matchimban.api.restaurant.controller;
 
 import com.project.matchimban.api.auth.security.model.CustomUserDetails;
-import com.project.matchimban.api.restaurant.domain.dto.RestaurantRegisterRequest;
+import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantRegisterRequest;
+import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantUpdateRequest;
+import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantsReadResponse;
+import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.service.RestaurantService;
 import com.project.matchimban.common.exception.ValidResult;
 import com.project.matchimban.common.response.ResultData;
@@ -19,16 +22,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Tag(name = "Restaurant", description = "매장 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/restaurant")
+@RequestMapping("/api/restaurants")
 public class RestaurantController {
     private final RestaurantService restaurantService;
 
@@ -51,13 +58,45 @@ public class RestaurantController {
         return new ResponseEntity<>(new ResultData(), HttpStatus.CREATED);
     }
 
-    @Operation(summary = "매장 전체 조회", description = "매장 전체를 조회합니다.")
+//    @Operation(summary = "매장 전체 조회", description = "매장 전체를 조회합니다.")
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "20000", description = "조회 성공")
+//    })
+//    @GetMapping(value = "")
+//    public ResponseEntity<Object> getRestaurants() {
+//        ResultData result = new ResultData();
+//        List<Restaurant> list = restaurantService.getRestaurants();
+//        result.setResult(list);
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//    }
+
+    @Operation(summary = "매장 상세 조회", description = "매장을 상세 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "20000", description = "조회 성공")
     })
-    @GetMapping(value = "")
-    public ResponseEntity<Object> getRestaurants() {
-        restaurantService.getRestaurants();
+    @GetMapping(value = "/{reservationId}")
+    public ResponseEntity<Object> getRestaurantById(
+            @Parameter(description = "매장 id 값을 받아옵니다.")
+            @PathVariable Long reservationId
+    ) {
+        ResultData result = new ResultData();
+        Restaurant restaurant = restaurantService.getRestaurant(reservationId);
+        result.setResult(RestaurantsReadResponse.createRestaurantsReadResponse(restaurant, "imageurl"));
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Operation(summary = "매장 수정", description = "매장을 수정합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "20000", description = "수정 성공")
+    })
+    @PatchMapping(value = "/{reservationId}")
+    public ResponseEntity<Object> updateRestaurant(
+            @Parameter(description = "매장 id 값을 받아옵니다.")
+            @PathVariable Long reservationId,
+            @Parameter(description = "매장 수정 내용을 받아옵니다.")
+            @RequestBody RestaurantUpdateRequest dto
+    ) {
+        restaurantService.updateRestaurant(reservationId, dto);
         return new ResponseEntity<>(new ResultData(), HttpStatus.OK);
     }
 }

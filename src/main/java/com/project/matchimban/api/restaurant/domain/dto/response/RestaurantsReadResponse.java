@@ -1,4 +1,4 @@
-package com.project.matchimban.api.restaurant.domain.dto;
+package com.project.matchimban.api.restaurant.domain.dto.response;
 
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantCategory;

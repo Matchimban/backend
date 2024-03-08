@@ -1,6 +1,6 @@
 package com.project.matchimban.api.restaurant.repository;
 
-import com.project.matchimban.api.restaurant.domain.dto.RestaurantsReadResponse;
+import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantsReadResponse;
 
 import java.util.List;
 

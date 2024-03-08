@@ -1,7 +1,8 @@
 package com.project.matchimban.api.restaurant.domain.entity;
 
 import com.project.matchimban.api.reservation.domain.entity.RestaurantReservation;
-import com.project.matchimban.api.restaurant.domain.dto.RestaurantCreateRequest;
+import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantCreateRequest;
+import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantUpdateRequest;
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantCategory;
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantStatus;
 import com.project.matchimban.api.review.domain.entity.Review;
@@ -21,6 +22,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,7 +44,7 @@ public class Restaurant extends TimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -105,5 +107,28 @@ public class Restaurant extends TimeEntity {
                 .user(user)
                 .address(address)
                 .build();
+    }
+
+    public void updateRestaurant(RestaurantUpdateRequest request, Address address) {
+        if (request.getBusinessHours() != null)
+            this.businessHours = request.getBusinessHours();
+        if (request.getCategory() != null)
+            this.category = request.getCategory();
+        if (request.getNotice() != null)
+            this.notice = request.getNotice();
+        if (request.getName() != null)
+            this.name = request.getName();
+        if (request.getTelephone() != null)
+            this.telephone = request.getTelephone();
+        if (request.getIntroduction() != null)
+            this.introduction = request.getIntroduction();
+        if (request.getBusinessHours() != null)
+            this.businessHours = request.getBusinessHours();
+        if (address != null)
+            this.address = address;
+        if (request.getClosedDays() != null)
+            this.closedDays = request.getClosedDays();
+        if (request.getStatus() != null)
+            this.status = request.getStatus();
     }
 }
