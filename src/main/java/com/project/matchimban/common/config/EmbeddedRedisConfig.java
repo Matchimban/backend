@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 @Slf4j
-@Profile({"embedded", "test"})
+@Profile({"local", "test"})
 @Configuration
 public class EmbeddedRedisConfig {
 
