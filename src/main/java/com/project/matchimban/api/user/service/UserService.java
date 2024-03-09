@@ -17,4 +17,5 @@ public interface UserService {
 
     Boolean isEmailDuplicated(String email);
 
+    ResponseEntity<Object> disableUser(Long currentUserId);
 }
