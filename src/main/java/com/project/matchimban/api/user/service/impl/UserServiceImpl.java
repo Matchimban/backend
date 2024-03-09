@@ -19,6 +19,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -41,6 +43,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
+    public ResponseEntity<Object> disableUser(Long currentUserId) {
+        User foundUser = userRepository.findById(currentUserId).
+                orElseThrow(() -> new SVCException(ErrorConstant.NOT_FOUND_USER));
+        foundUser.disableUser();
+        ResultData result = new ResultData();
+        result.setResult(userRepository.save(foundUser).getId());
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<Object> login(UserLoginRequest req) {
         User foundUser = userRepository.findByEmail(req.getEmail())
                 .orElseThrow(() -> new SVCException(ErrorConstant.NOT_FOUND_USER));
@@ -57,6 +70,16 @@ public class UserServiceImpl implements UserService {
         result.setResult(TokenDTO.builder()
                         .accessToken(jwtProvider.createAccessToken(foundUser.getEmail(), foundUser.getUserRole()))
                         .refreshToken(jwtProvider.createRefreshToken(foundUser.getId()))
+                        .generatedTime(new Date(System.currentTimeMillis()))
+                        .userInfo(TokenDTO.UserInfo.builder()
+                                .userId(foundUser.getId())
+                                .email(foundUser.getEmail())
+                                .name(foundUser.getName())
+                                .nickname(foundUser.getNickname())
+                                .phone(foundUser.getPhone())
+                                .role(foundUser.getUserRole().name())
+                                .status(foundUser.getStatus().name())
+                                .build())
                         .build());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -94,6 +117,7 @@ public class UserServiceImpl implements UserService {
         result.setResult(TokenDTO.builder()
                 .accessToken(jwtProvider.createAccessToken(foundUser.getEmail(), foundUser.getUserRole()))
                 .refreshToken(jwtProvider.createRefreshToken(foundUser.getId()))
+                .generatedTime(new Date(System.currentTimeMillis()))
                 .build());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -102,4 +126,5 @@ public class UserServiceImpl implements UserService {
     public Boolean isEmailDuplicated(String email) {
         return userRepository.existsUserByEmail(email);
     }
+
 }

@@ -39,6 +39,17 @@ public class UserController {
         return userService.signup(req);
     }
 
+    @Operation(summary = "회원탈퇴(비활성화) API", responses = {
+            @ApiResponse(responseCode = "20000", description = "[성공] 회원탈퇴(비활성화) 성공", content = @Content(schema = @Schema(implementation = Long.class))),
+            @ApiResponse(responseCode = "40001", description = "[실패] 입력값 유효성 검증 실패", content = @Content(schema = @Schema(implementation = ValidResult.class))),
+            @ApiResponse(responseCode = "60001", description = "[실패] 존재하지 않는 회원입니다.")
+    })
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/disable")
+    public ResponseEntity<Object> disable(@CurrentUser CustomUserDetails currentUser) {
+        return userService.disableUser(currentUser.getUserId());
+    }
+
 
     @Operation(summary = "로그인 API", responses = {
             @ApiResponse(responseCode = "20000", description = "[성공] 로그인 완료", content = @Content(schema = @Schema(implementation = TokenDTO.class))),

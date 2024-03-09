@@ -74,4 +74,8 @@ public class User extends TimeEntity {
                 .status(UserStatus.ACTIVE)
                 .build();
     }
+
+    public void disableUser() {
+        this.status = UserStatus.DISABLED;
+    }
 }
