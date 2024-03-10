@@ -6,6 +6,7 @@ import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantCreate
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantImageCreateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantRegisterRequest;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantUpdateRequest;
+import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantReadResponse;
 import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantsReadResponse;
 import com.project.matchimban.api.restaurant.domain.entity.Menu;
 import com.project.matchimban.api.restaurant.domain.entity.MenuImage;
@@ -119,13 +120,9 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .collect(Collectors.toList());
     }
 
-//    @Transactional(readOnly = true)
-//    public List<Restaurant> getRestaurants() {
-//        return restaurantRepository.findAll();
-//    }
-
-    public Restaurant getRestaurant(Long id) {
-        return restaurantRepository.findById(id).orElseThrow();
+    public RestaurantReadResponse getRestaurant(Long id) {
+        Restaurant restaurant = restaurantRepository.findById(id).orElseThrow();
+        return RestaurantReadResponse.createRestaurantReadResponse(restaurant);
     }
 
     @Transactional

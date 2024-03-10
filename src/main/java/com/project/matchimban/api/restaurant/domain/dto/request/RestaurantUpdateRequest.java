@@ -20,9 +20,9 @@ public class RestaurantUpdateRequest {
     @NotNull(message = "매장 ID를 등록해주세요.")
     private Long id;
 
-    @Schema(description = "매장 오너")
-    @NotNull(message = "매장 오너를 등록해주세요.")
-    private User user;
+    @Schema(description = "매장 오너 ID")
+    @NotNull(message = "매장 오너 ID를 등록해주세요.")
+    private Long userId;
 
     @Schema(description = "매장 카테고리")
     private RestaurantCategory category;

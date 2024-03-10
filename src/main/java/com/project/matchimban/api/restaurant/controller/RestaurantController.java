@@ -79,8 +79,7 @@ public class RestaurantController {
             @PathVariable Long reservationId
     ) {
         ResultData result = new ResultData();
-        Restaurant restaurant = restaurantService.getRestaurant(reservationId);
-        result.setResult(RestaurantsReadResponse.createRestaurantsReadResponse(restaurant, "imageurl"));
+        result.setResult(restaurantService.getRestaurant(reservationId));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
