@@ -3,6 +3,7 @@ package com.project.matchimban.api.restaurant.domain.dto.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -18,13 +19,17 @@ public class RestaurantRegisterRequest {
     @NotNull(message = "매장 정보를 등록해주세요.")
     private RestaurantCreateRequest restaurant;
 
-    @Schema(description = "매장 이미지 정보")
-    @Valid
-    @NotNull(message = "매장 이미지 정보를 등록해주세요.")
-    private List<RestaurantImageCreateRequest> images;
+    @Schema(description = "사진 리스트")
+    @NotNull(message = "사진을 등록해주세요.")
+    private List<MultipartFile> images;
 
-    @Schema(description = "메뉴 정보")
-    @Valid
-    @NotNull(message = "메뉴 정보를 등록해주세요.")
-    private List<MenuCreateRequest> menus;
+//    @Schema(description = "매장 이미지 정보")
+//    @Valid
+//    @NotNull(message = "매장 이미지 정보를 등록해주세요.")
+//    private List<RestaurantImageCreateRequest> images;
+//
+//    @Schema(description = "메뉴 정보")
+//    @Valid
+//    @NotNull(message = "메뉴 정보를 등록해주세요.")
+//    private List<MenuCreateRequest> menus;
 }

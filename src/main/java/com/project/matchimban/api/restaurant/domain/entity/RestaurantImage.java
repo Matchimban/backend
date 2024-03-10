@@ -41,17 +41,17 @@ public class RestaurantImage extends TimeEntity {
 
     private String savedFileUrl;
 
-    @Enumerated(value = EnumType.STRING)
-    @Column(nullable = false)
-    @ColumnDefault("'MAIN'")
-    private RestaurantImageCategory imageCategory;
+//    @Enumerated(value = EnumType.STRING)
+//    @Column(nullable = false)
+//    @ColumnDefault("'MAIN'")
+//    private RestaurantImageCategory imageCategory;
 
-    public static RestaurantImage createRestaurantImage(Restaurant restaurant, RestaurantImageCreateRequest request, FileInfo fileInfo) {
+    public static RestaurantImage createRestaurantImage(Restaurant restaurant, FileInfo fileInfo) {
         return RestaurantImage.builder()
                 .restaurant(restaurant)
                 .originFileName(fileInfo.getOriginalFileName())
                 .savedFileUrl(fileInfo.getSavedFileUrl())
-                .imageCategory(request.getCategory())
+                //.imageCategory(request.getCategory())
                 .build();
     }
 }

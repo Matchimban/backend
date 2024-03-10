@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum RestaurantCategory {
-    KOREA
+    KOREA, JAPAN, CHINA
 //    KOREA("한식");
 //
 //    private final String value;
