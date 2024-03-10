@@ -12,8 +12,6 @@ import com.project.matchimban.api.restaurant.domain.entity.Menu;
 import com.project.matchimban.api.restaurant.domain.entity.MenuImage;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.domain.entity.RestaurantImage;
-import com.project.matchimban.api.restaurant.domain.enums.RestaurantCategory;
-import com.project.matchimban.api.restaurant.domain.enums.RestaurantStatus;
 import com.project.matchimban.api.restaurant.repository.MenuImageRepository;
 import com.project.matchimban.api.restaurant.repository.MenuRepository;
 import com.project.matchimban.api.restaurant.repository.RestaurantImageRepository;
@@ -27,11 +25,11 @@ import com.project.matchimban.common.exception.SVCException;
 import com.project.matchimban.common.global.Address;
 import com.project.matchimban.common.global.FileInfo;
 import com.project.matchimban.common.modules.S3Service;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,8 +58,9 @@ public class RestaurantServiceImpl implements RestaurantService {
         // 만약 user가 null이라면? NullPointerException 발생
 
         Restaurant restaurant = createRestaurant(request.getRestaurant(), user);
-        createRestaurantImage(request.getImages(), restaurant);
-        createRestaurantMenu(request.getMenus(), restaurant);
+        createRestaurantImage(restaurant, request.getImages());
+//        createRestaurantImage(request.getImages(), restaurant);
+//        createRestaurantMenu(request.getMenus(), restaurant);
     }
 
     public Restaurant createRestaurant(RestaurantCreateRequest request, User user) {
@@ -79,19 +78,33 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurant;
     }
 
-    public void createRestaurantImage(List<RestaurantImageCreateRequest> imageInfo, Restaurant restaurant) {
-        List<RestaurantImage> images = new ArrayList<>();
-        for (RestaurantImageCreateRequest request : imageInfo) {
-            Optional<FileInfo> fileInfo = s3Service.saveFile(request.getImage());
+    public void createRestaurantImage(Restaurant restaurant, List<MultipartFile> images) {
+        List<RestaurantImage> imagesToSave = new ArrayList<>();
+        for (MultipartFile file : images) {
+            Optional<FileInfo> fileInfo = s3Service.saveFile(file);
 
             if (fileInfo.isEmpty())
                 throw new SVCException(ErrorConstant.FILE_ERROR_NULL_FILE);
 
-            RestaurantImage image = RestaurantImage.createRestaurantImage(restaurant, request, fileInfo.get());
-            images.add(image);
+            RestaurantImage image = RestaurantImage.createRestaurantImage(restaurant, fileInfo.get());
+            imagesToSave.add(image);
         }
-        restaurantImageRepository.saveAll(images);
+        restaurantImageRepository.saveAll(imagesToSave);
     }
+
+//    public void createRestaurantImage(List<RestaurantImageCreateRequest> imageInfo, Restaurant restaurant) {
+//        List<RestaurantImage> images = new ArrayList<>();
+//        for (RestaurantImageCreateRequest request : imageInfo) {
+//            Optional<FileInfo> fileInfo = s3Service.saveFile(request.getImage());
+//
+//            if (fileInfo.isEmpty())
+//                throw new SVCException(ErrorConstant.FILE_ERROR_NULL_FILE);
+//
+//            RestaurantImage image = RestaurantImage.createRestaurantImage(restaurant, request, fileInfo.get());
+//            images.add(image);
+//        }
+//        restaurantImageRepository.saveAll(images);
+//    }
 
     public void createRestaurantMenu(List<MenuCreateRequest> menuInfo, Restaurant restaurant) {
         List<Menu> menus = new ArrayList<>();
