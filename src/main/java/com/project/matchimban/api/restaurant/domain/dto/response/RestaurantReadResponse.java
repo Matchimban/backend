@@ -2,8 +2,6 @@ package com.project.matchimban.api.restaurant.domain.dto.response;
 
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantCategory;
-import com.project.matchimban.api.restaurant.domain.enums.RestaurantStatus;
-import com.project.matchimban.common.global.Address;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,46 +13,39 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-@Schema(description = "매장 상세 조회 DTO")
+@Schema(description = "매장 전체 조회 세부 DTO")
 public class RestaurantReadResponse {
 
+    @Schema(description = "매장 id")
     private Long id;
 
-    private Long userId;
-
+    @Schema(description = "메장 카테고리")
     private RestaurantCategory category;
 
+    @Schema(description = "메장 이름")
     private String name;
 
-    private String businessNumber;
+    @Schema(description = "매장 주소(시/도)")
+    private String addrSido;
 
-    private String introduction;
-    private String telephone;
-    private String businessHours;
-    private String closedDays;
-    private String notice;
+    @Schema(description = "매장 MAIN 사진")
+    private String imageUrl;
 
-    private Address address;
+//    public static RestaurantReadResponse createRestaurantsReadResponse(Restaurant restaurant, String imageUrl) {
+//        return RestaurantsReadResponse.builder()
+//                .id(restaurant.getId())
+//                .category(restaurant.getCategory())
+//                .name(restaurant.getName())
+//                .addrSido(restaurant.getAddress().getAddrSido())
+//                .imageUrl(imageUrl)
+//                .build();
+//    }
 
-    private String originCountry;
-
-    private RestaurantStatus status;
-
-    public static RestaurantReadResponse createRestaurantReadResponse(Restaurant restaurant) {
-        return RestaurantReadResponse.builder()
-                .id(restaurant.getId())
-                .userId(restaurant.getUser().getId())
-                .category(restaurant.getCategory())
-                .name(restaurant.getName())
-                .businessNumber(restaurant.getBusinessNumber())
-                .introduction(restaurant.getIntroduction())
-                .telephone(restaurant.getTelephone())
-                .businessHours(restaurant.getBusinessHours())
-                .closedDays(restaurant.getClosedDays())
-                .notice(restaurant.getNotice())
-                .address(restaurant.getAddress())
-                .originCountry(restaurant.getOriginCountry())
-                .status(restaurant.getStatus())
-                .build();
+    public RestaurantReadResponse(Restaurant restaurant) {
+        this.id = restaurant.getId();
+        this.category = restaurant.getCategory();
+        this.name = restaurant.getName();
+        this.addrSido = restaurant.getAddress().getAddrSido();
+        this.imageUrl = "imageURL 자리";
     }
 }
