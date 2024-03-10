@@ -35,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -111,20 +112,18 @@ public class RestaurantServiceImpl implements RestaurantService {
         menuRepository.saveAll(menus);
     }
 
-//    public List<RestaurantsReadResponse> getRestaurants() {
-//        List<RestaurantsReadResponse> responses = new ArrayList<>();
-//        //restaurantRepositoryQuerydsl.getRestaurantsLeftJoinImage();
-//
-//
-//        return responses;
-//    }
-
-    @Transactional(readOnly = true)
-    public List<Restaurant> getRestaurants() {
-        return restaurantRepository.findAll();
+    public List<RestaurantsReadResponse> getRestaurants() {
+        List<Restaurant> restaurants = restaurantRepository.findAll();
+        return restaurants.stream()
+                .map(RestaurantsReadResponse::new)
+                .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
+//    @Transactional(readOnly = true)
+//    public List<Restaurant> getRestaurants() {
+//        return restaurantRepository.findAll();
+//    }
+
     public Restaurant getRestaurant(Long id) {
         return restaurantRepository.findById(id).orElseThrow();
     }
