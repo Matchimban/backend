@@ -3,6 +3,8 @@ package com.project.matchimban.api.restaurant.controller;
 import com.project.matchimban.api.auth.security.model.CustomUserDetails;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantRegisterRequest;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantUpdateRequest;
+import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantDetailReadResponse;
+import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantReadResponse;
 import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantsReadResponse;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.service.RestaurantService;
@@ -60,7 +62,7 @@ public class RestaurantController {
 
     @Operation(summary = "매장 전체 조회", description = "매장 전체를 조회합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "20000", description = "조회 성공")
+            @ApiResponse(responseCode = "20000", description = "조회 성공", content = @Content(schema = @Schema(implementation = RestaurantsReadResponse.class)))
     })
     @GetMapping(value = "")
     public ResponseEntity<Object> getRestaurants() {
@@ -71,7 +73,7 @@ public class RestaurantController {
 
     @Operation(summary = "매장 상세 조회", description = "매장을 상세 조회합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "20000", description = "조회 성공")
+            @ApiResponse(responseCode = "20000", description = "조회 성공", content = @Content(schema = @Schema(implementation = RestaurantDetailReadResponse.class)))
     })
     @GetMapping(value = "/{reservationId}")
     public ResponseEntity<Object> getRestaurantById(
