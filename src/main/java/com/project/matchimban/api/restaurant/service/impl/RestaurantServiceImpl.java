@@ -6,6 +6,7 @@ import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantCreate
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantImageCreateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantRegisterRequest;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantUpdateRequest;
+import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantDetailReadResponse;
 import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantReadResponse;
 import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantsReadResponse;
 import com.project.matchimban.api.restaurant.domain.entity.Menu;
@@ -126,16 +127,16 @@ public class RestaurantServiceImpl implements RestaurantService {
         menuRepository.saveAll(menus);
     }
 
-    public List<RestaurantsReadResponse> getRestaurants() {
+    public List<RestaurantReadResponse> getRestaurants() {
         List<Restaurant> restaurants = restaurantRepository.findAll();
         return restaurants.stream()
-                .map(RestaurantsReadResponse::new)
+                .map(RestaurantReadResponse::new)
                 .collect(Collectors.toList());
     }
 
-    public RestaurantReadResponse getRestaurant(Long id) {
+    public RestaurantDetailReadResponse getRestaurant(Long id) {
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow();
-        return RestaurantReadResponse.createRestaurantReadResponse(restaurant);
+        return RestaurantDetailReadResponse.createRestaurantDetailReadResponse(restaurant);
     }
 
     @Transactional
