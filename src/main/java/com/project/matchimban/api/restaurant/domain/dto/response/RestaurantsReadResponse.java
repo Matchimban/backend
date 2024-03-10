@@ -40,4 +40,12 @@ public class RestaurantsReadResponse {
                 .imageUrl(imageUrl)
                 .build();
     }
+
+    public RestaurantsReadResponse(Restaurant restaurant) {
+        this.id = restaurant.getId();
+        this.category = restaurant.getCategory();
+        this.name = restaurant.getName();
+        this.addrSido = restaurant.getAddress().getAddrSido();
+        this.imageUrl = "imageURL 자리";
+    }
 }

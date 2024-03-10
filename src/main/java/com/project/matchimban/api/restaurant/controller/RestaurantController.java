@@ -58,17 +58,16 @@ public class RestaurantController {
         return new ResponseEntity<>(new ResultData(), HttpStatus.CREATED);
     }
 
-//    @Operation(summary = "매장 전체 조회", description = "매장 전체를 조회합니다.")
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "20000", description = "조회 성공")
-//    })
-//    @GetMapping(value = "")
-//    public ResponseEntity<Object> getRestaurants() {
-//        ResultData result = new ResultData();
-//        List<Restaurant> list = restaurantService.getRestaurants();
-//        result.setResult(list);
-//        return new ResponseEntity<>(result, HttpStatus.OK);
-//    }
+    @Operation(summary = "매장 전체 조회", description = "매장 전체를 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "20000", description = "조회 성공")
+    })
+    @GetMapping(value = "")
+    public ResponseEntity<Object> getRestaurants() {
+        ResultData result = new ResultData();
+        result.setResult(restaurantService.getRestaurants());
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
     @Operation(summary = "매장 상세 조회", description = "매장을 상세 조회합니다.")
     @ApiResponses(value = {
