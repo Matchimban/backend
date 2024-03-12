@@ -1,7 +1,5 @@
 package com.project.matchimban.api.restaurant.domain.entity;
 
-import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantImageCreateRequest;
-import com.project.matchimban.api.restaurant.domain.enums.RestaurantImageCategory;
 import com.project.matchimban.common.global.FileInfo;
 import com.project.matchimban.common.global.TimeEntity;
 import lombok.AccessLevel;
@@ -9,13 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;

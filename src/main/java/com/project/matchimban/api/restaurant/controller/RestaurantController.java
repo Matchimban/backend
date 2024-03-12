@@ -1,12 +1,10 @@
 package com.project.matchimban.api.restaurant.controller;
 
 import com.project.matchimban.api.auth.security.model.CustomUserDetails;
-import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantRegisterRequest;
+import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantCreateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantUpdateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantDetailReadResponse;
-import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantReadResponse;
 import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantsReadResponse;
-import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.service.RestaurantService;
 import com.project.matchimban.common.exception.ValidResult;
 import com.project.matchimban.common.response.ResultData;
@@ -32,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Tag(name = "Restaurant", description = "매장 API")
 @RestController
@@ -51,8 +48,8 @@ public class RestaurantController {
     })
     @PostMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Object> registerRestaurant(
-            @Parameter(description = "images와 menus의 image는 실제 file을 넣어야 합니다.")
-            @ModelAttribute @Valid RestaurantRegisterRequest request,
+            @Parameter(description = "매장의 정보와 이미지 리스트를 받는 객체")
+            @ModelAttribute @Valid RestaurantCreateRequest request,
             @Parameter(description = "로그인 정보를 가져오는 객체")
             @AuthenticationPrincipal CustomUserDetails userDetails
     ) {

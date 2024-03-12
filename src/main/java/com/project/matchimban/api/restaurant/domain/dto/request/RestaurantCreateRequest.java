@@ -4,14 +4,18 @@ import com.project.matchimban.api.restaurant.domain.enums.RestaurantCategory;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Getter
 @Setter
-@Schema(description = "매장 등록 DTO")
+@Schema(description = "매장 등록 Request")
 public class RestaurantCreateRequest {
+
     @Schema(description = "카테고리")
     @NotNull(message = "카테고리를 선택해주세요.")
     private RestaurantCategory category;
@@ -66,4 +70,8 @@ public class RestaurantCreateRequest {
 
     @Schema(description = "안내 및 유의사항")
     private String notice;
+
+    @Schema(description = "사진 리스트")
+    @NotNull(message = "사진을 등록해주세요.")
+    private List<MultipartFile> images;
 }
