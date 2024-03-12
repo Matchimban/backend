@@ -1,12 +1,10 @@
 package com.project.matchimban.api.restaurant.controller;
 
 import com.project.matchimban.api.auth.security.model.CustomUserDetails;
-import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantRegisterRequest;
+import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantCreateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantUpdateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantDetailReadResponse;
-import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantReadResponse;
 import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantsReadResponse;
-import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.service.RestaurantService;
 import com.project.matchimban.common.exception.ValidResult;
 import com.project.matchimban.common.response.ResultData;
@@ -21,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Tag(name = "Restaurant", description = "매장 API")
 @RestController
@@ -51,8 +49,8 @@ public class RestaurantController {
     })
     @PostMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Object> registerRestaurant(
-            @Parameter(description = "images와 menus의 image는 실제 file을 넣어야 합니다.")
-            @ModelAttribute @Valid RestaurantRegisterRequest request,
+            @Parameter(description = "매장의 정보와 이미지 리스트를 받는 객체")
+            @ModelAttribute @Valid RestaurantCreateRequest request,
             @Parameter(description = "로그인 정보를 가져오는 객체")
             @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
@@ -64,6 +62,7 @@ public class RestaurantController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "20000", description = "조회 성공", content = @Content(schema = @Schema(implementation = RestaurantsReadResponse.class)))
     })
+    @PreAuthorize("permitAll()")
     @GetMapping(value = "")
     public ResponseEntity<Object> getRestaurants() {
         ResultData result = new ResultData();
@@ -75,6 +74,7 @@ public class RestaurantController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "20000", description = "조회 성공", content = @Content(schema = @Schema(implementation = RestaurantDetailReadResponse.class)))
     })
+    @PreAuthorize("permitAll()")
     @GetMapping(value = "/{reservationId}")
     public ResponseEntity<Object> getRestaurantById(
             @Parameter(description = "매장 id 값을 받아옵니다.")
@@ -89,6 +89,7 @@ public class RestaurantController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "20000", description = "수정 성공")
     })
+    @PreAuthorize("hasAnyRole('OWNER', 'ADMIN')")
     @PatchMapping(value = "/{reservationId}")
     public ResponseEntity<Object> updateRestaurant(
             @Parameter(description = "매장 id 값을 받아옵니다.")

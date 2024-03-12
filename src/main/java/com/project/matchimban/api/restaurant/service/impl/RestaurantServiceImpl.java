@@ -3,12 +3,9 @@ package com.project.matchimban.api.restaurant.service.impl;
 import com.project.matchimban.api.auth.security.model.CustomUserDetails;
 import com.project.matchimban.api.restaurant.domain.dto.request.MenuCreateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantCreateRequest;
-import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantImageCreateRequest;
-import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantRegisterRequest;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantUpdateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantDetailReadResponse;
 import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantReadResponse;
-import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantsReadResponse;
 import com.project.matchimban.api.restaurant.domain.entity.Menu;
 import com.project.matchimban.api.restaurant.domain.entity.MenuImage;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
@@ -53,12 +50,12 @@ public class RestaurantServiceImpl implements RestaurantService {
     private final S3Service s3Service;
 
     @Transactional
-    public void registerRestaurant(RestaurantRegisterRequest request, CustomUserDetails userDetails) {
+    public void registerRestaurant(RestaurantCreateRequest request, CustomUserDetails userDetails) {
         User user = userRepository.findById(userDetails.getUserId())
                 .orElseThrow(() -> new SVCException(ErrorConstant.NOT_FOUND_USER));
         // 만약 user가 null이라면? NullPointerException 발생
 
-        Restaurant restaurant = createRestaurant(request.getRestaurant(), user);
+        Restaurant restaurant = createRestaurant(request, user);
         createRestaurantImage(restaurant, request.getImages());
 //        createRestaurantImage(request.getImages(), restaurant);
 //        createRestaurantMenu(request.getMenus(), restaurant);
