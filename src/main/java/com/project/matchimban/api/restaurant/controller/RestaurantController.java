@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -61,6 +62,7 @@ public class RestaurantController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "20000", description = "조회 성공", content = @Content(schema = @Schema(implementation = RestaurantsReadResponse.class)))
     })
+    @PreAuthorize("permitAll()")
     @GetMapping(value = "")
     public ResponseEntity<Object> getRestaurants() {
         ResultData result = new ResultData();
@@ -72,6 +74,7 @@ public class RestaurantController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "20000", description = "조회 성공", content = @Content(schema = @Schema(implementation = RestaurantDetailReadResponse.class)))
     })
+    @PreAuthorize("permitAll()")
     @GetMapping(value = "/{reservationId}")
     public ResponseEntity<Object> getRestaurantById(
             @Parameter(description = "매장 id 값을 받아옵니다.")
@@ -86,6 +89,7 @@ public class RestaurantController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "20000", description = "수정 성공")
     })
+    @PreAuthorize("hasAnyRole('OWNER', 'ADMIN')")
     @PatchMapping(value = "/{reservationId}")
     public ResponseEntity<Object> updateRestaurant(
             @Parameter(description = "매장 id 값을 받아옵니다.")
