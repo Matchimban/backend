@@ -1,5 +1,6 @@
 package com.project.matchimban.api.restaurant.controller;
 
+import com.project.matchimban.api.auth.security.model.CurrentUser;
 import com.project.matchimban.api.auth.security.model.CustomUserDetails;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantCreateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantUpdateRequest;
@@ -20,7 +21,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -47,12 +47,13 @@ public class RestaurantController {
             @ApiResponse(responseCode = "63000", description = "저장 안 된 파일"),
             @ApiResponse(responseCode = "63001", description = "읽을 수 없는 파일의 확장자")
     })
+    @PreAuthorize("hasAnyRole('OWNER', 'USER')")
     @PostMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<Object> registerRestaurant(
             @Parameter(description = "매장의 정보와 이미지 리스트를 받는 객체")
             @ModelAttribute @Valid RestaurantCreateRequest request,
             @Parameter(description = "로그인 정보를 가져오는 객체")
-            @AuthenticationPrincipal CustomUserDetails userDetails
+            @CurrentUser CustomUserDetails userDetails
     ) {
         restaurantService.registerRestaurant(request, userDetails);
         return new ResponseEntity<>(new ResultData(), HttpStatus.CREATED);
@@ -62,7 +63,6 @@ public class RestaurantController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "20000", description = "조회 성공", content = @Content(schema = @Schema(implementation = RestaurantsReadResponse.class)))
     })
-    @PreAuthorize("permitAll()")
     @GetMapping(value = "")
     public ResponseEntity<Object> getRestaurants() {
         ResultData result = new ResultData();
@@ -74,7 +74,6 @@ public class RestaurantController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "20000", description = "조회 성공", content = @Content(schema = @Schema(implementation = RestaurantDetailReadResponse.class)))
     })
-    @PreAuthorize("permitAll()")
     @GetMapping(value = "/{reservationId}")
     public ResponseEntity<Object> getRestaurantById(
             @Parameter(description = "매장 id 값을 받아옵니다.")
@@ -89,7 +88,7 @@ public class RestaurantController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "20000", description = "수정 성공")
     })
-    @PreAuthorize("hasAnyRole('OWNER', 'ADMIN')")
+    //@PreAuthorize("hasAnyRole('OWNER', 'ADMIN')")
     @PatchMapping(value = "/{reservationId}")
     public ResponseEntity<Object> updateRestaurant(
             @Parameter(description = "매장 id 값을 받아옵니다.")
