@@ -1,5 +1,6 @@
 package com.project.matchimban.api.restaurant.domain.entity;
 
+import com.project.matchimban.api.restaurant.domain.enums.RestaurantImageCategory;
 import com.project.matchimban.common.global.FileInfo;
 import com.project.matchimban.common.global.TimeEntity;
 import lombok.AccessLevel;
@@ -7,10 +8,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,17 +40,26 @@ public class RestaurantImage extends TimeEntity {
 
     private String savedFileUrl;
 
-//    @Enumerated(value = EnumType.STRING)
-//    @Column(nullable = false)
-//    @ColumnDefault("'MAIN'")
-//    private RestaurantImageCategory imageCategory;
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    @ColumnDefault("'MAIN'")
+    private RestaurantImageCategory imageCategory;
 
-    public static RestaurantImage createRestaurantImage(Restaurant restaurant, FileInfo fileInfo) {
+    public static RestaurantImage createMainRestaurantImage(Restaurant restaurant, FileInfo fileInfo) {
         return RestaurantImage.builder()
                 .restaurant(restaurant)
                 .originFileName(fileInfo.getOriginalFileName())
                 .savedFileUrl(fileInfo.getSavedFileUrl())
-                //.imageCategory(request.getCategory())
+                .imageCategory(RestaurantImageCategory.MAIN)
+                .build();
+    }
+
+    public static RestaurantImage createSubRestaurantImage(Restaurant restaurant, FileInfo fileInfo) {
+        return RestaurantImage.builder()
+                .restaurant(restaurant)
+                .originFileName(fileInfo.getOriginalFileName())
+                .savedFileUrl(fileInfo.getSavedFileUrl())
+                .imageCategory(RestaurantImageCategory.SUB)
                 .build();
     }
 }

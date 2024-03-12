@@ -78,13 +78,22 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     public void createRestaurantImage(Restaurant restaurant, List<MultipartFile> images) {
         List<RestaurantImage> imagesToSave = new ArrayList<>();
+
+        if (images.size() == 0)
+            throw new SVCException(ErrorConstant.FILE_ERROR_NULL_FILE);
+
+        MultipartFile mainImage = images.remove(0);
+        Optional<FileInfo> mainFileInfo = s3Service.saveFile(mainImage);
+        RestaurantImage main = RestaurantImage.createMainRestaurantImage(restaurant, mainFileInfo.get());
+        imagesToSave.add(main);
+
         for (MultipartFile file : images) {
             Optional<FileInfo> fileInfo = s3Service.saveFile(file);
 
             if (fileInfo.isEmpty())
                 throw new SVCException(ErrorConstant.FILE_ERROR_NULL_FILE);
 
-            RestaurantImage image = RestaurantImage.createRestaurantImage(restaurant, fileInfo.get());
+            RestaurantImage image = RestaurantImage.createSubRestaurantImage(restaurant, fileInfo.get());
             imagesToSave.add(image);
         }
         restaurantImageRepository.saveAll(imagesToSave);
