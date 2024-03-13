@@ -5,12 +5,13 @@ import com.project.matchimban.api.auth.security.model.CustomUserDetails;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantCreateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantUpdateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantDetailReadResponse;
-import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantsReadResponse;
+import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantReadResponse;
 import com.project.matchimban.api.restaurant.service.RestaurantService;
 import com.project.matchimban.common.exception.ValidResult;
 import com.project.matchimban.common.response.ResultData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -39,7 +40,7 @@ import javax.validation.Valid;
 public class RestaurantController {
     private final RestaurantService restaurantService;
 
-    @Operation(summary = "매장 등록", description = "매장, 매장 이미지, 메뉴를 등록합니다.")
+    @Operation(summary = "매장 등록", description = "매장 정보와 매장 이미지 정보를 등록합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "20000", description = "등록 성공"),
             @ApiResponse(responseCode = "40001", description = "입력값 유효성 검증 실패", content = @Content(schema = @Schema(implementation = ValidResult.class))),
@@ -61,7 +62,7 @@ public class RestaurantController {
 
     @Operation(summary = "매장 전체 조회", description = "매장 전체를 조회합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "20000", description = "조회 성공", content = @Content(schema = @Schema(implementation = RestaurantsReadResponse.class)))
+            @ApiResponse(responseCode = "20000", description = "조회 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = RestaurantReadResponse.class))))
     })
     @GetMapping(value = "")
     public ResponseEntity<Object> getRestaurants() {
@@ -74,13 +75,13 @@ public class RestaurantController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "20000", description = "조회 성공", content = @Content(schema = @Schema(implementation = RestaurantDetailReadResponse.class)))
     })
-    @GetMapping(value = "/{reservationId}")
+    @GetMapping(value = "/{restaurantId}")
     public ResponseEntity<Object> getRestaurantById(
             @Parameter(description = "매장 id 값을 받아옵니다.")
-            @PathVariable Long reservationId
+            @PathVariable Long restaurantId
     ) {
         ResultData result = new ResultData();
-        result.setResult(restaurantService.getRestaurant(reservationId));
+        result.setResult(restaurantService.getRestaurant(restaurantId));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -89,14 +90,14 @@ public class RestaurantController {
             @ApiResponse(responseCode = "20000", description = "수정 성공")
     })
     //@PreAuthorize("hasAnyRole('OWNER', 'ADMIN')")
-    @PatchMapping(value = "/{reservationId}")
+    @PatchMapping(value = "/{restaurantId}")
     public ResponseEntity<Object> updateRestaurant(
             @Parameter(description = "매장 id 값을 받아옵니다.")
-            @PathVariable Long reservationId,
+            @PathVariable Long restaurantId,
             @Parameter(description = "매장 수정 내용을 받아옵니다.")
             @RequestBody RestaurantUpdateRequest dto
     ) {
-        restaurantService.updateRestaurant(reservationId, dto);
+        restaurantService.updateRestaurant(restaurantId, dto);
         return new ResponseEntity<>(new ResultData(), HttpStatus.OK);
     }
 }
