@@ -1,6 +1,6 @@
 package com.project.matchimban.api.restaurant.repository.impl;
 
-import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantsReadResponse;
+import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantReadResponse;
 import com.project.matchimban.api.restaurant.repository.RestaurantRepositoryQuerydsl;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ public class RestaurantRepositoryQuerydslImpl implements RestaurantRepositoryQue
 
     private final JPAQueryFactory queryFactory;
 
-    public List<RestaurantsReadResponse> getRestaurantsLeftJoinImage() {
+    public List<RestaurantReadResponse> getRestaurantsLeftJoinImage() {
         return new ArrayList<>();
     }
 }
