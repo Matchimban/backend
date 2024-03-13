@@ -1,4 +1,4 @@
-package com.project.matchimban.api.restaurant.domain.entity;
+package com.project.matchimban.api.menu.dto.entity;
 
 import com.project.matchimban.common.global.FileInfo;
 import com.project.matchimban.common.global.TimeEntity;

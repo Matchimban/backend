@@ -1,17 +1,17 @@
 package com.project.matchimban.api.restaurant.service.impl;
 
 import com.project.matchimban.api.auth.security.model.CustomUserDetails;
-import com.project.matchimban.api.restaurant.domain.dto.request.MenuCreateRequest;
+import com.project.matchimban.api.menu.dto.dto.MenuCreateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantCreateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantUpdateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantDetailReadResponse;
 import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantReadResponse;
-import com.project.matchimban.api.restaurant.domain.entity.Menu;
-import com.project.matchimban.api.restaurant.domain.entity.MenuImage;
+import com.project.matchimban.api.menu.dto.entity.Menu;
+import com.project.matchimban.api.menu.dto.entity.MenuImage;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.domain.entity.RestaurantImage;
-import com.project.matchimban.api.restaurant.repository.MenuImageRepository;
-import com.project.matchimban.api.restaurant.repository.MenuRepository;
+import com.project.matchimban.api.menu.repository.MenuImageRepository;
+import com.project.matchimban.api.menu.repository.MenuRepository;
 import com.project.matchimban.api.restaurant.repository.RestaurantImageRepository;
 import com.project.matchimban.api.restaurant.repository.RestaurantRepository;
 import com.project.matchimban.api.restaurant.repository.RestaurantRepositoryQuerydsl;
