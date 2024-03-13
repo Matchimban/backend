@@ -1,15 +1,13 @@
-package com.project.matchimban.api.restaurant.domain.dto.request;
+package com.project.matchimban.api.menu.dto.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Getter
-@Setter
+@Data
 @Schema(description = "메뉴 등록 DTO")
 public class MenuCreateRequest {
 
@@ -21,7 +19,7 @@ public class MenuCreateRequest {
     @NotNull(message = "메뉴 가격을 등록해주세요")
     private int price;
 
-    @Schema(description = "메뉴 사진 / 사진 명칭에는 반드시 확장자가 포함되어야 합니다")
-    @NotNull(message = "메뉴 사진 파일을 등록해주세요")
+    @Schema(description = "메뉴 이미지")
+    @NotNull(message = "메뉴 이미지를 등록해주세요")
     private MultipartFile image;
 }

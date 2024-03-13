@@ -1,8 +1,8 @@
 package com.project.matchimban.api.reservation.service.impl;
 
 import com.project.matchimban.api.auth.security.model.CustomUserDetails;
-import com.project.matchimban.api.restaurant.domain.entity.Menu;
-import com.project.matchimban.api.restaurant.repository.MenuRepository;
+import com.project.matchimban.api.menu.dto.entity.Menu;
+import com.project.matchimban.api.menu.repository.MenuRepository;
 import com.project.matchimban.api.reservation.domain.dto.*;
 import com.project.matchimban.api.reservation.domain.entity.Reservation;
 import com.project.matchimban.api.reservation.domain.entity.ReservationMenu;
@@ -23,7 +23,6 @@ import com.siot.IamportRestClient.response.Payment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
