@@ -1,6 +1,6 @@
 package com.project.matchimban.api.menu.dto.entity;
 
-import com.project.matchimban.api.menu.dto.dto.MenuCreateRequest;
+import com.project.matchimban.api.menu.dto.dto.MenuUpdateRequest;
 import com.project.matchimban.api.menu.dto.enums.MenuStatus;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.common.global.TimeEntity;
@@ -52,7 +52,7 @@ public class Menu extends TimeEntity {
     @JoinColumn(name = "menu_image_id")
     private MenuImage menuImage;
 
-    public static Menu createMenu(Restaurant restaurant, MenuCreateRequest request, MenuImage menuImage) {
+    public static Menu createMenu(Restaurant restaurant, MenuUpdateRequest request, MenuImage menuImage) {
         return Menu.builder()
                 .restaurant(restaurant)
                 .name(request.getName())
