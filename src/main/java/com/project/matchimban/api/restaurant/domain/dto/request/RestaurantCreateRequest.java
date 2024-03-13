@@ -71,7 +71,7 @@ public class RestaurantCreateRequest {
     @Schema(description = "안내 및 유의사항")
     private String notice;
 
-    @Schema(description = "사진 리스트")
+    @Schema(description = "사진 리스트 / 사진 명칭에는 반드시 확장자가 포함되어야 합니다")
     @NotNull(message = "사진을 등록해주세요.")
     private List<MultipartFile> images;
 }
