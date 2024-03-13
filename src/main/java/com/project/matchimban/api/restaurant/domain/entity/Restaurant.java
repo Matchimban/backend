@@ -77,7 +77,7 @@ public class Restaurant extends TimeEntity {
     @ColumnDefault("'PUBLISHED'")
     private RestaurantStatus status;
 
-    @OneToOne(mappedBy = "restaurant")
+    @OneToOne(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private RestaurantReservation restaurantReservation;
 
     @Builder.Default
