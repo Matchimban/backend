@@ -75,13 +75,13 @@ public class RestaurantController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "20000", description = "조회 성공", content = @Content(schema = @Schema(implementation = RestaurantDetailReadResponse.class)))
     })
-    @GetMapping(value = "/{reservationId}")
+    @GetMapping(value = "/{restaurantId}")
     public ResponseEntity<Object> getRestaurantById(
             @Parameter(description = "매장 id 값을 받아옵니다.")
-            @PathVariable Long reservationId
+            @PathVariable Long restaurantId
     ) {
         ResultData result = new ResultData();
-        result.setResult(restaurantService.getRestaurant(reservationId));
+        result.setResult(restaurantService.getRestaurant(restaurantId));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -90,14 +90,14 @@ public class RestaurantController {
             @ApiResponse(responseCode = "20000", description = "수정 성공")
     })
     //@PreAuthorize("hasAnyRole('OWNER', 'ADMIN')")
-    @PatchMapping(value = "/{reservationId}")
+    @PatchMapping(value = "/{restaurantId}")
     public ResponseEntity<Object> updateRestaurant(
             @Parameter(description = "매장 id 값을 받아옵니다.")
-            @PathVariable Long reservationId,
+            @PathVariable Long restaurantId,
             @Parameter(description = "매장 수정 내용을 받아옵니다.")
             @RequestBody RestaurantUpdateRequest dto
     ) {
-        restaurantService.updateRestaurant(reservationId, dto);
+        restaurantService.updateRestaurant(restaurantId, dto);
         return new ResponseEntity<>(new ResultData(), HttpStatus.OK);
     }
 }
