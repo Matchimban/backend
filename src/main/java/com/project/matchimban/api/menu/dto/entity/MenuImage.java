@@ -37,12 +37,6 @@ public class MenuImage extends TimeEntity {
     @Column(nullable = false)
     private String savedFileUrl;
 
-    @Transient
-    private LocalDateTime updatedDate;
-
-    @OneToOne(mappedBy = "menuImage", fetch = FetchType.LAZY)
-    private Menu menu;
-
     public static MenuImage createMenuImage(FileInfo fileInfo) {
         return MenuImage.builder()
                 .originFileName(fileInfo.getOriginalFileName())
