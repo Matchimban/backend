@@ -77,19 +77,19 @@ public class Restaurant extends TimeEntity {
     @ColumnDefault("'PUBLISHED'")
     private RestaurantStatus status;
 
-    @OneToOne(mappedBy = "restaurant", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "restaurant")
     private RestaurantReservation restaurantReservation;
 
     @Builder.Default
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private List<Wishlist> wishRestaurant = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private List<Review> reviews = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private List<RestaurantImage> restaurantImages = new ArrayList<>();
 
     public static Restaurant createRestaurant(RestaurantCreateRequest request, User user, Address address) {
