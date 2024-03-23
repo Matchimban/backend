@@ -1,4 +1,4 @@
-package com.project.matchimban.api.menu.dto.dto;
+package com.project.matchimban.api.menu.dto.dto.response;
 
 import com.project.matchimban.api.menu.dto.entity.Menu;
 import io.swagger.v3.oas.annotations.media.Schema;
