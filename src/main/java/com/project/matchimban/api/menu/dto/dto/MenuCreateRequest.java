@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @Schema(description = "메뉴 등록 DTO")
@@ -20,6 +21,5 @@ public class MenuCreateRequest {
     private int price;
 
     @Schema(description = "메뉴 이미지")
-    @NotNull(message = "메뉴 이미지를 등록해주세요")
-    private MultipartFile image;
+    private List<MultipartFile> images;
 }
