@@ -1,14 +1,17 @@
 package com.project.matchimban.api.menu.dto.dto.response;
 
 import com.project.matchimban.api.menu.dto.entity.Menu;
+import com.project.matchimban.api.menu.dto.entity.MenuImage;
+import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalTime;
+
 @Data
-@Builder
 @Schema(description = "메뉴 조회 DTO")
-public class MenuReadResponse {
+public class MenusReadResponse {
     @Schema(description = "메뉴 ID")
     private Long id;
 
@@ -21,12 +24,11 @@ public class MenuReadResponse {
     @Schema(description = "메뉴 이미지")
     private String imageUrl;
 
-    public static MenuReadResponse createMenuReadResponse(Menu menu, String menuImage) {
-        return MenuReadResponse.builder()
-                .id(menu.getId())
-                .name(menu.getName())
-                .price(menu.getPrice())
-                .imageUrl(menuImage)
-                .build();
+    @QueryProjection
+    public MenusReadResponse(Menu menu, String savedFileUrl){
+        this.id = menu.getId();
+        this.name = menu.getName();
+        this.price = menu.getPrice();
+        this.imageUrl = savedFileUrl;
     }
 }

@@ -1,7 +1,7 @@
 package com.project.matchimban.api.menu.controller;
 
 import com.project.matchimban.api.menu.dto.dto.request.MenuCreateRequest;
-import com.project.matchimban.api.menu.dto.dto.response.MenuReadResponse;
+import com.project.matchimban.api.menu.dto.dto.response.MenusReadResponse;
 import com.project.matchimban.api.menu.service.MenuService;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.service.RestaurantService;
@@ -59,7 +59,7 @@ public class MenuController {
             @PathVariable Long restaurantId
     ) {
         Restaurant restaurant = restaurantService.validateRestaurantId(restaurantId);
-        List<MenuReadResponse> menus = menuService.getMenus(restaurant);
+        List<MenusReadResponse> menus = menuService.getMenus(restaurant);
         ResultData result = new ResultData();
         result.setResult(menus);
         return new ResponseEntity<>(result, HttpStatus.OK);
