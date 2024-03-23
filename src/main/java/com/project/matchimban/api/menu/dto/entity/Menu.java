@@ -1,6 +1,6 @@
 package com.project.matchimban.api.menu.dto.entity;
 
-import com.project.matchimban.api.menu.dto.dto.MenuCreateRequest;
+import com.project.matchimban.api.menu.dto.dto.request.MenuCreateRequest;
 import com.project.matchimban.api.menu.dto.enums.MenuStatus;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.common.global.TimeEntity;

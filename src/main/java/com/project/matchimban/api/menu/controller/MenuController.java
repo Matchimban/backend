@@ -1,7 +1,7 @@
 package com.project.matchimban.api.menu.controller;
 
-import com.project.matchimban.api.menu.dto.dto.MenuCreateRequest;
-import com.project.matchimban.api.menu.dto.dto.MenuReadResponse;
+import com.project.matchimban.api.menu.dto.dto.request.MenuCreateRequest;
+import com.project.matchimban.api.menu.dto.dto.response.MenuReadResponse;
 import com.project.matchimban.api.menu.service.MenuService;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.service.RestaurantService;
