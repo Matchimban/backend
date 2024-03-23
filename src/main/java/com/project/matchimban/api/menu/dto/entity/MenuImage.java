@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
@@ -15,6 +16,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import java.time.LocalDateTime;
@@ -28,7 +31,6 @@ import java.time.LocalDateTime;
 public class MenuImage extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "menu_image_id")
     private Long id;
 
     @Column(nullable = false)
@@ -37,10 +39,15 @@ public class MenuImage extends TimeEntity {
     @Column(nullable = false)
     private String savedFileUrl;
 
-    public static MenuImage createMenuImage(FileInfo fileInfo) {
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(nullable = false, name = "menu_id")
+    private Menu menu;
+
+    public static MenuImage createMenuImage(FileInfo fileInfo, Menu menu) {
         return MenuImage.builder()
                 .originFileName(fileInfo.getOriginalFileName())
                 .savedFileUrl(fileInfo.getSavedFileUrl())
+                .menu(menu)
                 .build();
     }
 }
