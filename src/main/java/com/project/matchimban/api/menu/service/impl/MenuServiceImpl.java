@@ -32,20 +32,23 @@ public class MenuServiceImpl implements MenuService {
 
     @Transactional
     public void createMenu(Restaurant restaurant, MenuCreateRequest request) {
-        MenuImage menuImage = createMenuImage(request.getImage());
-        Menu menu = Menu.createMenu(restaurant, request, menuImage);
-
-        menuImageRepository.save(menuImage);
+        Menu menu = Menu.createMenu(restaurant, request);
         menuRepository.save(menu);
+
+        for (MultipartFile image : request.getImages()) {
+            MenuImage menuImage = createMenuImage(image, menu);
+            menu.addImage(menuImage);
+            menuImageRepository.save(menuImage);
+        }
     }
 
-    public MenuImage createMenuImage(MultipartFile image) {
+    public MenuImage createMenuImage(MultipartFile image, Menu menu) {
         Optional<FileInfo> fileInfo = s3Service.saveFile(image);
 
         if (fileInfo.isEmpty())
             throw new SVCException(ErrorConstant.FILE_ERROR_NULL_FILE);
 
-        return MenuImage.createMenuImage(fileInfo.get());
+        return MenuImage.createMenuImage(fileInfo.get(), menu);
     }
 
     public List<MenuReadResponse> getMenus(Restaurant restaurant) {
