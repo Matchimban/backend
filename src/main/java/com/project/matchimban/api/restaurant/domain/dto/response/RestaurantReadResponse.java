@@ -2,35 +2,59 @@ package com.project.matchimban.api.restaurant.domain.dto.response;
 
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantCategory;
-import com.querydsl.core.annotations.QueryProjection;
+import com.project.matchimban.api.restaurant.domain.enums.RestaurantStatus;
+import com.project.matchimban.common.global.Address;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
-@Schema(description = "매장 전체 조회 세부 DTO")
+@Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Schema(description = "매장 상세 조회 DTO")
 public class RestaurantReadResponse {
 
-    @Schema(description = "매장 id")
     private Long id;
 
-    @Schema(description = "메장 카테고리")
+    private Long userId;
+
     private RestaurantCategory category;
 
-    @Schema(description = "메장 이름")
     private String name;
 
-    @Schema(description = "매장 주소(시/도)")
-    private String addrSido;
+    private String businessNumber;
 
-    @Schema(description = "매장 MAIN 사진")
-    private String imageUrl;
+    private String introduction;
+    private String telephone;
+    private String businessHours;
+    private String closedDays;
+    private String notice;
 
-    @QueryProjection
-    public RestaurantReadResponse(Restaurant restaurant, String savedFileUrl) {
-        this.id = restaurant.getId();
-        this.category = restaurant.getCategory();
-        this.name = restaurant.getName();
-        this.addrSido = restaurant.getAddress().getAddrSido();
-        this.imageUrl = savedFileUrl;
+    private Address address;
+
+    private String originCountry;
+
+    private RestaurantStatus status;
+
+    public static RestaurantReadResponse createRestaurantDetailReadResponse(Restaurant restaurant) {
+        return RestaurantReadResponse.builder()
+                .id(restaurant.getId())
+                .userId(restaurant.getUser().getId())
+                .category(restaurant.getCategory())
+                .name(restaurant.getName())
+                .businessNumber(restaurant.getBusinessNumber())
+                .introduction(restaurant.getIntroduction())
+                .telephone(restaurant.getTelephone())
+                .businessHours(restaurant.getBusinessHours())
+                .closedDays(restaurant.getClosedDays())
+                .notice(restaurant.getNotice())
+                .address(restaurant.getAddress())
+                .originCountry(restaurant.getOriginCountry())
+                .status(restaurant.getStatus())
+                .build();
     }
 }

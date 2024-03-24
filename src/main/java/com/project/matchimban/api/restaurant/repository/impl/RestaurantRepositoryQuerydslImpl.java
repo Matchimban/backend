@@ -1,10 +1,9 @@
 package com.project.matchimban.api.restaurant.repository.impl;
 
-import com.project.matchimban.api.restaurant.domain.dto.response.QRestaurantReadResponse;
-import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantReadResponse;
-import com.project.matchimban.api.restaurant.domain.entity.QRestaurant;
-import com.project.matchimban.api.restaurant.domain.entity.QRestaurantImage;
+import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantsReadResponse;
+import com.project.matchimban.api.restaurant.domain.enums.RestaurantImageCategory;
 import com.project.matchimban.api.restaurant.repository.RestaurantRepositoryQuerydsl;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -21,11 +20,12 @@ public class RestaurantRepositoryQuerydslImpl implements RestaurantRepositoryQue
 
     private final JPAQueryFactory queryFactory;
 
-    public List<RestaurantReadResponse> getRestaurantsLeftJoinImage() {
+    public List<RestaurantsReadResponse> getRestaurantsLeftJoinImage() {
         return queryFactory
-                .select(new QRestaurantReadResponse(restaurant, restaurantImage.savedFileUrl))
+                .select(Projections.constructor(RestaurantsReadResponse.class, restaurant, restaurantImage.savedFileUrl))
                 .from(restaurant)
                 .leftJoin(restaurant.restaurantImages, restaurantImage)
+                .where(restaurantImage.imageCategory.eq(RestaurantImageCategory.MAIN))
                 .fetch();
     }
 }
