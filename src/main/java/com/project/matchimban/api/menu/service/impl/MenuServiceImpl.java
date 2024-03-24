@@ -53,6 +53,6 @@ public class MenuServiceImpl implements MenuService {
     }
 
     public List<MenusReadResponse> getMenus(Restaurant restaurant) {
-        return menuRepositoryQuerydsl.getMenusLeftJoinMenuImage();
+        return menuRepositoryQuerydsl.getMenusLeftJoinMenuImage(restaurant.getId());
     }
 }
