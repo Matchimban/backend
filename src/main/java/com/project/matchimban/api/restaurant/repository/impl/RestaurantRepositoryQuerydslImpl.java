@@ -1,10 +1,6 @@
 package com.project.matchimban.api.restaurant.repository.impl;
 
-import com.project.matchimban.api.restaurant.domain.dto.response.QRestaurantReadResponse;
-import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantReadResponse;
 import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantsReadResponse;
-import com.project.matchimban.api.restaurant.domain.entity.QRestaurant;
-import com.project.matchimban.api.restaurant.domain.entity.QRestaurantImage;
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantImageCategory;
 import com.project.matchimban.api.restaurant.repository.RestaurantRepositoryQuerydsl;
 import com.querydsl.core.types.Projections;
