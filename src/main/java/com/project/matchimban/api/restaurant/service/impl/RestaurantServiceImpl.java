@@ -3,8 +3,8 @@ package com.project.matchimban.api.restaurant.service.impl;
 import com.project.matchimban.api.auth.security.model.CustomUserDetails;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantCreateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantUpdateRequest;
-import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantDetailReadResponse;
 import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantReadResponse;
+import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantsReadResponse;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.domain.entity.RestaurantImage;
 import com.project.matchimban.api.restaurant.repository.RestaurantImageRepository;
@@ -27,7 +27,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -92,13 +91,13 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurantImageRepository.saveAll(imagesToSave);
     }
 
-    public List<RestaurantReadResponse> getRestaurants() {
+    public List<RestaurantsReadResponse> getRestaurants() {
         return restaurantRepositoryQuerydsl.getRestaurantsLeftJoinImage();
     }
 
-    public RestaurantDetailReadResponse getRestaurant(Long id) {
+    public RestaurantReadResponse getRestaurant(Long id) {
         Restaurant restaurant = validateRestaurantId(id);
-        return RestaurantDetailReadResponse.createRestaurantDetailReadResponse(restaurant);
+        return RestaurantReadResponse.createRestaurantDetailReadResponse(restaurant);
     }
 
     @Transactional
