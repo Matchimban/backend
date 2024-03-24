@@ -1,4 +1,4 @@
-package com.project.matchimban.api.menu.dto.dto.response;
+package com.project.matchimban.api.menu.domain.dto.response;
 
 import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.v3.oas.annotations.media.Schema;

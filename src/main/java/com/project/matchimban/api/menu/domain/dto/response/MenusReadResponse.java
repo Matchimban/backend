@@ -1,6 +1,6 @@
-package com.project.matchimban.api.menu.dto.dto.response;
+package com.project.matchimban.api.menu.domain.dto.response;
 
-import com.project.matchimban.api.menu.dto.entity.Menu;
+import com.project.matchimban.api.menu.domain.entity.Menu;
 import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

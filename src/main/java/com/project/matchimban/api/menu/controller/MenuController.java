@@ -1,11 +1,10 @@
 package com.project.matchimban.api.menu.controller;
 
-import com.project.matchimban.api.menu.dto.dto.request.MenuCreateRequest;
-import com.project.matchimban.api.menu.dto.dto.response.MenusReadResponse;
+import com.project.matchimban.api.menu.domain.dto.request.MenuCreateRequest;
+import com.project.matchimban.api.menu.domain.dto.response.MenusReadResponse;
 import com.project.matchimban.api.menu.service.MenuService;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.service.RestaurantService;
-import com.project.matchimban.common.exception.ValidResult;
 import com.project.matchimban.common.response.ResultData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

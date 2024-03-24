@@ -1,9 +1,9 @@
 package com.project.matchimban.api.menu.service.impl;
 
-import com.project.matchimban.api.menu.dto.dto.request.MenuCreateRequest;
-import com.project.matchimban.api.menu.dto.dto.response.MenusReadResponse;
-import com.project.matchimban.api.menu.dto.entity.Menu;
-import com.project.matchimban.api.menu.dto.entity.MenuImage;
+import com.project.matchimban.api.menu.domain.dto.request.MenuCreateRequest;
+import com.project.matchimban.api.menu.domain.dto.response.MenusReadResponse;
+import com.project.matchimban.api.menu.domain.entity.Menu;
+import com.project.matchimban.api.menu.domain.entity.MenuImage;
 import com.project.matchimban.api.menu.repository.MenuImageRepository;
 import com.project.matchimban.api.menu.repository.MenuRepository;
 import com.project.matchimban.api.menu.repository.MenuRepositoryQuerydsl;
