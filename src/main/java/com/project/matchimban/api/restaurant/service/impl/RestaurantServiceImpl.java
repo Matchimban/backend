@@ -93,10 +93,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     public List<RestaurantReadResponse> getRestaurants() {
-        List<Restaurant> restaurants = restaurantRepository.findAll();
-        return restaurants.stream()
-                .map(RestaurantReadResponse::new)
-                .collect(Collectors.toList());
+        return restaurantRepositoryQuerydsl.getRestaurantsLeftJoinImage();
     }
 
     public RestaurantDetailReadResponse getRestaurant(Long id) {

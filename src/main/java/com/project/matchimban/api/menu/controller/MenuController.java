@@ -5,9 +5,12 @@ import com.project.matchimban.api.menu.dto.dto.response.MenusReadResponse;
 import com.project.matchimban.api.menu.service.MenuService;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.service.RestaurantService;
+import com.project.matchimban.common.exception.ValidResult;
 import com.project.matchimban.common.response.ResultData;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -51,7 +54,7 @@ public class MenuController {
 
     @Operation(summary = "메뉴 전체 조회", description = "메뉴 정보를 조회합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "20000", description = "조회 성공")
+            @ApiResponse(responseCode = "20000", description = "조회 성공", content = @Content(schema = @Schema(implementation = MenusReadResponse.class)))
     })
     @GetMapping("")
     public ResponseEntity<Object> getMenus(

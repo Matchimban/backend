@@ -5,5 +5,5 @@ import com.project.matchimban.api.menu.dto.dto.response.MenusReadResponse;
 import java.util.List;
 
 public interface MenuRepositoryQuerydsl {
-    List<MenusReadResponse> getMenusLeftJoinMenuImage();
+    List<MenusReadResponse> getMenusLeftJoinMenuImage(Long restaurantId);
 }
