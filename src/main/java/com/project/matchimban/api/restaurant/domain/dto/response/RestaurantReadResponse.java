@@ -2,17 +2,11 @@ package com.project.matchimban.api.restaurant.domain.dto.response;
 
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantCategory;
+import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.Data;
 
-@Getter
-@Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Data
 @Schema(description = "매장 전체 조회 세부 DTO")
 public class RestaurantReadResponse {
 
@@ -31,21 +25,12 @@ public class RestaurantReadResponse {
     @Schema(description = "매장 MAIN 사진")
     private String imageUrl;
 
-//    public static RestaurantReadResponse createRestaurantsReadResponse(Restaurant restaurant, String imageUrl) {
-//        return RestaurantsReadResponse.builder()
-//                .id(restaurant.getId())
-//                .category(restaurant.getCategory())
-//                .name(restaurant.getName())
-//                .addrSido(restaurant.getAddress().getAddrSido())
-//                .imageUrl(imageUrl)
-//                .build();
-//    }
-
-    public RestaurantReadResponse(Restaurant restaurant) {
+    @QueryProjection
+    public RestaurantReadResponse(Restaurant restaurant, String savedFileUrl) {
         this.id = restaurant.getId();
         this.category = restaurant.getCategory();
         this.name = restaurant.getName();
         this.addrSido = restaurant.getAddress().getAddrSido();
-        this.imageUrl = "imageURL 자리";
+        this.imageUrl = savedFileUrl;
     }
 }
