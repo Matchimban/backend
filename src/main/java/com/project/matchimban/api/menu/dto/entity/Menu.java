@@ -1,6 +1,6 @@
 package com.project.matchimban.api.menu.dto.entity;
 
-import com.project.matchimban.api.menu.dto.dto.MenuCreateRequest;
+import com.project.matchimban.api.menu.dto.dto.request.MenuCreateRequest;
 import com.project.matchimban.api.menu.dto.enums.MenuStatus;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.common.global.TimeEntity;
@@ -21,7 +21,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -48,17 +50,20 @@ public class Menu extends TimeEntity {
     @ColumnDefault("'PUBLISHED'")
     private MenuStatus status;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "menu_image_id")
-    private MenuImage menuImage;
+    @Builder.Default
+    @OneToMany(mappedBy = "menu", fetch = FetchType.LAZY)
+    private List<MenuImage> images = new ArrayList<>();
 
-    public static Menu createMenu(Restaurant restaurant, MenuCreateRequest request, MenuImage menuImage) {
+    public static Menu createMenu(Restaurant restaurant, MenuCreateRequest request) {
         return Menu.builder()
                 .restaurant(restaurant)
                 .name(request.getName())
                 .price(request.getPrice())
                 .status(MenuStatus.PUBLISHED)
-                .menuImage(menuImage)
                 .build();
+    }
+
+    public void addImage(MenuImage image) {
+        images.add(image);
     }
 }

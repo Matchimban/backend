@@ -81,15 +81,15 @@ public class Restaurant extends TimeEntity {
     private RestaurantReservation restaurantReservation;
 
     @Builder.Default
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private List<Wishlist> wishRestaurant = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private List<Review> reviews = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private List<RestaurantImage> restaurantImages = new ArrayList<>();
 
     public static Restaurant createRestaurant(RestaurantCreateRequest request, User user, Address address) {

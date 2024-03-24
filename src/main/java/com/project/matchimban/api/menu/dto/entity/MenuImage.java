@@ -15,9 +15,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Transient;
-import java.time.LocalDateTime;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Getter
@@ -28,7 +27,6 @@ import java.time.LocalDateTime;
 public class MenuImage extends TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "menu_image_id")
     private Long id;
 
     @Column(nullable = false)
@@ -37,16 +35,15 @@ public class MenuImage extends TimeEntity {
     @Column(nullable = false)
     private String savedFileUrl;
 
-    @Transient
-    private LocalDateTime updatedDate;
-
-    @OneToOne(mappedBy = "menuImage", fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(nullable = false, name = "menu_id")
     private Menu menu;
 
-    public static MenuImage createMenuImage(FileInfo fileInfo) {
+    public static MenuImage createMenuImage(FileInfo fileInfo, Menu menu) {
         return MenuImage.builder()
                 .originFileName(fileInfo.getOriginalFileName())
                 .savedFileUrl(fileInfo.getSavedFileUrl())
+                .menu(menu)
                 .build();
     }
 }
