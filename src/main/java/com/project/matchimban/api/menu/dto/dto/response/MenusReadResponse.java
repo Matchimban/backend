@@ -5,6 +5,8 @@ import com.querydsl.core.annotations.QueryProjection;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Schema(description = "메뉴 조회 DTO")
 public class MenusReadResponse {
@@ -18,10 +20,10 @@ public class MenusReadResponse {
     private int price;
 
     @Schema(description = "메뉴 이미지")
-    private String imageUrl;
+    private List<MenuImagesReadResponse> imageUrl;
 
     @QueryProjection
-    public MenusReadResponse(Menu menu, String savedFileUrl) {
+    public MenusReadResponse(Menu menu, List<MenuImagesReadResponse> savedFileUrl) {
         this.id = menu.getId();
         this.name = menu.getName();
         this.price = menu.getPrice();
