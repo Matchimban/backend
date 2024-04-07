@@ -2,28 +2,14 @@ package com.project.matchimban.api.restaurant.domain.dto.request;
 
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantCategory;
 import com.project.matchimban.api.restaurant.domain.enums.RestaurantStatus;
-import com.project.matchimban.api.user.domain.entity.User;
-import com.project.matchimban.common.global.Address;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @Setter
 @Getter
 @Schema(description = "매장 수정 Request")
 public class RestaurantUpdateRequest {
-
-    @Schema(description = "매장 ID")
-    @NotNull(message = "매장 ID를 등록해주세요.")
-    private Long id;
-
-    @Schema(description = "매장 오너 ID")
-    @NotNull(message = "매장 오너 ID를 등록해주세요.")
-    private Long userId;
-
     @Schema(description = "매장 카테고리")
     private RestaurantCategory category;
 

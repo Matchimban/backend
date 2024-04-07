@@ -1,7 +1,7 @@
 package com.project.matchimban.api.menu.repository.impl;
 
-import com.project.matchimban.api.menu.dto.dto.response.MenuImagesReadResponse;
-import com.project.matchimban.api.menu.dto.dto.response.MenusReadResponse;
+import com.project.matchimban.api.menu.domain.dto.response.MenuImagesReadResponse;
+import com.project.matchimban.api.menu.domain.dto.response.MenusReadResponse;
 import com.project.matchimban.api.menu.repository.MenuRepositoryQuerydsl;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static com.project.matchimban.api.menu.dto.entity.QMenu.menu;
-import static com.project.matchimban.api.menu.dto.entity.QMenuImage.menuImage;
+import static com.project.matchimban.api.menu.domain.entity.QMenu.menu;
+import static com.project.matchimban.api.menu.domain.entity.QMenuImage.menuImage;
 import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.group.GroupBy.list;
 

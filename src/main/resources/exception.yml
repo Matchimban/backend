@@ -76,6 +76,10 @@ EXPIRED_TOKEN:
   code: 60008
   msg: "토큰이 만료되었습니다."
 
+NOT_OWNED_BY_THE_USER:
+  code: 60009
+  msg: "해당 회원의 소유 매장이 아닙니다."
+
 
 ####### 61xxx RestaurantReservation
 RESTAURANTRESERVATION_ERROR_RESTAURANT_NONE_PK:

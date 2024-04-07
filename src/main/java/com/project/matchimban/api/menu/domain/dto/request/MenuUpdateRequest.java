@@ -1,4 +1,4 @@
-package com.project.matchimban.api.menu.dto.dto.request;
+package com.project.matchimban.api.menu.domain.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

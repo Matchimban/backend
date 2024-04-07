@@ -110,25 +110,15 @@ public class Restaurant extends TimeEntity {
     }
 
     public void updateRestaurant(RestaurantUpdateRequest request, Address address) {
-        if (request.getBusinessHours() != null)
-            this.businessHours = request.getBusinessHours();
-        if (request.getCategory() != null)
-            this.category = request.getCategory();
-        if (request.getNotice() != null)
-            this.notice = request.getNotice();
-        if (request.getName() != null)
-            this.name = request.getName();
-        if (request.getTelephone() != null)
-            this.telephone = request.getTelephone();
-        if (request.getIntroduction() != null)
-            this.introduction = request.getIntroduction();
-        if (request.getBusinessHours() != null)
-            this.businessHours = request.getBusinessHours();
-        if (address != null)
-            this.address = address;
-        if (request.getClosedDays() != null)
-            this.closedDays = request.getClosedDays();
-        if (request.getStatus() != null)
-            this.status = request.getStatus();
+        this.businessHours = request.getBusinessHours();
+        this.category = request.getCategory();
+        this.notice = request.getNotice();
+        this.name = request.getName();
+        this.telephone = request.getTelephone();
+        this.introduction = request.getIntroduction();
+        this.businessHours = request.getBusinessHours();
+        this.address = address;
+        this.closedDays = request.getClosedDays();
+        this.status = request.getStatus();
     }
 }

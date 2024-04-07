@@ -1,7 +1,7 @@
 package com.project.matchimban.api.reservation.service.impl;
 
 import com.project.matchimban.api.auth.security.model.CustomUserDetails;
-import com.project.matchimban.api.menu.dto.entity.Menu;
+import com.project.matchimban.api.menu.domain.entity.Menu;
 import com.project.matchimban.api.menu.repository.MenuRepository;
 import com.project.matchimban.api.reservation.domain.dto.*;
 import com.project.matchimban.api.reservation.domain.entity.Reservation;

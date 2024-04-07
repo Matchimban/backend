@@ -34,6 +34,7 @@ public class ErrorConstant {
     public final static String NOT_FOUND_TOKEN = "NOT_FOUND_TOKEN";
     public final static String INVALID_REFRESH_TOKEN = "INVALID_REFRESH_TOKEN";
     public final static String EXPIRED_TOKEN = "EXPIRED_TOKEN";
+    public final static String NOT_OWNED_BY_THE_USER = "NOT_OWNED_BY_THE_USER";
 
     /**
      * restaurant_reservation
