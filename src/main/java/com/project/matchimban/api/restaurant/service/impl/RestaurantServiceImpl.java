@@ -3,11 +3,13 @@ package com.project.matchimban.api.restaurant.service.impl;
 import com.project.matchimban.api.auth.security.model.CustomUserDetails;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantCreateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantUpdateRequest;
+import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantImageReadResponse;
 import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantReadResponse;
 import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantsReadResponse;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.domain.entity.RestaurantImage;
 import com.project.matchimban.api.restaurant.repository.RestaurantImageRepository;
+import com.project.matchimban.api.restaurant.repository.RestaurantImageRepositoryQuerydsl;
 import com.project.matchimban.api.restaurant.repository.RestaurantRepository;
 import com.project.matchimban.api.restaurant.repository.RestaurantRepositoryQuerydsl;
 import com.project.matchimban.api.restaurant.service.RestaurantService;
@@ -38,6 +40,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final RestaurantImageRepository restaurantImageRepository;
     private final RestaurantRepositoryQuerydsl restaurantRepositoryQuerydsl;
+    private final RestaurantImageRepositoryQuerydsl restaurantImaageRepositoryQuerydsl;
 
     private final S3Service s3Service;
 
@@ -97,7 +100,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     public RestaurantReadResponse getRestaurant(Long id) {
         Restaurant restaurant = validateRestaurantId(id);
-        List<String> images = restaurantImageRepository.findSavedFileUrlByRestaurantId(restaurant);
+        List<RestaurantImageReadResponse> images = restaurantImaageRepositoryQuerydsl.getRestaurantImageByRestaurantId(restaurant);
         return RestaurantReadResponse.createRestaurantDetailReadResponse(restaurant, images);
     }
 

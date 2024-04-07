@@ -61,9 +61,10 @@ public class RestaurantReadResponse {
     private RestaurantStatus status;
 
     @Schema(description = "매장 사진")
-    private List<String> images = new ArrayList<>();
+    @Builder.Default
+    private List<RestaurantImageReadResponse> images = new ArrayList<>();
 
-    public static RestaurantReadResponse createRestaurantDetailReadResponse(Restaurant restaurant, List<String> images) {
+    public static RestaurantReadResponse createRestaurantDetailReadResponse(Restaurant restaurant, List<RestaurantImageReadResponse> images) {
         return RestaurantReadResponse.builder()
                 .id(restaurant.getId())
                 .userId(restaurant.getUser().getId())
