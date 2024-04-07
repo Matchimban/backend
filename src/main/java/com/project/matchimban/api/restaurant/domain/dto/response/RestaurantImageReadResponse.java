@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@Schema(name = "매장 이미지 조회 DTO")
+@Schema(description = "매장 이미지 조회 DTO")
 public class RestaurantImageReadResponse {
 
     @Schema(name = "매장 이미지 id")

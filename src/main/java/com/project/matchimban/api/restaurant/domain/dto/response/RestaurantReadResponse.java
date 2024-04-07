@@ -18,26 +18,43 @@ import lombok.NoArgsConstructor;
 @Schema(description = "매장 상세 조회 DTO")
 public class RestaurantReadResponse {
 
+    @Schema(description = "매장 ID")
     private Long id;
 
+    @Schema(description = "회원 ID")
     private Long userId;
 
+    @Schema(description = "매장 카테고리")
     private RestaurantCategory category;
 
+    @Schema(description = "매장명")
     private String name;
 
+    @Schema(description = "사업자번호")
     private String businessNumber;
 
+    @Schema(description = "매장 소개")
     private String introduction;
+
+    @Schema(description = "전화 번호")
     private String telephone;
+
+    @Schema(description = "영업 시간")
     private String businessHours;
+
+    @Schema(description = "휴무일")
     private String closedDays;
+
+    @Schema(description = "매장 공지")
     private String notice;
 
+    @Schema(description = "주소")
     private Address address;
 
+    @Schema(description = "원산지")
     private String originCountry;
 
+    @Schema(description = "매장 상태")
     private RestaurantStatus status;
 
     public static RestaurantReadResponse createRestaurantDetailReadResponse(Restaurant restaurant) {
