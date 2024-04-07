@@ -24,9 +24,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -90,7 +90,7 @@ public class RestaurantController {
             @ApiResponse(responseCode = "20000", description = "수정 성공")
     })
     //@PreAuthorize("hasAnyRole('OWNER', 'ADMIN')")
-    @PatchMapping(value = "/{restaurantId}")
+    @PutMapping(value = "/{restaurantId}")
     public ResponseEntity<Object> updateRestaurant(
             @Parameter(description = "매장 id 값을 받아옵니다.")
             @PathVariable Long restaurantId,
