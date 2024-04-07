@@ -106,7 +106,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         Restaurant restaurant = validateRestaurantId(id);
 
         Address address = Address.createAddress(
-                "eeee", "eee", "e", "ee", 1.1, 1.1
+                request.getAddrSido(), request.getAddrSigg(), request.getAddrEmd(), request.getAddrDetail(), request.getLatitude(), request.getLongitude()
         );
         restaurant.updateRestaurant(request, address);
         restaurantRepository.save(restaurant);
