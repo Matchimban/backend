@@ -97,7 +97,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     public RestaurantReadResponse getRestaurant(Long id) {
         Restaurant restaurant = validateRestaurantId(id);
-        return RestaurantReadResponse.createRestaurantDetailReadResponse(restaurant);
+        List<String> images = restaurantImageRepository.findSavedFileUrlByRestaurantId(restaurant);
+        return RestaurantReadResponse.createRestaurantDetailReadResponse(restaurant, images);
     }
 
     @Transactional

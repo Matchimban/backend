@@ -11,6 +11,9 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -57,7 +60,10 @@ public class RestaurantReadResponse {
     @Schema(description = "매장 상태")
     private RestaurantStatus status;
 
-    public static RestaurantReadResponse createRestaurantDetailReadResponse(Restaurant restaurant) {
+    @Schema(description = "매장 사진")
+    private List<String> images = new ArrayList<>();
+
+    public static RestaurantReadResponse createRestaurantDetailReadResponse(Restaurant restaurant, List<String> images) {
         return RestaurantReadResponse.builder()
                 .id(restaurant.getId())
                 .userId(restaurant.getUser().getId())
@@ -72,6 +78,7 @@ public class RestaurantReadResponse {
                 .address(restaurant.getAddress())
                 .originCountry(restaurant.getOriginCountry())
                 .status(restaurant.getStatus())
+                .images(images)
                 .build();
     }
 }
