@@ -19,4 +19,6 @@ public interface RestaurantService {
     void updateRestaurant(Long id, RestaurantUpdateRequest request);
 
     Restaurant validateRestaurantId(Long id);
+
+    void deleteRestaurant(Long id, CustomUserDetails userDetails);
 }

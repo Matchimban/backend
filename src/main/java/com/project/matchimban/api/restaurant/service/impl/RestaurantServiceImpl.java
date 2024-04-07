@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.project.matchimban.api.user.domain.enums.UserRole.ROLE_OWNER;
+
 @Slf4j
 @Service
 @Transactional(readOnly = true)
@@ -118,5 +120,20 @@ public class RestaurantServiceImpl implements RestaurantService {
     public Restaurant validateRestaurantId(Long id) {
         return restaurantRepository.findById(id)
                 .orElseThrow(() -> new SVCException(ErrorConstant.RESTAURANT_ERROR_NOT_FOUND_RESTAURANT));
+    }
+
+    @Transactional
+    public void deleteRestaurant(Long id, CustomUserDetails userDetails) {
+        User user = userRepository.findById(userDetails.getUserId())
+                .orElseThrow(() -> new SVCException(ErrorConstant.NOT_FOUND_USER));
+
+        Restaurant restaurant = validateRestaurantId(id);
+
+        if (user.getUserRole().equals(ROLE_OWNER)) {
+            if (user.getId() != restaurant.getUser().getId())
+                throw new SVCException(ErrorConstant.NOT_OWNED_BY_THE_USER);
+        }
+
+        restaurantRepository.delete(restaurant);
     }
 }
