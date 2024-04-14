@@ -100,6 +100,9 @@ RESTAURANT_ERROR_NOT_FOUND_RESTAURANT:
   code: 62000
   msg: "존재하지 않는 매장입니다."
 
+RESTAURANT_ERROR_INVALID_STATUS:
+  code: 62001
+  msg: "잘못된 매장 상태입니다."
 
 ####### 63xxx Reservation
 RESERVATION_ERROR_USER_NONE_PK:
