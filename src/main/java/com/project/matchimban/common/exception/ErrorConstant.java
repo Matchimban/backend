@@ -70,6 +70,7 @@ public class ErrorConstant {
     * restaurant
     */
     public final static String RESTAURANT_ERROR_NOT_FOUND_RESTAURANT = "RESTAURANT_ERROR_NOT_FOUND_RESTAURANT";
+    public final static String RESTAURANT_ERROR_INVALID_STATUS = "RESTAURANT_ERROR_INVALID_STATUS";
 
     /**
      * file & image

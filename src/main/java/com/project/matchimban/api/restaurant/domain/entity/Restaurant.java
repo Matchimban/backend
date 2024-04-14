@@ -92,6 +92,10 @@ public class Restaurant extends TimeEntity {
     @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private List<RestaurantImage> restaurantImages = new ArrayList<>();
 
+    public void changeStatus(RestaurantStatus status) {
+        this.status = status;
+    }
+
     public static Restaurant createRestaurant(RestaurantCreateRequest request, User user, Address address) {
         return Restaurant.builder()
                 .category(request.getCategory())
