@@ -2,12 +2,14 @@ package com.project.matchimban.api.restaurant.service.impl;
 
 import com.project.matchimban.api.auth.security.model.CustomUserDetails;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantCreateRequest;
+import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantStatusUpdateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.request.RestaurantUpdateRequest;
 import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantImageReadResponse;
 import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantReadResponse;
 import com.project.matchimban.api.restaurant.domain.dto.response.RestaurantsReadResponse;
 import com.project.matchimban.api.restaurant.domain.entity.Restaurant;
 import com.project.matchimban.api.restaurant.domain.entity.RestaurantImage;
+import com.project.matchimban.api.restaurant.domain.enums.RestaurantStatus;
 import com.project.matchimban.api.restaurant.repository.RestaurantImageRepository;
 import com.project.matchimban.api.restaurant.repository.RestaurantImageRepositoryQuerydsl;
 import com.project.matchimban.api.restaurant.repository.RestaurantRepository;
@@ -135,5 +137,19 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
 
         restaurantRepository.delete(restaurant);
+    }
+
+    @Transactional
+    public void changeRestaurantStatus(Long id, RestaurantStatusUpdateRequest dto, CustomUserDetails userDetails) {
+        userRepository.findById(userDetails.getUserId())
+                .orElseThrow(() -> new SVCException(ErrorConstant.NOT_FOUND_USER));
+
+        Restaurant restaurant = validateRestaurantId(id);
+        RestaurantStatus status = dto.getStatus();
+        if (status.equals(RestaurantStatus.INVISIBLE)
+                || status.equals(RestaurantStatus.PUBLISHED))
+            restaurant.changeStatus(dto.getStatus());
+        else
+            throw new SVCException(ErrorConstant.RESTAURANT_ERROR_INVALID_STATUS);
     }
 }
