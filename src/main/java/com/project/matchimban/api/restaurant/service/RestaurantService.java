@@ -21,7 +21,5 @@ public interface RestaurantService {
 
     Restaurant validateRestaurantId(Long id);
 
-    void deleteRestaurant(Long id, CustomUserDetails userDetails);
-
     void changeRestaurantStatus(Long id, RestaurantStatusUpdateRequest dto, CustomUserDetails userDetails);
 }

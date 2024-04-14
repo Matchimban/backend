@@ -125,31 +125,28 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Transactional
-    public void deleteRestaurant(Long id, CustomUserDetails userDetails) {
+    public void changeRestaurantStatus(Long id, RestaurantStatusUpdateRequest dto, CustomUserDetails userDetails) {
         User user = userRepository.findById(userDetails.getUserId())
                 .orElseThrow(() -> new SVCException(ErrorConstant.NOT_FOUND_USER));
 
         Restaurant restaurant = validateRestaurantId(id);
 
+        RestaurantStatus status = dto.getStatus();
+        if (status.equals(RestaurantStatus.INVISIBLE)
+                || status.equals(RestaurantStatus.PUBLISHED))
+            restaurant.changeStatus(dto.getStatus());
+        else if (status.equals(RestaurantStatus.DELETED))
+            deleteRestaurant(user, restaurant);
+        else
+            throw new SVCException(ErrorConstant.RESTAURANT_ERROR_INVALID_STATUS);
+    }
+
+    public void deleteRestaurant(User user, Restaurant restaurant) {
         if (user.getUserRole().equals(ROLE_OWNER)) {
             if (user.getId() != restaurant.getUser().getId())
                 throw new SVCException(ErrorConstant.NOT_OWNED_BY_THE_USER);
         }
 
-        restaurantRepository.delete(restaurant);
-    }
-
-    @Transactional
-    public void changeRestaurantStatus(Long id, RestaurantStatusUpdateRequest dto, CustomUserDetails userDetails) {
-        userRepository.findById(userDetails.getUserId())
-                .orElseThrow(() -> new SVCException(ErrorConstant.NOT_FOUND_USER));
-
-        Restaurant restaurant = validateRestaurantId(id);
-        RestaurantStatus status = dto.getStatus();
-        if (status.equals(RestaurantStatus.INVISIBLE)
-                || status.equals(RestaurantStatus.PUBLISHED))
-            restaurant.changeStatus(dto.getStatus());
-        else
-            throw new SVCException(ErrorConstant.RESTAURANT_ERROR_INVALID_STATUS);
+        restaurant.changeStatus(RestaurantStatus.DELETED);
     }
 }
