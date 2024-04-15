@@ -15,6 +15,7 @@ import com.project.matchimban.api.user.domain.entity.User;
 import com.project.matchimban.api.user.repository.UserRepository;
 import com.project.matchimban.common.exception.ErrorConstant;
 import com.project.matchimban.common.exception.SVCException;
+import com.project.matchimban.common.global.annotation.DistributedLock;
 import com.project.matchimban.common.response.ResultData;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.request.CancelData;
@@ -28,6 +29,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import javax.annotation.PostConstruct;
 import java.math.BigDecimal;
@@ -60,7 +62,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Value("${iamport.client.apiSecret}")
     private String iamportApiSecret;
 
-    @Transactional
+    @DistributedLock(key = "#dto.getRestaurantId().toString().concat('-').concat(#dto.getRstDate().toString()).concat(#dto.getRstTime().toString())")
     public ResponseEntity createPreReservation(ReservationCreatePreRequest dto, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new SVCException(ErrorConstant.RESERVATION_ERROR_USER_NONE_PK));
@@ -68,14 +70,15 @@ public class ReservationServiceImpl implements ReservationService {
         RestaurantReservation restaurantReservation = restaurantReservationRepository.findFirstByRestaurantId(dto.getRestaurantId())
                 .orElseThrow(() -> new SVCException(ErrorConstant.RESERVATION_ERROR_RESTAURANTRESERVATION_NONE_PK));
 
-        if(!isReservationPossible(dto, restaurantReservation))
-            new SVCException(ErrorConstant.RESERVATION_NO_REMAIN_SEAT);
-
+        if(!isReservationPossible(dto, restaurantReservation)) {
+            throw new SVCException(ErrorConstant.RESERVATION_NO_REMAIN_SEAT);
+        }
         Reservation reservation = dto.toReservationInitEntity(user, restaurantReservation);
         reservationRepository.save(reservation);
-        List<ReservationMenu> menuList = dto.toReservationMenuEntityList(reservation);
-        reservationMenuRepository.saveAll(menuList);
-
+        if(!ObjectUtils.isEmpty(dto.getMenuList())){
+            List<ReservationMenu> menuList = dto.toReservationMenuEntityList(reservation);
+            reservationMenuRepository.saveAll(menuList);
+        }
         ReservationCreatePreResponse res = ReservationCreatePreResponse.builder()
                 .reservationId(reservation.getId()).build();
 
@@ -113,6 +116,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     private boolean isInvalidVerifyPayService(Reservation reservation, Payment payment, ReservationCreateRequest dto){
+        if(ObjectUtils.isEmpty(dto.getMenuList())) return false;
         List<Long> menuIdList = dto.getMenuList().stream().map(m -> m.getMenuId()).collect(Collectors.toList());
         List<Menu> DBMenuList = menuRepository.findAllById(menuIdList);
 
@@ -170,7 +174,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         //예약일과 현재일 비교해 환불값 측정
         Integer refundAmount = reservation.calculateRefundAmount();
-        if(refundAmount==0) new SVCException(ErrorConstant.RESERVATION_IMPOSSIBLE_REFUND);
+        if(refundAmount==0) throw new SVCException(ErrorConstant.RESERVATION_IMPOSSIBLE_REFUND);
 
         //아임포트 환불하기
         IamportResponse<Payment> iamportPayInfo = null;
@@ -183,7 +187,7 @@ public class ReservationServiceImpl implements ReservationService {
             //환불내역 저장
             reservation.changeStatusByRefund(refundAmount);
         }catch (Exception e){
-            new SVCException(ErrorConstant.RESERVATION_ERROR_IAMPORT);
+            throw new SVCException(ErrorConstant.RESERVATION_ERROR_IAMPORT);
         }
 
         return new ResponseEntity(new ResultData(), HttpStatus.OK);
@@ -244,7 +248,7 @@ public class ReservationServiceImpl implements ReservationService {
             iamportClient.cancelPaymentByImpUid(new CancelData(reservation.getImpUid(), true));
             reservation.changeStatusByOwnerRefund(dto.getRefundAmount());
         }catch (Exception e){
-            new SVCException(ErrorConstant.RESERVATION_ERROR_IAMPORT);
+            throw new SVCException(ErrorConstant.RESERVATION_ERROR_IAMPORT);
         }
 
         return new ResponseEntity(new ResultData(), HttpStatus.OK);

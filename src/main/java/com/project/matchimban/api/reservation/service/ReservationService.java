@@ -15,4 +15,5 @@ public interface ReservationService {
     ResponseEntity getReservationDetailForUser(CustomUserDetails currentUser, Long reservationId);
     ResponseEntity getReservationListForOwner(CustomUserDetails currentUser, Pageable pageable, Long restaurantId);
     ResponseEntity updateReservationToRefundForOwner(CustomUserDetails currentUser, ReservationUpdateToRefundForOwnerRequest dto);
+    ResponseEntity createPreReservation(ReservationCreatePreRequest dto, Long userId);
 }

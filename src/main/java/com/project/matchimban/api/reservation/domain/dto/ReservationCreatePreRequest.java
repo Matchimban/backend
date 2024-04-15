@@ -7,6 +7,7 @@ import com.project.matchimban.api.reservation.domain.entity.ReservationMenu;
 import com.project.matchimban.api.reservation.domain.entity.RestaurantReservation;
 import com.project.matchimban.api.user.domain.entity.User;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
+@Builder
 public class ReservationCreatePreRequest {
 
 

@@ -48,7 +48,7 @@ public class Reservation extends TimeEntity {
     @OneToMany(mappedBy = "reservation")
     private List<ReservationMenu> reservationMenus;
 
-    @Column(nullable = false)
+    @Column
     private String impUid;
 
     @Column(nullable = false)

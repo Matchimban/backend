@@ -40,7 +40,7 @@ public class ReservationController {
     @PostMapping("/api/reservations/pre")
     public ResponseEntity CreatePreReservation(@Validated @RequestBody ReservationCreatePreRequest dto,
                                                @CurrentUser CustomUserDetails currentUser) {
-        return reservationServiceFacade.createPreReservation(dto, currentUser.getUserId());
+        return reservationService.createPreReservation(dto, currentUser.getUserId());
     }
 
     @Operation(summary = "(예약)예약 검증 및 등록", description = "예약을 검증하고, 등록합니다.")
