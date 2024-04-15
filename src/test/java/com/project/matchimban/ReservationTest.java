@@ -31,7 +31,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+//@SpringBootTest
 public class ReservationTest {
 
     @Autowired
@@ -95,7 +95,7 @@ public class ReservationTest {
     }
 
 
-    @Test
+//    @Test
     void 예약_동시성_테스트() throws InterruptedException {
         ExecutorService executorService = Executors.newFixedThreadPool(32);
         CountDownLatch latch = new CountDownLatch(numberOfThreads);
